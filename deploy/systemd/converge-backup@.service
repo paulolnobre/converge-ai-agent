@@ -1,0 +1,14 @@
+# Encrypted backup of the compose stack in /opt/<instance>, e.g.
+# converge-backup@converge-agent.service. Installed by deploy/backup-install.sh.
+[Unit]
+Description=Encrypted off-site backup of /opt/%i
+Wants=network-online.target
+After=network-online.target docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+User=deploy
+ExecStart=/opt/converge-agent/backup.sh /opt/%i daily
+Nice=10
+IOSchedulingClass=idle

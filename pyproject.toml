@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-agents-reception"
+version = "0.1.0"
+description = "Reception and secretarial assistant: calendar, mailbox and document work over Google Workspace and Microsoft 365"
+requires-python = ">=3.12"
+dynamic = ["dependencies"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-asyncio>=0.24", "ruff>=0.6", "pyright==1.1.411"]
+
+[tool.setuptools.dynamic]
+# requirements.txt stays the single source of truth: the Dockerfile installs
+# from it directly, so a pin can never drift between image and metadata.
+dependencies = { file = ["requirements.txt"] }
+
+[tool.setuptools]
+# Started as scripts from the repo root (see the Dockerfile), not installed as
+# a distribution — there is nothing to package.
+packages = []
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-q"
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+exclude = [".venv", "__pycache__"]
+
+[tool.ruff.lint]
+# Pyflakes errors + undefined names: the subset that catches real breakage
+# without turning style preferences into a red pipeline.
+select = ["E4", "E7", "E9", "F", "I"]
+
+# Ruff does not look at types. Pyright covers what it cannot see: an Optional
+# reaching a call that cannot take None, and a dict of the wrong value type
+# unpacked into a pydantic model.
+[tool.pyright]
+include = ["core", "tests", "cli"]
+exclude = [".venv", "**/__pycache__", ".ruff_cache", ".pytest_cache"]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.12"
+typeCheckingMode = "standard"

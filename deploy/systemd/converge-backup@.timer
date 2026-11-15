@@ -1,0 +1,12 @@
+# Daily at 03:15 in Brasília (06:15 UTC), when nobody is talking to the desk.
+# Persistent: a run missed while the server was off happens at the next boot.
+[Unit]
+Description=Daily encrypted backup of /opt/%i
+
+[Timer]
+OnCalendar=*-*-* 06:15:00 UTC
+RandomizedDelaySec=20m
+Persistent=true
+
+[Install]
+WantedBy=timers.target

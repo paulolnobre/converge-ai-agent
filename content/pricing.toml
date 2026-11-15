@@ -1,0 +1,58 @@
+# Tabela de preço e limites de negociação da Converge (docs: spec de negociação).
+# Valores em reais; fatores e percentuais como decimais. Opcional: sem este
+# arquivo, o agente não cota nem negocia. Validado no deploy (cli.load_content).
+#
+# Valores de exemplo: esta versão pública não traz a tabela real.
+# As tarifas da Meta (WhatsApp) não entram aqui: o cliente paga direto à Meta.
+
+[implantacao]          # reais
+base = { basico = 2000, intermediario_rag = 3000, multi_agente = 6000 }
+por_canal = 500
+integracao_simples = 600
+integracao_complexa = 2500
+documentos = { nenhum = 0, pequeno = 1000, grande = 2500 }
+arredondar = 100
+[implantacao.fatores]
+infra = { compartilhada = 1.0, dedicada_lgpd = 1.15, vpc_cliente = 1.30 }
+processo = { mapeado = 1.0, nao_mapeado = 1.20 }
+[implantacao.faixa]    # só a faixa mostrada; não é margem de negociação
+abaixo = 0.05
+acima = 0.10
+
+[mensalidade]          # reais
+minimo_sustentacao = 400
+sustentacao_pct = 0.10
+minimo_trafego = 200
+por_conversa = 0.50        # IA e servidor; sem a tarifa da Meta
+por_usuario = 60
+sla = 700
+arredondar = 10
+
+[negociacao]
+descontos_implantacao = [0.05, 0.10]   # alternativos; o segundo substitui o primeiro
+parcelas_max = 6                       # no cartão, mais a taxa abaixo
+taxa_cartao_pct = 0.0249               # Asaas, uma parcela a cada 32 dias
+taxa_cartao_fixa = 0.49                # reais, por parcela
+desconto_fidelidade = 0.10             # mensalidade, contrato de 12 meses
+piso_implantacao = 1500                # reais
+piso_mensalidade = 500
+validade_dias = 7
+
+[padroes]
+usuarios_painel = 2
+documentos = "nenhum"
+sla = false
+volume = { ate_500 = 250, ate_2000 = 1250, ate_5000 = 3500, mais_5000 = 7000 }
+
+[sistemas]   # nome canônico = aliases; integração simples
+google_agenda = ["google agenda", "google calendar", "agenda do google"]
+gmail = ["gmail"]
+outlook = ["outlook", "microsoft 365", "office 365"]
+rd_station = ["rd station", "rdstation"]
+hubspot = ["hubspot"]
+pipedrive = ["pipedrive"]
+salesforce = ["salesforce"]
+kommo = ["kommo", "amocrm"]
+planilha = ["planilha google", "google sheets", "excel online"]
+asaas = ["asaas"]
+pagamentos = ["mercado pago", "stripe"]

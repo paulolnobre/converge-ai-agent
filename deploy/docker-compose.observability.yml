@@ -1,0 +1,96 @@
+# Opt-in overlay: Prometheus collects the metrics, Grafana shows them at
+# https://<agent host>/painel/grafana/ behind the panel login (two steps) and
+# the admin room (docs/OBSERVABILIDADE.md). Turn it on by adding this file to
+# COMPOSE_FILE in the server's .env, after `docker network create converge-grafana`
+# and the edge proxy joining that network (deploy/edge).
+services:
+  prometheus:
+    image: prom/prometheus:v3.15.1
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/prometheus-conf/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --storage.tsdb.retention.time=30d
+      - --storage.tsdb.retention.size=2GB
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    volumes:
+      # The folder, not the file: a deploy replaces the file, and a file mount
+      # would keep showing the old one (deploy/observability.sh reloads it).
+      - ./observability:/etc/prometheus-conf:ro
+      - prometheus_data:/prometheus
+    # internal: to read the bot and the server; metrics: for Grafana only.
+    networks: [internal, metrics]
+
+  node-exporter:
+    image: prom/node-exporter:v1.12.1
+    restart: unless-stopped
+    command:
+      - --path.rootfs=/host
+      # Containers' own mounts are noise next to the server's disks.
+      - --collector.filesystem.mount-points-exclude=^/(dev|proc|run|sys|var/lib/docker/.+)($|/)
+    pid: host
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 64m
+    volumes:
+      - /:/host:ro,rslave
+    networks: [internal]
+
+  grafana:
+    image: grafana/grafana:13.2.5
+    container_name: converge-agent-grafana
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 384m
+    tmpfs: ["/tmp:size=16m,noexec,nosuid"]
+    environment:
+      GF_SERVER_ROOT_URL: ${PUBLIC_BASE_URL:?Set PUBLIC_BASE_URL}/painel/grafana/
+      GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+      # Who comes in is decided by the panel (core/web/panel.py,
+      # observability_auth), asked by the edge proxy; Grafana only reads the
+      # header the proxy sets, and is reachable only from the proxy's network.
+      GF_AUTH_PROXY_ENABLED: "true"
+      GF_AUTH_PROXY_HEADER_NAME: X-Converge-User
+      GF_AUTH_PROXY_HEADER_PROPERTY: username
+      GF_AUTH_PROXY_AUTO_SIGN_UP: "true"
+      GF_AUTH_DISABLE_LOGIN_FORM: "true"
+      GF_AUTH_BASIC_ENABLED: "false"
+      GF_AUTH_ANONYMOUS_ENABLED: "false"
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      GF_USERS_AUTO_ASSIGN_ORG_ROLE: Editor
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Set GRAFANA_ADMIN_PASSWORD}
+      GF_SECURITY_COOKIE_SECURE: "true"
+      GF_SNAPSHOTS_EXTERNAL_ENABLED: "false"
+      GF_ANALYTICS_REPORTING_ENABLED: "false"
+      GF_ANALYTICS_CHECK_FOR_UPDATES: "false"
+      GF_ANALYTICS_CHECK_FOR_PLUGIN_UPDATES: "false"
+      GF_NEWS_NEWS_FEED_ENABLED: "false"
+      GF_PLUGINS_PREINSTALL_DISABLED: "true"
+      GF_LOG_MODE: console        # read-only container: logs to journald, not files
+    volumes:
+      - ./observability/grafana/provisioning:/etc/grafana/provisioning:ro
+      - ./observability/grafana/dashboards:/var/lib/grafana/dashboards:ro
+      - grafana_data:/var/lib/grafana
+    depends_on: [prometheus]
+    # Never on `internal`: no bot, database or Redis container can reach it and
+    # send the login header. It sees only Prometheus and the edge proxy.
+    networks: [metrics, grafana]
+
+networks:
+  # Prometheus and Grafana only.
+  metrics:
+  # Shared only with the edge proxy: no other container on the server reaches
+  # Grafana, so none can send the login header in the proxy's place.
+  grafana:
+    name: converge-grafana
+    external: true
+
+volumes:
+  prometheus_data:
+  grafana_data:

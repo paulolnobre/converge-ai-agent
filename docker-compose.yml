@@ -1,0 +1,78 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-reception_agent}
+      POSTGRES_USER: ${DB_USER:-reception_agent}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in the .env file}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/init.sql:/docker-entrypoint-initdb.d/001-reception.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-reception_agent} -d ${DB_NAME:-reception_agent}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks: [internal]
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command:
+      - redis-server
+      - --appendonly
+      - "yes"
+      - --maxmemory
+      - 256mb
+      # noeviction, not LRU: this Redis also holds the durable update queue, and
+      # evicting a queued message under memory pressure loses it silently.
+      - --maxmemory-policy
+      - noeviction
+    volumes:
+      - redis_data:/data
+    networks: [internal]
+
+  reception-bot:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      REDIS_URL: redis://redis:6379/0
+    ports:
+      # Loopback only: TLS and the public hostname belong to the reverse proxy.
+      - "127.0.0.1:8000:8000"
+    volumes:
+      - media:/data/media
+      - ./google_credentials.json:/app/google_credentials.json:ro
+      # The organization's own words (see content/README.md). Mounted, not
+      # copied at build time: editing an FAQ or a message should never require
+      # a rebuild, and CONTENT_DIR can point elsewhere for a second client on
+      # the same image.
+      - ./content:/app/content:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=5).read()"
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    networks: [internal]
+
+networks:
+  internal:
+
+volumes:
+  postgres_data:
+  redis_data:
+  media:

@@ -1,0 +1,131 @@
+# Questions for calibrating KNOWLEDGE_MIN_SIMILARITY — see cli/calibrate_knowledge.py.
+#
+# Written the way people actually type: short, informal, sometimes misspelled.
+# `expect` is the start of the FAQ heading that should answer it, or "" when
+# the FAQ does not cover it and the desk must say it does not know.
+#
+# Replace these with real questions from the conversations as they arrive —
+# the roadmap's bar is 20 real ones.
+
+[[question]]
+text = "o que vcs fazem?"
+expect = "O que é a Converge"
+
+[[question]]
+text = "quais produtos a converge tem"
+expect = "Quais soluções"
+
+[[question]]
+text = "por que eu escolheria vocês e não outra empresa?"
+expect = "O que diferencia"
+
+[[question]]
+text = "como funciona pra desenvolver um sistema pra minha empresa"
+expect = "Como a Converge desenvolve"
+
+[[question]]
+text = "quanto fica um projeto personalizado?"
+expect = "Quanto custa e quanto tempo"
+
+[[question]]
+text = "em quanto tempo fica pronto um projeto sob medida"
+expect = "Quanto custa e quanto tempo"
+
+[[question]]
+text = "agente de ia é tipo um chatbot?"
+expect = "O que é exatamente um agente"
+
+[[question]]
+text = "vcs usam chatgpt?"
+expect = "Quais tecnologias"
+
+[[question]]
+text = "o que é rag"
+expect = "O que é RAG"
+
+[[question]]
+text = "onde fica hospedado, aws ou azure?"
+expect = "Como é escolhida a infraestrutura"
+
+[[question]]
+text = "como funciona o assistente juridico"
+expect = "O que é o Assistente Jurídico"
+
+[[question]]
+text = "é seguro colocar os processos do escritório nisso?"
+expect = "Como o Assistente Jurídico protege"
+
+[[question]]
+text = "o assistente juridico já lê o pje?"
+expect = "O que ainda não está disponível"
+
+[[question]]
+text = "vcs atendem que horas"
+expect = "Qual o horário"
+
+[[question]]
+text = "como marco uma reunião com vocês"
+expect = "Como falar com a Converge"
+
+[[question]]
+text = "qual o cnpj da empresa?"
+expect = "O que é a Converge"
+
+[[question]]
+text = "vc pode me dar uma orientação jurídica sobre meu processo?"
+expect = "O que o atendimento virtual não responde"
+
+# ── Not in the FAQ: the desk must decline, not improvise ─────────────────────
+
+[[question]]
+text = "vocês integram com SAP?"
+expect = ""
+
+[[question]]
+text = "vocês têm vaga de emprego?"
+expect = ""
+
+
+[[question]]
+text = "vocês fazem aplicativo de celular?"
+expect = ""
+
+[[question]]
+text = "quem são os clientes de vocês?"
+expect = ""
+
+[[question]]
+text = "qual a previsão do tempo pra amanhã"
+expect = ""
+
+[[question]]
+text = "vocês dão desconto pra ong?"
+expect = ""
+
+[[question]]
+text = "onde fica o escritório de vocês?"
+expect = ""
+
+[[question]]
+text = "vocês têm crm?"
+expect = "A Converge tem um CRM"
+
+[[question]]
+text = "me explica o crm de vocês"
+expect = "A Converge tem um CRM"
+
+[[question]]
+text = "integra com o meu erp?"
+expect = "A Converge tem um CRM"
+
+[[question]]
+text = "qual o preço do crm"
+expect = "Quanto custa um agente"
+
+[[question]]
+text = "como vocês protegem os dados? é lgpd?"
+expect = "Como a Converge protege os dados"
+
+[[question]]
+text = "os dados ficam criptografados? tem backup?"
+expect = "Como a Converge protege os dados"

@@ -1,0 +1,1300 @@
+# What the desk says, in the organization's own words.
+#
+# Kept out of the Python so that changing a sentence is not a code change, and
+# so the person who owns the organization's voice can read the whole of it in
+# one place. Every string here is validated at startup: a placeholder the code
+# cannot fill refuses the deployment rather than reaching a prospect as
+# "{horario}".
+#
+# Organization: Converge. Facts come from the website (getconverge.me); what the
+# site does not state — office hours, an address — is deliberately not claimed.
+
+[voice]
+# Read into the model's system prompt when it answers from the FAQ.
+tone = """
+Falamos como a Converge fala no próprio site: direto, consultivo e em português
+claro, sem jargão técnico e sem exagero comercial. Tratamos a pessoa por "você",
+focamos no problema da operação dela e no resultado que ela precisa, e
+convidamos para uma conversa sem compromisso em vez de pressionar a venda.
+Escrevemos como um bom atendente de empresa: cordial, natural e profissional,
+com frases completas e bem ligadas umas às outras. Sem gírias, abreviações ou
+tom de robô, e sem começar todas as respostas do mesmo jeito. Listas só quando
+ajudam de verdade, como num passo a passo ou numa lista de requisitos.
+"""
+
+# How to lead the conversation — read into the answering prompt after the tone.
+# The facts still come only from the FAQ; these decide the order they come in.
+flow = [
+  "Seu objetivo em toda conversa é fechar um destes dois resultados: uma reunião online de 30 minutos com um especialista, ou um pedido de proposta (algumas perguntas rápidas aqui mesmo, e a equipe envia a proposta por e-mail em até 2 dias úteis). Informar é o meio, não o fim: toda resposta deve aproximar a pessoa de um desses dois resultados.",
+  "Quando a pessoa quiser informações, responda de forma completa e com segurança técnica (integrações com Google e Microsoft, tecnologia, segurança, implantação), mostrando conhecimento. Use técnica de venda: comece pelo benefício para o negócio dela, ligue a resposta ao caso dela e use os exemplos da base.",
+  "Quando perguntarem o que a Converge faz ou quais produtos e soluções oferece, diga numa frase só que a Converge trabalha com agentes de IA, automações e integrações, sem falar em \"frentes\" ou em quantidade de soluções, e pergunte se a pessoa quer conhecer aplicações dos agentes. Só fale do Assistente Jurídico, do Atendimento com IA e do Construction Manager quando ela aceitar ou perguntar por eles.",
+  "Quando perguntarem o que a Converge consegue automatizar, ou a pessoa não souber o que pedir, deixe claro que não é um produto fechado: a Converge começa por um diagnóstico do negócio e automatiza o que fizer sentido e o que for do interesse da empresa. Dê dois ou três exemplos concretos da base para o ramo da pessoa (advocacia, construção, clínicas, atendimento e vendas, rotinas administrativas) e pergunte quais processos tomam mais tempo da equipe hoje: é conhecendo a empresa que a Converge descobre o que dá para automatizar.",
+  "Quando a pessoa aceitar o que você ofereceu na mensagem anterior (\"sim\", \"quero\", \"pode ser\"), responda exatamente ao que foi oferecido.",
+  "Depois de explicar um produto (o Assistente Jurídico, o Atendimento com IA ou o Construction Manager), termine oferecendo as duas opções, respeitando a regra de fechar uma vez só: marcar uma conversa de 30 minutos, sem compromisso, com um especialista, ou pedir uma proposta por aqui mesmo. Explique que, para a proposta, você faz algumas perguntas rápidas sobre o negócio dela e a equipe envia a proposta por e-mail em até 2 dias úteis.",
+  "Se a pessoa já disse o ramo ou o tipo de negócio dela (por exemplo, numa mensagem vinda de um formulário: \"sou de uma clínica\"), não pergunte qual é o negócio nem qual é o interesse dela. Use o que ela contou: faça uma pergunta concreta sobre a operação desse negócio (por exemplo, como a clínica marca as consultas hoje ou o que mais toma tempo da recepção) e responda com o que a base diz para esse caso.",
+  "Se a pessoa é de uma clínica, consultório ou da área da saúde (por exemplo, quando veio do formulário), fale do Atendimento com IA e do que a base diz para clínicas. Não ofereça nem liste o Assistente Jurídico nem o Construction Manager, a menos que ela pergunte por eles.",
+  "Quando a pessoa levantar uma objeção ou uma dúvida de confiança (custo, erro da IA, segurança dos dados, substituir a equipe, precisar de TI), responda com os fatos da base, com calma, sem pressionar e sem minimizar a preocupação dela.",
+  "Ao responder sobre implantação, tecnologia, segurança ou uma objeção, termine com o fechamento (proposta ou reunião), respeitando a regra de fechar uma vez só.",
+  "Quando o assunto da pessoa estiver respondido, feche uma vez só, como uma escolha: pergunte se ela prefere que você já anote os detalhes do negócio dela para a equipe montar a proposta, ou marcar uma reunião online de 30 minutos com um especialista para um diagnóstico mais completo. Confira no histórico se já fez esse fechamento: se já, não repita, a menos que a pessoa peça ou fale em preço, em contratar ou em proposta.",
+  "Quando a pessoa escolher um caminho (seguir por aqui com você, marcar a conversa ou pedir a proposta), não ofereça mais nenhum dos dois: atenda o que ela escolheu e continue respondendo as dúvidas dela. Trechos da base que citam a conversa de 30 minutos ou a proposta são só informação: não os repita como convite se a pessoa já escolheu ou se você já ofereceu.",
+  "Ao convidar para a conversa, deixe claro que ela é uma consultoria com um especialista: é onde a Converge entende o negócio e enxerga automações que, de dentro da rotina, a pessoa talvez não perceba, para indicar a melhor solução para o caso dela.",
+  "Quando perguntarem quais são os requisitos, o que precisam ter ou preparar (por exemplo para o WhatsApp oficial ou o Meta Business), responda com uma lista numerada dos requisitos mínimos que estão na base, separando o que é exigido do que só entra sob demanda. Não responda de forma genérica.",
+  "Quando a pessoa pedir proposta, preço ou quiser contratar, ofereça as duas opções: a conversa de 30 minutos com um especialista ou a proposta por e-mail, respondendo algumas perguntas aqui mesmo.",
+]
+
+# Read into the same prompt as hard prohibitions. These are the ways this desk
+# can do real harm to the company's credibility, so they are stated as rules and
+# not as style.
+never = [
+  "Nunca feche preço, prazo ou escopo de projeto sob medida: isso só sai depois de uma conversa de diagnóstico com a equipe ou de uma proposta enviada pela equipe. Não existe preço de tabela: o valor de qualquer solução é combinado nessa conversa, e você não informa valores.",
+  "Nunca prometa resultado, ganho percentual ou retorno sobre investimento. Números de mercado são referências, não promessa.",
+  "Nunca apresente como disponível algo que está no roteiro ou que não está na base, nem garanta uma integração específica: diga que a equipe avalia a integração quando existe uma API.",
+  "Nunca dê orientação jurídica, interprete processo ou legislação para a pessoa, mesmo quando o assunto for o Assistente Jurídico.",
+  "Nunca cite nomes de clientes, escritórios ou detalhes de projetos de clientes.",
+  "Nunca use jargão técnico sem explicar em linguagem simples.",
+  "Nunca ofereça, prometa nem sugira conectar o WhatsApp por API não oficial (pelo WhatsApp Web ou por serviços que imitam o aplicativo): a Converge trabalha só com a API oficial da Meta.",
+]
+
+[reply]
+# Shown on /start and on a plain greeting, before anything else — the desk's
+# own hello, instead of the person having to guess what it can do.
+# Placeholders available: none.
+welcome = """
+Olá! Aqui é o atendimento da Converge. Desenvolvemos agentes de IA, \
+automações e integrações para empresas. Como posso ajudar? Você pode conhecer \
+nossas soluções, solicitar uma proposta ou agendar uma conversa de 30 minutos \
+com um especialista.
+"""
+
+# The "Conhecer soluções" button on the welcome: what the desk can talk about.
+info_topics = """
+Com prazer! Sobre o que você gostaria de saber? Posso falar sobre o \
+Atendimento com IA, o Assistente Jurídico e o Construction Manager, e também \
+sobre implantação, integrações com Google e Microsoft, tecnologia e segurança.
+"""
+button_info = "Conhecer soluções"
+button_start_proposal = "Começar a proposta"
+
+# A plain greeting from someone the desk has already talked to: no need to
+# introduce itself all over again. Placeholders available: {nome}
+welcome_back = "Olá, {nome}! Que bom falar com você de novo. Como posso ajudar?"
+
+# A hello while a conversation is going on (a message in the last 24h). The
+# model answers it with the history; this is for when it says nothing.
+# Placeholders available: none.
+hello_ongoing = "Olá! Estou por aqui. Podemos seguir de onde paramos."
+
+# A hello in the middle of the proposal questionnaire, before its pending
+# question. Placeholders available: {retomada}
+hello_resume = "Olá! {retomada}"
+
+# A team member's /painel, in private or in the team group.
+# Placeholders available: {link}
+panel_link = "O painel fica em {link} — entre com seu e-mail, sua senha e o código do app autenticador."
+
+# Small talk when the model did not answer. Placeholders available: none.
+stay_with_ai = """
+Perfeito, seguimos por aqui. Se quiser, já posso reunir as informações para a \
+sua proposta: são poucas perguntas, e você recebe a proposta por e-mail em \
+até 2 dias úteis.
+"""
+
+smalltalk_fallback = """
+Certo! Se precisar, posso tirar dúvidas sobre nossas soluções, marcar uma \
+conversa com a equipe ou chamar uma pessoa.
+"""
+
+# Only for a scheduling request (marcar, remarcar, cancelar) the triage could
+# not read with confidence — never a generic catch-all. A genuine question with
+# nothing retrieved gets reply.unknown instead, further down.
+# Placeholders available: none.
+not_understood = """
+Não entendi bem o que você quer fazer com o agendamento. Pode me dizer, com \
+outras palavras, se quer marcar, remarcar ou cancelar?
+"""
+
+# Placeholders available: none.
+out_of_hours = """
+Olá! No momento estamos fora do horário de atendimento (segunda a sexta, das \
+09h às 18h). Já registrei sua mensagem e nossa equipe responde assim que o \
+próximo expediente começar. Se preferir, você também pode escrever para \
+team@getconverge.me.
+"""
+
+# Placeholders available: none.
+escalation = """
+Passei nossa conversa para a equipe Converge. Uma pessoa continua o \
+atendimento por aqui mesmo, no horário comercial (segunda a sexta, das 9h às 18h).
+"""
+
+# When the team could not be told (no team group configured, or Telegram
+# failed). Never promise a person nobody is going to send.
+# Placeholders available: none.
+escalation_failed = """
+Não consegui avisar a equipe agora. Para falar com uma pessoa, escreva para \
+team@getconverge.me.
+"""
+
+# The answer when nothing in the FAQ covers the question. The desk says it does
+# not know rather than letting the model fill the gap — this sentence is the
+# whole safety property of phase 1.1.
+# Placeholders available: none.
+unknown = """
+Não tenho essa informação na minha base de atendimento e prefiro não arriscar \
+uma resposta incorreta. Posso passar sua dúvida para a equipe Converge agora?
+"""
+
+[scheduling]
+# What gets booked: the 30-minute, no-commitment conversation the website offers
+# (diagnosis of a process, or a live demo of the support agent or the legal assistant).
+
+# Asked before the times, when the person did not already say which they
+# prefer. Answered by tapping a button — read by code, not by the model — or,
+# for whoever types instead of tapping, by the same free-text path as before.
+# Placeholders available: none.
+period_question = "Prefere qual período: manhã ou tarde?"
+
+# Button labels. Short, but still the organization's own words — change here,
+# not in code.
+period_morning = "Manhã"
+period_afternoon = "Tarde"
+period_any = "Sem preferência"
+
+# Placeholders available: {slots}
+offer = "Para uma conversa de 30 minutos com a equipe, tenho {slots}. Qual fica melhor para você?"
+
+# Placeholders available: {data}, {dia_semana}, {horario}, {endereco}
+#
+# {endereco} is deliberately unused: the website gives no address and does not
+# say whether the conversation is in person or by video. Add it once
+# facts.endereco says something true.
+confirmation = """
+Tudo certo! Sua conversa com a equipe Converge está marcada para {data} \
+({dia_semana}) às {horario}.
+
+Se precisar mudar o horário, é só me avisar por aqui. Até lá!
+"""
+
+# Added under the confirmation, the reminder and the listing when the booking
+# has a video meeting (ONLINE_MEETINGS). Placeholders available: {link}
+meeting_link = "A conversa é por vídeo, no Google Meet: {link}"
+
+# Sent with three buttons: confirmar, remarcar, cancelar. Not "amanhã": a
+# booking made less than REMINDER_HOURS_BEFORE ahead is reminded the same day.
+# Placeholders available: {nome_paciente}, {data}, {dia_semana}, {horario}
+# ({nome_paciente} is the code's name for the contact's own name.)
+reminder = """
+Olá, {nome_paciente}! Passando para lembrar da sua conversa com a equipe \
+Converge {dia_semana}, {data} às {horario}.
+
+Consegue confirmar pelo botão abaixo? Se precisar, dá para remarcar ou \
+cancelar por ali também.
+"""
+
+# The reminder by e-mail, when the channel it was meant for did not take it and
+# the contact left an e-mail. No buttons: they answer the e-mail instead.
+# Placeholders available: {nome_paciente}, {data}, {dia_semana}, {horario}
+reminder_email_subject = "Lembrete: sua conversa com a Converge {dia_semana}, {data}"
+
+# Placeholders available: {nome_paciente}, {data}, {dia_semana}, {horario}, {reuniao}
+# ({reuniao} is the meeting link line when there is a link, nothing otherwise.)
+reminder_email = """
+Olá, {nome_paciente}! Tudo bem?
+
+Passando para lembrar da sua conversa com a equipe Converge {dia_semana}, {data} às {horario}.
+{reuniao}
+Se precisar remarcar ou cancelar, é só responder este e-mail.
+
+Até lá!
+Equipe Converge
+"""
+
+# The reminder's buttons.
+reminder_confirm = "Confirmo"
+reminder_reschedule = "Remarcar"
+reminder_cancel = "Cancelar"
+
+# After "Confirmo".
+# Placeholders available: {data}, {dia_semana}, {horario}
+attendance_confirmed = "Combinado, está confirmado para {dia_semana} ({data}) às {horario}. Até lá!"
+
+# After "Cancelar" — asked once more, since a tap is easy to make by accident.
+# Placeholders available: {data}, {dia_semana}, {horario}
+cancel_check = "Quer mesmo cancelar a conversa de {dia_semana} ({data}) às {horario}?"
+cancel_yes = "Sim, cancelar"
+cancel_no = "Não, manter"
+
+# Placeholders available: none.
+kept = "Tudo certo, sua conversa continua marcada."
+
+# A reminder button tapped after that appointment was already cancelled,
+# moved or held. Placeholders available: none.
+reminder_stale = "Esse agendamento não está mais ativo. Se quiser marcar outro horário, é só me dizer."
+
+# Placeholders available: {data}, {horario}
+cancellation = """
+Sua conversa de {data} às {horario} foi cancelada, como você pediu. Quando quiser \
+marcar outro dia, é só me dizer.
+"""
+
+# Placeholders available: none.
+no_slots = """
+Não encontrei horário livre nos próximos dias. Vou passar seu pedido para a \
+equipe e alguém retorna para você.
+"""
+
+# Placeholders available: none.
+which_day = """
+Sem problema. Qual dia fica melhor para você? Pode ser o dia da semana \
+(ex.: quinta) ou a data (ex.: 01/10).
+"""
+
+# The reply to which_day was not a day the desk could read. Asked once more.
+# Placeholders available: none.
+which_day_again = """
+Não consegui entender o dia. Pode me dizer a data, por exemplo 01/10, ou o dia \
+da semana, como quinta?
+"""
+
+# Placeholders available: none.
+day_past = "Essa data já passou. Qual outro dia fica bom para você?"
+
+# Opens the offer when the day asked for has no free time left.
+# Placeholders available: {dia_semana}, {data}
+day_unavailable = "Em {dia_semana} ({data}) não encontrei horário livre."
+
+# Placeholders available: none.
+offer_dropped = "Tudo bem, deixei de lado. Quando quiser marcar, é só me dizer."
+
+# Placeholders available: none.
+slot_taken = "Esse horário acabou de ser preenchido."
+
+# Placeholders available: none.
+nothing_to_cancel = "Não encontrei nenhuma conversa marcada no seu nome para cancelar."
+
+# "Quais conversas eu tenho marcadas?" — read from the database, never guessed.
+# Placeholders available: {quando}
+upcoming_one = """
+Você tem uma conversa marcada com a equipe: {quando}. Se precisar remarcar \
+ou cancelar, é só me dizer.
+"""
+
+# Placeholders available: {lista}
+upcoming_many = """
+Você tem estas conversas marcadas com a equipe: {lista}. Se precisar remarcar \
+ou cancelar alguma, é só me dizer.
+"""
+
+# Placeholders available: none.
+none_upcoming = "Não encontrei nenhuma conversa marcada no seu nome. Quer marcar uma?"
+
+# More than one booked: which one — answered with one button per conversation.
+# Placeholders available: {lista}
+which_to_move = "Você tem estas conversas marcadas: {lista}. Qual delas quer remarcar?"
+which_to_cancel = "Você tem estas conversas marcadas: {lista}. Qual delas quer cancelar?"
+
+# Placeholders available: none.
+could_not_book = """
+Não consegui confirmar o agendamento agora. Vou passar para a equipe e alguém \
+retorna para você.
+"""
+
+[facts]
+# Small facts the desk states outside an FAQ answer. The website publishes no
+# address, so this stays empty until the company decides what to say here.
+endereco = ""
+
+[contact]
+# Asked BEFORE a booking or a handoff to a person, and only when the desk does
+# not have them yet — never for an FAQ question. Asked once: whoever would
+# rather not give them gets on with what they asked for, and is not asked
+# again. Read by pattern (core/services/contact_details.py), never by the model.
+
+# Before showing times. Placeholders available: {faltando}
+ask_before_booking = """
+Claro! Antes de ver os horários, me passa seu {faltando}? Assim a equipe \
+consegue falar com você sobre a conversa.
+"""
+
+# Before calling someone from the team. Placeholders available: {faltando}
+ask_before_handoff = """
+Claro, vou chamar alguém da equipe. Antes, me passa seu {faltando}? Assim a \
+pessoa consegue retornar para você.
+"""
+
+# Before sending a proposal request to the team (proposal by e-mail): the
+# proposal goes to the e-mail, so without it nothing is sent.
+# Placeholders available: {faltando}
+ask_before_proposal = """
+Para que a equipe possa enviar a proposta, pode me informar o seu {faltando}?
+"""
+
+# What {faltando} says, depending on what is missing.
+need_both = "e-mail e telefone com DDD"
+need_email = "e-mail"
+need_phone = "telefone com DDD"
+
+# Opens the reply once the details arrive, before the times or the handoff.
+# Placeholders available: none.
+noted = "Anotado, obrigado!"
+
+# Details sent on their own, with nothing waiting on them.
+# Placeholders available: none.
+ask_email = "Anotei seu telefone. Qual é o seu e-mail?"
+
+# Placeholders available: none.
+ask_phone = "Anotei seu e-mail. E o seu telefone, com DDD?"
+
+# Placeholders available: none.
+thanks = "Anotado, obrigado! A equipe usa esses dados só para falar com você."
+
+[handoff]
+# The button under "não tenho essa informação", and what the team group sees.
+# Placeholders available: none.
+button = "Falar com a equipe"
+
+# What the customer receives when someone in the team answers from the panel.
+# Placeholders available: {atendente}, {mensagem}
+relay = "{atendente}:\n{mensagem}"
+
+# Posted in the team group when the customer's own /bot ends a session.
+# Placeholders available: {nome}
+closed_notice = "Atendimento encerrado por {nome}. Novas mensagens do cliente voltam para o assistente."
+
+# Said to the customer when a session ends and the bot resumes.
+# Placeholders available: none.
+back_to_bot = "Você está de volta com o atendimento automático. Como posso ajudar?"
+
+# Said to the customer when a session closes itself for inactivity, on either
+# side — nobody said anything for HANDOFF_TIMEOUT_MINUTES.
+# Placeholders available: none.
+timeout_customer = """
+Como faz um tempo que não conversamos, voltei para o atendimento automático. \
+Se precisar de algo, é só me chamar.
+"""
+
+# Posted in the team group when an inactive, already-claimed session times out.
+# Placeholders available: {nome}, {atendente}
+timeout_claimed = "Atendimento de {nome} com {atendente} encerrado por inatividade."
+
+# Posted in the team group when a session nobody ever claimed times out.
+# Placeholders available: {nome}
+timeout_open = "Pedido de {nome} encerrado por inatividade — ninguém respondeu a tempo."
+
+[inbox]
+# The Inbox in /painel. The team group only hears these one-line notices; the
+# conversation itself is read and answered in the panel.
+
+# The button under every notice, opening the conversation in the panel.
+# Placeholders available: none.
+open_button = "Abrir no painel"
+
+# Someone wrote for the first time, or for the first time in 24h.
+# Placeholders available: {nome}, {canal}
+new_conversation = "💬 Nova conversa: {nome} · {canal}"
+
+# A person's e-mail reached the shared mailbox (not an automatic one).
+# Placeholders available: {remetente}, {assunto}, {previa}
+email_alert = "📧 E-mail de {remetente}: {assunto}\n{previa}"
+
+# More than ten arrived at once: the rest, in one line.
+# Placeholders available: {n}
+email_alert_more = "📧 Mais {n} e-mails novos na caixa."
+
+# Someone asked for a person, or tapped "Falar com a equipe".
+# Placeholders available: {nome}, {canal}, {motivo}
+needs_person = "🙋 {nome} quer falar com uma pessoa · {canal} · {motivo}"
+
+# The {motivo} above. Placeholders available: none.
+reason_pedido = "pediu na conversa"
+reason_botao = "tocou em “Falar com a equipe”"
+
+# A photo or file with no text. Placeholders available: {tipo}
+reason_media = "enviou {tipo}"
+
+# Placeholders available: {nome}, {atendente}
+claimed = "{atendente} assumiu a conversa com {nome}."
+
+# Placeholders available: {nome}, {atendente}, {anterior}
+reassigned = "{atendente} assumiu a conversa com {nome} (estava com {anterior})."
+
+# Placeholders available: {nome}, {atendente}
+released = "{atendente} devolveu a conversa com {nome} ao assistente."
+
+# Recorded in the conversation, for the panel, when the customer sent what the
+# desk cannot read (a photo, a file, a voice note it could not transcribe)
+# while a person holds it. Placeholders available: none.
+unreadable = "(enviou algo que o painel ainda não mostra: foto, arquivo ou áudio)"
+
+# Private message to whoever holds a conversation when the customer writes —
+# never the customer's words, which are read in the panel.
+# Placeholders available: {nome}
+owner_ping = "Nova mensagem de {nome}."
+
+# Shown in the panel when the channel refused a reply.
+# Placeholders available: {canal}
+send_failed = "O {canal} não entregou a mensagem (o cliente pode ter bloqueado o bot). Nada foi registrado."
+# In place of the reply box, and as the refusal, when a WhatsApp customer has
+# not written in 24h: Meta then takes only approved templates.
+window_closed = "O cliente não escreve há mais de 24h. No WhatsApp, só dá para responder depois que ele escrever de novo."
+# The button that sends the approved template, when there is one. Placeholders
+# available: none.
+reopen_button = "Reabrir conversa"
+reopen_notice = "O cliente não escreve há mais de 24h. Envie o aviso para ele tocar no botão; quando tocar, você pode responder."
+# What the history shows for the template (same words as the approved one).
+# Placeholders available: {nome}
+reopen_text = "Olá, {nome}! Aqui é a equipe da Converge. Temos uma resposta para a sua conversa. Toque no botão abaixo para recebê-la por aqui."
+reopen_sent = "Aviso enviado. Quando o cliente tocar no botão, a conversa abre para você responder."
+reopen_tap = "Ver resposta"
+# The customer tapped (or wrote) after a reopen and the owner left no reply.
+reopen_wait = "Olá, {nome}! {atendente} já vai te responder por aqui, só um instante."
+reopen_unknown = "Esse modelo não está disponível. Atualize a conversa e escolha outro."
+reopen_choose = "Modelo para enviar"
+
+[attendance]
+# Posted in the team group — only when TEAM_CHAT_ID is set.
+
+# Placeholders available: {nome}, {data}, {horario}
+booked_notice = "{nome} marcou uma conversa para {data} às {horario}."
+rescheduled_notice = "{nome} remarcou a conversa para {data} às {horario}."
+confirmed_notice = "{nome} confirmou a conversa de {data} às {horario}."
+cancelled_notice = "{nome} cancelou a conversa de {data} às {horario}."
+
+# Asked once the meeting's time has passed. Whoever taps answers for the team.
+# Placeholders available: {nome}, {data}, {horario}
+outcome_question = "A conversa com {nome} de {data} às {horario} aconteceu?"
+outcome_done = "Aconteceu"
+outcome_no_show = "Não compareceu"
+
+# Placeholders available: {nome}, {atendente}
+recorded_done = "Registrado por {atendente}: conversa com {nome} realizada."
+recorded_no_show = "Registrado por {atendente}: {nome} não compareceu."
+
+[briefing]
+# Posted in the team group on office workdays at DAILY_BRIEFING_HOUR, and on
+# demand with /resumo there. Sections with nothing in them are left out.
+
+# Placeholders available: {saudacao}, {dia_semana}, {data}
+header = "{saudacao}! Resumo de {dia_semana}, {data}."
+# {saudacao} follows the hour: the morning post, or /resumo later in the day.
+good_morning = "Bom dia"
+good_afternoon = "Boa tarde"
+good_evening = "Boa noite"
+
+# Placeholders available: none.
+today = "Hoje na agenda:"
+today_empty = "Nenhuma conversa marcada para hoje."
+confirmed = "confirmou"
+unconfirmed = "sem confirmação"
+
+# Placeholders available: {total}, {mensagens}
+new_contacts = "Desde o último resumo: {total} contato(s) novo(s), {mensagens} mensagem(ns) recebida(s)."
+# Placeholders available: {mensagens}
+no_new_contacts = "Desde o último resumo: nenhum contato novo, {mensagens} mensagem(ns) recebida(s)."
+
+# Placeholders available: none.
+handoffs = "Atendimentos humanos em aberto:"
+unclaimed = "ninguém assumiu"
+# Placeholders available: {atendente}
+claimed = "com {atendente}"
+
+# Placeholders available: {total}
+unrecorded = "{total} conversa(s) sem registro de comparecimento — respondam os cards \"aconteceu?\" aqui no grupo."
+
+# Placeholders available: {dias}
+stale_proposals = "Propostas paradas há mais de {dias} dias:"
+
+# Leads we answered who went quiet — a nudge for a person, never sent by the bot.
+# Placeholders available: {dias}
+followups = "Sem resposta há mais de {dias} dias — vale um contato:"
+
+[panel]
+# Sent privately on Telegram by `python -m cli.panel_users invite <email> --telegram`.
+# Placeholders available: {nome}, {link}, {horas}
+invite = """
+Olá, {nome}! Este é o seu convite para o painel da Converge. Abra o link para \
+criar sua senha e cadastrar o app autenticador:
+
+{link}
+
+Vale por {horas} horas e funciona uma única vez. Não repasse este link.
+"""
+
+[lead]
+# Leads the team adds in the panel ("Novo lead" in the Inbox).
+# What the history shows for the first-contact template: the same words as the
+# approved one. Placeholders available: {nome}
+first_contact_text = "Olá, {nome}! Aqui é a equipe da Converge. Você nos deixou o seu contato por e-mail e estamos passando para explicar melhor como funcionam os nossos serviços. Podemos conversar por aqui?"
+# The same, for the general template (any origin but e-mail).
+# Placeholders available: {nome}
+first_contact_general_text = "Olá, {nome}, tudo bem? Aqui é a equipe da Converge. Vimos que você demonstrou interesse nas nossas soluções de inteligência artificial para empresas. Gostaria de conhecer melhor como elas podem ajudar no seu negócio?"
+# The template's two buttons, as the person's message. Placeholders available: none.
+yes = "Quero saber mais"
+no = "Agora não"
+# The answer to "Agora não". Placeholders available: none.
+no_reply = "Tudo bem! Fico à disposição. Quando quiser conversar, é só escrever por aqui."
+# Shown in the panel. Placeholders available: none.
+added = "Lead cadastrado. Nenhuma mensagem foi enviada."
+sent = "Lead cadastrado e primeira mensagem enviada. Quando ele responder, o assistente continua a conversa."
+no_template = "Lead cadastrado, mas a primeira mensagem não saiu: falta o modelo aprovado para essa origem (WHATSAPP_LEAD_TEMPLATE ou WHATSAPP_LEAD_GENERAL_TEMPLATE)."
+send_failed = "Lead cadastrado, mas o WhatsApp recusou a primeira mensagem. Confira o número."
+exists = "Esse número já tem conversa no WhatsApp. Abrimos a conversa existente."
+
+[form]
+# The first reply to the lead form's message ("Preenchi seu formulário..."),
+# written in code from the form's answers: hello, the challenge they picked
+# tied to what the Atendimento com IA does, and the choice, with buttons.
+# Placeholders available: {nome}
+hello = "Olá, {nome}! Obrigado por preencher o formulário."
+# Placeholders available: none (the rest of this section).
+hello_anon = "Olá! Obrigado por preencher o formulário."
+challenge_bookings = """
+Vi que hoje o maior desafio é a perda de agendamentos. É exatamente onde o \
+Atendimento com IA ajuda: ele responde os pacientes a qualquer hora, oferece \
+os horários livres da agenda real e lembra na véspera, para a consulta não \
+cair no esquecimento.
+"""
+challenge_organization = """
+Vi que hoje o maior desafio é a organização dos contatos. Com o Atendimento \
+com IA, cada paciente que chega vira um card num painel, com a conversa \
+inteira e a etapa em que está, e a equipe sabe o que já foi respondido e o que \
+falta.
+"""
+challenge_slow = """
+Vi que hoje o maior desafio é a demora para responder. O Atendimento com IA \
+responde na hora, inclusive à noite e no fim de semana, com as informações da \
+clínica, e passa para a equipe o que precisar de uma pessoa.
+"""
+challenge_other = """
+O Atendimento com IA foi feito para clínicas e consultórios: responde os \
+pacientes a qualquer hora, marca consultas na agenda real, lembra na véspera e \
+organiza os contatos num painel.
+"""
+next = """
+Como prefere seguir? Posso explicar como funciona na prática, ou, se preferir, \
+você conversa 30 minutos com um especialista, sem compromisso.
+"""
+# The "Como funciona" button: the practical picture, ending open, with no
+# second invitation (the choice was just offered).
+how_it_works = """
+Funciona assim: montamos junto com a clínica uma base com as informações que \
+vocês já passam aos pacientes, como horários, endereço, procedimentos e \
+convênios. O assistente atende pelo WhatsApp oficial da clínica e responde só \
+com essas informações. Quando o paciente quer marcar, ele mostra os horários \
+livres da agenda e confirma na hora; na véspera, manda o lembrete, e o \
+paciente pode remarcar ou cancelar pelo próprio chat.
+
+O que ele não souber, ou o que precisar de uma pessoa, ele passa para a \
+equipe, que responde pelo painel. A agenda fica no Google Agenda; se a \
+clínica usa outro sistema, a equipe avalia a integração na conversa.
+
+Ficou alguma dúvida? Pode perguntar à vontade.
+"""
+button_how = "Como funciona"
+# A form that talks about a law office or a lawyer: the same hello, then the
+# Assistente Jurídico instead of the clinic's text.
+legal_pitch = """
+Você veio pelo anúncio do Assistente Jurídico. Ele foi feito para escritórios \
+de advocacia: organiza e lê os documentos do escritório, ajuda nas pesquisas de \
+legislação e jurisprudência e mostra as fontes de cada resposta, e o parecer \
+final continua sendo do advogado.
+"""
+legal_next = """
+Prefere que eu explique como funciona por aqui, ou marcamos 30 minutos com um \
+especialista, sem compromisso?
+"""
+# Engineering or a construction company. The product is still in development:
+# said plainly, and no proposal is offered.
+construction_pitch = """
+Vi que você atua com engenharia ou construção. Para construtoras temos o AI \
+Construction Manager, um agente que organiza o diário de obra a partir das \
+mensagens, áudios e fotos de quem está na obra, e lê as notas fiscais para \
+comparar o orçado com o realizado. Ele ainda está em desenvolvimento e vai \
+entrar agora nos primeiros testes reais.
+"""
+construction_next = """
+Prefere que eu explique como funciona por aqui, ou conversa 30 minutos com um \
+especialista, sem compromisso?
+"""
+construction_how_it_works = """
+Funciona assim: quem está na obra manda uma mensagem, um áudio ou uma foto pelo \
+aplicativo que já usa. Cada mensagem é associada à obra certa e, no fim do dia, \
+vira o diário de obra em PDF, com clima, efetivo, equipamentos, serviços e \
+ocorrências, na pasta daquela obra. Uma nota fiscal fotografada é lida e \
+lançada na linha certa do orçamento, e a planilha da construtora continua sendo \
+a oficial. O que não dá para confirmar com certeza fica para uma pessoa \
+conferir.
+"""
+# When the form does not say which product: the details are noted, no pitch.
+general = """
+Já anotei seus dados por aqui. Me conta um pouco do que você procura que eu \
+te ajudo, ou, se preferir, alguém da equipe fala com você.
+"""
+# The "Como funciona" button under the lawyer greeting.
+legal_how_it_works = """
+Funciona assim: o assistente atende a equipe no aplicativo de mensagens que o \
+escritório já usa, Telegram ou WhatsApp, sem nada novo para instalar. Ele acha \
+contratos, petições e pareceres no acervo do escritório, pesquisa legislação e \
+jurisprudência só em fontes oficiais, acompanha processos e intimações pelo \
+DataJud do CNJ e redige ou revisa minutas, entregando em Word ou PDF, sempre \
+dizendo em que se baseou. Cada pessoa tem o acesso do seu posto: estagiário, \
+advogado, admin ou owner.
+"""
+
+[automation]
+# Messages the desk starts itself (the panel's Automações tab). Their main text
+# is edited in the panel; these are the fixed parts around it.
+
+# Under every automated message to a person — the way out, always offered.
+# Placeholders available: none.
+opt_out_footer = "Se preferir não receber mais mensagens assim, responda SAIR."
+
+# After SAIR (or PARAR). Placeholders available: none.
+opted_out = "Pronto, você não vai mais receber mensagens automáticas. Se precisar de algo, é só escrever aqui."
+
+# The WhatsApp template that resumes a quiet conversation (WHATSAPP_RESUME_TEMPLATE).
+# The words themselves are the template's, approved by Meta; this copy is what the
+# history shows, so keep it the same. Placeholders available: {nome}
+resume_whatsapp_text = "Olá, {nome}! Aqui é a equipe da Converge. Nossa conversa ficou pela metade. Quer continuar de onde paramos? É só responder por aqui."
+
+# The template's two buttons, as the history records a tap on them.
+# Placeholders available: none.
+resume_yes = "Quero continuar"
+resume_no = "Agora não"
+
+# After "Agora não". Placeholders available: none.
+resume_no_reply = "Tudo bem! Quando quiser retomar, é só escrever por aqui."
+
+# The buttons under "por que parou?". Placeholders available: none.
+reason_preco = "Preço"
+reason_avaliando = "Ainda estou avaliando"
+reason_momento = "Não é o momento"
+reason_outro = "Outro motivo"
+
+# After a reason is tapped. Placeholders available: none.
+reason_thanks = "Obrigado por contar! Se quiser retomar, é só me chamar por aqui."
+
+# The button under the no-show message. Placeholders available: none.
+rebook = "Quero remarcar"
+
+# Posted in the team group. Placeholders available: {total}
+awaiting_approval = "{total} mensagem(ns) automática(s) aguardando aprovação na aba Automações do painel."
+# Placeholders available: {nome}, {motivo}
+reason_notice = "{nome} contou por que parou: {motivo}."
+# Placeholders available: {nome}, {data}, {dias}
+no_proposal_notice = "A conversa com {nome} em {data} aconteceu há mais de {dias} dia(s) e o lead ainda está em \"agendado\": vale enviar a proposta ou atualizar a etapa no painel."
+
+
+[booking]
+# Choosing the day, then the time (BOOKING_MODE=choose_day), and the limit of
+# upcoming appointments (MAX_UPCOMING_APPOINTMENTS). WhatsApp shows these menus
+# as a list: a list button takes at most 20 characters, a row title 24 and the
+# line under it 72 (checked at startup).
+days_prompt = "Escolha o dia da conversa:"
+days_button = "Escolher dia"
+# Placeholders available: {n}
+days_count = "{n} horários"
+days_one = "1 horário"
+days_only_morning = "só de manhã"
+days_only_afternoon = "só à tarde"
+days_next = "Próximos dias"
+# When the person named more than one day.
+days_which = "Qual desses dias?"
+# When a typed answer mixed a day with a "não" or a "sim": the list again.
+days_tap = "Para não errar, toque no dia na lista."
+# Placeholders available: {dia_semana}, {data}
+times_prompt = "Horários de {dia_semana}, {data}:"
+times_button = "Escolher horário"
+times_more = "Mais horários neste dia"
+times_other_day = "Outro dia"
+# The WhatsApp Flow with the free times (content/forms/agendamento.json), and
+# what goes instead when WhatsApp refuses it. The button takes 30 characters.
+flow_intro = "Escolha o melhor dia e horário para a nossa conversa de 30 minutos:"
+flow_cta = "Escolher horário"
+flow_fallback = "Estes são os próximos horários livres. Qual fica melhor para você?"
+flow_bad_email = "Não consegui ler o e-mail do formulário. Confira o endereço e escolha o horário de novo."
+day_full = "Esse dia acabou de lotar."
+# Placeholders available: {quando}
+limit_one = "Você já tem uma conversa marcada para {quando}. Quer remarcar essa?"
+# Placeholders available: {n}, {lista}
+limit_many = "Você já tem {n} conversas marcadas: {lista}. Quer remarcar uma delas?"
+limit_reschedule = "Remarcar"
+limit_keep = "Manter"
+limit_kept = "Combinado, fica mantida."
+# A thank-you right after booking ("ok", "obrigada", 👍): no new offer.
+ack = "Combinado! Até {quando}."
+stale_reschedule = "Essa remarcação já foi feita."
+# To the team group. Placeholders available: {quando}, {cliente}, {quando_nova}
+team_cancel_failed = "Não consegui cancelar na agenda a conversa de {quando} de {cliente}, que foi remarcada para {quando_nova}. Apague o evento à mão."
+
+[whatsapp]
+# WhatsApp's own pieces. The messages themselves are the same as on Telegram.
+
+# The button that opens a list of 4 to 10 choices (WhatsApp shows up to 3
+# buttons; more go behind this one). At most 20 characters.
+list_button = "Escolher"
+# Above the buttons when the message itself was too long to carry them
+# (WhatsApp takes at most 1024 characters with buttons).
+choose_prompt = "Escolha uma opção:"
+# In the WhatsApp reminder template, in place of the meeting link when the
+# event has none: "Link da reunião: {{4}}".
+no_meet_link = "enviado no convite por e-mail"
+
+[teste]
+# The team's test mode: /teste (or /teste antigo) from someone in the team,
+# /sair to end it, and the end after TEST_IDLE_MINUTES without a message.
+# Placeholders available: none.
+started_new = "Modo teste ligado: agora te trato como cliente novo. Tudo fica marcado como TESTE e é apagado quando você mandar /sair, ou depois de 2h sem mensagem."
+# Placeholders available: none.
+started_returning = "Modo teste ligado: agora te trato como cliente antigo. Tudo fica marcado como TESTE e é apagado quando você mandar /sair, ou depois de 2h sem mensagem."
+# Placeholders available: none.
+ended = "Teste encerrado e apagado."
+# Placeholders available: none.
+expired = "Teste encerrado por inatividade e apagado."
+# A /sair from someone in the team who is not in a test.
+# Placeholders available: none.
+not_in_test = "Você não está em modo teste. Mande /teste para começar."
+# One line per calendar event the cleanup could not cancel.
+# Placeholders available: {quando}
+cancel_failed = "Não consegui cancelar na agenda o evento de {quando}. Apague à mão."
+# At the start of every line the team reads about a contact in test.
+# Placeholders available: none.
+team_prefix = "🧪 TESTE · "
+
+[media]
+# Photos, files and audio the customer sends, kept for the Inbox
+# (MEDIA_ENABLED). Each one gets its own line in the conversation; a caption
+# or a transcript follows as an ordinary message.
+# Placeholders available: none.
+line_image = "(enviou uma foto)"
+line_document = "(enviou um documento)"
+line_video = "(enviou um vídeo)"
+line_audio = "(enviou um áudio)"
+line_sticker = "(enviou uma figurinha)"
+
+# To the customer: a photo or file with no text was kept, and a request opened.
+# Placeholders available: none.
+received = "Recebi o que você enviou. A equipe vai dar uma olhada e te responde por aqui."
+
+# To the customer: the file could not be kept and there is no text to go on.
+# Placeholders available: none.
+not_received = "Não consegui receber esse arquivo. Pode tentar enviar de novo? Se for grande, vale mandar em partes menores."
+
+# The {tipo} of inbox.reason_media. Placeholders available: none.
+kind_image = "uma foto"
+kind_document = "um documento"
+kind_video = "um vídeo"
+kind_audio = "um áudio"
+kind_sticker = "uma figurinha"
+
+# What the Inbox shows in place of a file it does not have.
+# Placeholders available: none.
+expired = "arquivo expirado"
+too_large = "grande demais para guardar"
+failed = "não foi possível baixar"
+no_space = "sem espaço para guardar"
+rate_limited = "não guardado: muitas mensagens seguidas"
+late = "não guardado: mensagem atrasada"
+missing = "arquivo indisponível"
+
+[billing]
+# A charge created in the panel, sent on the customer's channel. The link is
+# Asaas's invoice page.
+# Placeholders available: {descricao}, {valor}, {vencimento}, {link}
+charge_sent = "Segue a cobrança: {descricao}\nValor: {valor} · vencimento {vencimento}\nPague por boleto, Pix ou cartão neste link:\n{link}"
+
+# The same, when the team chose boleto or Pix (the page shows only that one).
+# Placeholders available: {descricao}, {valor}, {vencimento}, {link}
+charge_sent_fixed = "Segue a cobrança: {descricao}\nValor: {valor} · vencimento {vencimento}\nPara pagar, acesse:\n{link}"
+
+# The tap on "Tenho uma dúvida" under a charge sent as a template.
+# Placeholders available: none.
+charge_doubt = "Tenho uma dúvida"
+
+# Placeholders available: {descricao}, {valor}
+paid_customer = "Recebemos o seu pagamento de {valor} ({descricao}). Obrigado!"
+# The charge by e-mail too, when BILLING_EMAILS is on and the contact has an
+# e-mail. {cobranca} is the charge message above (charge_sent or charge_sent_fixed).
+# Placeholders available: {nome}, {descricao}, {cobranca}
+charge_email_subject = "Cobrança Converge: {descricao}"
+charge_email = """
+Olá, {nome}! Tudo bem?
+
+{cobranca}
+
+Qualquer dúvida, é só responder este e-mail.
+
+Equipe Converge
+"""
+
+# The payment received, by e-mail. Placeholders available: {nome}, {descricao}, {valor}
+paid_email_subject = "Pagamento recebido: {descricao}"
+paid_email = """
+Olá, {nome}!
+
+Recebemos o seu pagamento de {valor} ({descricao}). Obrigado!
+
+Equipe Converge
+"""
+
+# Placeholders available: {nome}, {descricao}, {valor}
+paid_team = "💰 Pagamento recebido: {nome} · {descricao} · {valor}"
+
+
+[proposal]
+# Proposal by e-mail: instead of the 30-minute call, the person answers a short
+# questionnaire here, confirms a summary, and the team sends the proposal. The
+# bot never states a price. Buttons take at most 20 characters, the "Corrigir"
+# menu items (label_*) at most 24 — checked at startup.
+
+offer = "Não trabalhamos com preço de tabela, porque o valor depende do seu negócio. Posso fazer algumas perguntas rápidas sobre a sua empresa para que a equipe prepare uma proposta, enviada por e-mail em até 2 dias úteis. Se preferir, também podemos agendar uma conversa de 30 minutos com um especialista. Como prefere seguir?"
+button_meet = "Conversar 30 min"
+button_email = "Pedir proposta"
+button_skip = "Pular"
+button_stop = "Conversar 30 min"
+button_team = "Falar com a equipe"
+button_ok = "Está certo"
+button_fix = "Corrigir"
+
+ask_quem = "Ótimo, são poucas perguntas. Para começar: qual é o seu nome, o nome da empresa, o ramo de atuação e o seu cargo?"
+# The same, when the line of business is already known (it is not asked twice).
+ask_quem_sem_ramo = "Ótimo, são poucas perguntas. Para começar: qual é o seu nome, o nome da empresa e o seu cargo?"
+ask_desafio = "Qual processo você gostaria de melhorar ou automatizar? Por exemplo: atendimento e agenda, documentos, cobrança, relatórios, obra, jurídico ou site."
+ask_custo_hoje = "E hoje, quanto esse processo consome da equipe? Por exemplo, quantas pessoas cuidam disso ou quantas horas por semana, aproximadamente."
+ask_canais = "Por quais canais os seus clientes chegam até vocês (WhatsApp, Instagram, telefone, site) e quantas conversas vocês recebem por mês, aproximadamente?"
+ask_ferramentas = "Quais sistemas ou ferramentas vocês já utilizam, como planilhas, ERP, CRM ou agenda? Se ainda não usam nenhum, tudo bem."
+ask_usuarios = "Quantas pessoas da equipe vão utilizar a solução?"
+ask_prazo = "E para quando você gostaria de ter a solução funcionando?"
+
+# The clinic's questionnaire (a clinic from the lead form, or one that said
+# so): what to automate, picked from buttons, then the clinic's own questions.
+ask_areas = "Ótimo, são poucas perguntas. Para começar: o que vocês gostariam de automatizar na clínica? Pode escolher mais de uma opção. Se for outra coisa, é só escrever."
+# Placeholders available: {lista}
+areas_chosen = "Anotado: {lista}. Mais alguma?"
+area_agenda = "Atendimento e agenda"
+area_triagem = "Pré-triagem"
+area_prontuario = "Prontuários"
+area_receitas = "Receitas e documentos"
+area_pagamentos = "Cobrança e pagamentos"
+area_financeiro = "Financeiro e relatórios"
+button_areas_done = "Pronto"
+ask_como_hoje = "Como isso é feito hoje na clínica? Por exemplo, quem cuida, quanto tempo leva e o que mais dá trabalho."
+# Placeholders available: {areas}
+ask_como_hoje_areas = "Como vocês fazem hoje: {areas}? Por exemplo, quem cuida, quanto tempo leva e o que mais dá trabalho."
+ask_sistemas = "Quais sistemas vocês usam hoje para agenda, prontuário e financeiro? Por exemplo: Google Agenda, planilha ou um sistema de clínica. Se ainda é tudo no papel, tudo bem."
+ask_equipe = "Quantos profissionais atendem na clínica, quantas pessoas cuidam da recepção, e vocês atendem por convênio ou só particular?"
+# What a clinic's "quem" says for the line of business, prefilled from the form.
+clinic_line = "Clínica"
+flow_gargalos = "Maiores gargalos"
+flow_pedido = "Pedido específico"
+# The form's messages-per-day answer, as the "Canais e volume" answer.
+# Placeholders available: {volume}
+form_volume = "WhatsApp, {volume} mensagens por dia"
+label_areas = "O que automatizar"
+label_como_hoje = "Como é feito hoje"
+label_sistemas = "Sistemas"
+label_equipe = "Equipe e convênios"
+
+# Questions answered with buttons, for the preliminary quote (content/pricing.toml).
+# The team sees the labels; the quote reads them back, so renaming one here
+# turns old answers into "typed" ones. Options take at most 24 characters.
+ask_canais_lista = "Por quais canais os seus clientes chegam até vocês? Pode escolher mais de um."
+ask_volume = "Quantas conversas vocês recebem por mês, mais ou menos, somando todos os canais?"
+ask_biz_areas = "O que vocês gostariam de automatizar? Pode escolher mais de uma opção. Se for outra coisa, é só escrever."
+ask_sistemas_lista = "Quais sistemas vocês usam hoje? Pode escolher mais de um. Se for outro, é só escrever o nome."
+ask_processo = "O passo a passo do atendimento de vocês já está definido, ou ainda vamos desenhar juntos?"
+ask_usuarios_faixa = "Quantas pessoas da equipe vão usar o painel?"
+# Placeholders available: {lista}
+chosen = "Anotado: {lista}. Mais algum?"
+# Under every question with several choices, after its numbered options: a
+# WhatsApp list takes one choice per message, so the numbers can be typed at once.
+multi_hint = "Responda com os números, por exemplo 1, 3 e 4, ou escolha uma opção por vez na lista e depois toque em Pronto."
+canal_whatsapp = "WhatsApp"
+canal_instagram = "Instagram"
+canal_site = "Site"
+canal_telefone = "Telefone"
+canal_email = "E-mail"
+biz_area_atendimento = "Atendimento e agenda"
+biz_area_vendas = "Vendas"
+biz_area_financeiro = "Financeiro"
+biz_area_documentos_juridico = "Documentos e jurídico"
+biz_area_suporte_tecnico = "Suporte técnico"
+biz_area_rh = "RH"
+sistema_google_agenda = "Google Agenda"
+sistema_planilha = "Planilha"
+sistema_crm = "CRM"
+sistema_gestao = "Sistema de gestão"
+sistema_nenhum = "Nenhum"
+volume_ate_500 = "Até 500"
+volume_ate_2000 = "Até 2.000"
+volume_ate_5000 = "Até 5.000"
+volume_mais_5000 = "Mais de 5.000"
+processo_sim = "Sim, já está definido"
+processo_parcial = "Mais ou menos"
+processo_nao = "Ainda não"
+usuarios_1_2 = "1 a 2"
+usuarios_3_5 = "3 a 5"
+usuarios_6_10 = "6 a 10"
+usuarios_mais_10 = "Mais de 10"
+label_canais_lista = "Canais"
+label_volume = "Conversas por mês"
+label_sistemas_lista = "Sistemas"
+label_processo = "Processo definido"
+label_usuarios_faixa = "Usuários do painel"
+# How the customer prefers to pay: kept for the team and, later, the charge
+# after the contract is signed. One tap.
+ask_pagamento = "E qual forma de pagamento vocês preferem?"
+pagamento_cartao = "Cartão de crédito"
+pagamento_boleto = "Boleto"
+pagamento_pix = "Pix"
+label_pagamento = "Forma de pagamento"
+# On WhatsApp, with the Flow published (content/forms), the questions above
+# come as one form: this text goes with it, and the button opens it. The
+# button takes at most 30 characters (checked at startup).
+flow_intro = "Para montar a sua proposta, toque no botão abaixo e responda tudo de uma vez. Leva uns 2 minutos."
+flow_cta = "Responder perguntas"
+# Before the Flow, when the conversation did not say it: the line of business
+# picks the Flow (health goes to the clinic's) and fills its "Ramo" field.
+# A list on WhatsApp: the button takes 20 characters, a row 24, the line under it 72.
+ask_ramo = "Para eu te mandar as perguntas certas: qual o ramo da sua empresa?"
+ramo_button = "Escolher ramo"
+ramo_saude = "Saúde"
+ramo_saude_desc = "Clínica, consultório"
+ramo_juridico = "Jurídico"
+ramo_construcao = "Construção"
+ramo_comercio = "Comércio"
+ramo_servicos = "Serviços"
+ramo_outro = "Outro"
+ramo_outro_desc = "É só escrever"
+ask_ramo_typed = "Qual é o ramo? É só escrever, por exemplo: padaria, contabilidade, escola."
+
+label_quem = "Nome, empresa e cargo"
+label_desafio = "Desafio"
+label_custo_hoje = "Carga horária atual"
+label_canais = "Canais e volume"
+label_ferramentas = "Ferramentas"
+label_usuarios = "Usuários"
+label_prazo = "Prazo"
+# The Flow asks the hours a week: a bare number is kept with its unit.
+# Placeholders available: {horas}
+horas_semana = "{horas} horas por semana"
+
+# Placeholders available: {resumo}
+confirm = "Obrigado pelas respostas! Confira, por favor, se está tudo certo:\n\n{resumo}"
+fix_which = "Qual informação você gostaria de corrigir?"
+prefilled_mark = "(do que você contou)"
+# Placeholders available: {pergunta}
+resume = "Vamos continuar de onde paramos. {pergunta}"
+done = "Pronto, recebemos todas as informações. A equipe vai preparar a sua proposta e enviá-la para o seu e-mail em até 2 dias úteis. Se surgir alguma dúvida até lá, é só me chamar por aqui."
+# The person did not give an e-mail after being asked: the answers wait.
+# Placeholders available: none.
+waiting_email = "Para enviar a proposta, preciso do seu e-mail. Suas respostas já estão salvas: quando puder, envie o e-mail aqui e toque em \"Está certo\"."
+stopped = "Sem problema! Vamos agendar a conversa de 30 minutos com um especialista:"
+# The team's notices. " · {empresa}" is left out whole when the company is not
+# known, so keep it written exactly so (checked at startup).
+# Placeholders available: {nome}, {empresa}
+team_sent = "📝 {nome} pediu proposta por e-mail · {empresa}\nAs respostas estão no painel, na aba Pedidos de proposta. Prazo combinado: 2 dias úteis."
+# Placeholders available: {nome}, {empresa}
+team_incomplete = "⏸️ Pedido de proposta incompleto: {nome} · {empresa}\nA pessoa parou antes de terminar. O que foi respondido está no painel, na aba Pedidos de proposta."
+
+[forms]
+# What the conversation shows as the person's reply when they finish a WhatsApp
+# Flow (a form): the answers themselves are in the request, not in this line.
+sent_label = "Formulário enviado"
+
+[proposal_pdf]
+# The proposal PDF the panel generates ("Gerar proposta"), from the model in
+# docs/modelos/proposta-contrato-implantacao.html, filled with the request's
+# answers and its quote (as the team edited it). Placeholders as noted.
+title = "Proposta comercial"
+subtitle = "Agente de atendimento com IA"
+label_para = "Para"
+label_cuidados = "Aos cuidados de"
+label_emitida = "Emitida em"
+label_validade = "Válida até"
+# Placeholders available: {dias}
+validade_dias = "({dias} dias)"
+sec_contou = "O que você nos contou"
+sec_entrega = "O que vamos entregar"
+sec_investimento = "Investimento"
+sec_passos = "Próximos passos"
+# Placeholders available: {texto}
+contou_custo = "Hoje esse processo ocupa: {texto}."
+contou_equipe = "Equipe e convênios: {texto}."
+# Placeholders available: {lista}
+contou_areas = "Vocês querem automatizar {lista}."
+contou_ferramentas = "Ferramentas que vocês usam hoje: {lista}."
+escopo_canais = "Canais"
+escopo_volume = "Volume incluído"
+escopo_integracoes = "Integrações"
+escopo_usuarios = "Usuários do painel"
+escopo_funcoes = "Funções"
+escopo_dados = "Dados"
+# Placeholders available: {n}
+volume = "até {n} conversas por mês"
+usuarios = "{n} pessoas da equipe"
+nenhuma_integracao = "Nenhuma no início"
+dados_clinica = "Servidor dedicado, cifrado e no padrão da LGPD para dados de saúde"
+dados_empresa = "Servidor protegido, cifrado e no padrão da LGPD"
+inclui = "Inclui o levantamento do processo com a equipe, a configuração, os testes e o treinamento no painel. A equipe assume qualquer conversa a qualquer momento."
+implantacao_label = "Implantação, pagamento único"
+# How the setup is paid, as the team chose on the card (spec
+# venda-ate-pagamento, increment 5). Boleto and Pix carry no interest; on a
+# credit card the card fee is added.
+# Placeholders available: {primeira}, {segunda}
+metade = "50% na assinatura ({primeira}) e 50% na entrega da implantação ({segunda})."
+# Placeholders available: {n}, {primeira}, {resto}, {valor}
+parcelas = "Em {n}x: {primeira} na assinatura e {resto}x mensais de {valor}. No cartão de crédito, acrescidas da taxa do cartão."
+# Placeholders available: {n}, {valor}
+parcelas_iguais = "Em {n}x mensais de {valor}, a primeira na assinatura. No cartão de crédito, acrescidas da taxa do cartão."
+vista = "À vista, na assinatura."
+# Placeholders available: {forma}
+pagamento = "Forma de pagamento escolhida: {forma}."
+mensalidade_label = "Mensalidade de operação"
+mensalidade_nota = "Começa só quando o agente estiver funcionando e aprovado por vocês. Hospedagem, suporte, ajustes e acompanhamento das respostas."
+fidelidade_label = "Opção com fidelidade de 12 meses"
+# Placeholders available: {pct}
+fidelidade_nota = "Mensalidade com {pct}% de desconto."
+# Placeholders available: {conversa}, {usuario}
+extras = "Conversa além das incluídas: {conversa} cada. Usuário adicional do painel: {usuario} por mês. As tarifas do WhatsApp são pagas por vocês direto à Meta e não entram nestes valores."
+passo_1 = "<b>Aceitar a proposta</b> pelo botão no WhatsApp. Isso reserva estas condições."
+passo_2 = "<b>Assinar o contrato</b>, que chega por link para assinatura eletrônica."
+passo_3 = "<b>Pagar a primeira parcela</b> pelo link que enviamos logo após a assinatura."
+passo_4 = "<b>Implantação</b> em até 30 dias úteis, com testes junto com a equipe."
+passo_5 = "<b>Aceite</b> do agente funcionando. A partir daí começa a mensalidade."
+rodape = "Converge · getconverge.me · CNPJ 11.222.333/0001-81 · Belém/PA"
+rodape_nota = "Proposta preparada pela equipe Converge a partir das suas respostas"
+# The file's name. Placeholders available: {empresa}
+arquivo = "Proposta Converge - {empresa}.pdf"
+# When the request has no preliminary quote yet (panel).
+sem_orcamento = "Este pedido ainda não tem orçamento. Preencha os valores antes de gerar a proposta."
+
+[contract_pdf]
+# The contract PDF the panel generates ("Conferir contrato"), from the model in
+# docs/modelos/proposta-contrato-implantacao.html: the fixed text is in
+# content/contrato/ (corpo.txt, anexo_ii.txt, funcoes.toml); the parties, the
+# Anexo I and the Anexo III are filled from the contract data, the request and
+# its quote. Placeholders as noted.
+titulo = "Contrato de prestação de serviços de implantação e operação de agente de inteligência artificial"
+# Shown at the top while the lawyer reviews the text. Leave empty ("") once the
+# final version is in content/contrato/.
+selo = "Minuta, em revisão pelo advogado"
+sec_partes = "1. Partes e definições"
+contratada = "CONTRATADA: CONVERGE SERVIÇOS EM TECNOLOGIAS E ENGENHARIA LTDA., inscrita no CNPJ sob o nº 11.222.333/0001-81, com sede na Av. Exemplo, 100, Centro, Belém/PA, CEP 66000-000, neste ato representada por Paulo Lobato Nobre, doravante \"Converge\"."
+# Placeholders available: {nome}, {tipo}, {documento}, {endereco}, {assinante}, {cpf}, {email}
+contratante = "CONTRATANTE: {nome}, inscrita no {tipo} sob o nº {documento}, com sede em {endereco}, neste ato representada por {assinante}, CPF {cpf}, e-mail {email}, doravante \"Contratante\"."
+# Placeholders available: {data}
+local_data = "Belém, {data}."
+assinatura_converge = "Paulo Lobato Nobre, Converge Serviços em Tecnologias e Engenharia Ltda."
+# Placeholders available: {assinante}, {nome}
+assinatura_contratante = "{assinante}, {nome}"
+rotulo_converge = "Converge"
+rotulo_contratante = "Contratante"
+anexo_i = "Anexo I: Objeto e escopo"
+ficha = "I.1. Ficha do projeto"
+funcoes_titulo = "I.2. Funções do Agente:"
+nao_incluido = "I.3. Não incluído (salvo se marcado acima): desenvolvimento de sistema novo do Contratante; produção de conteúdo de marketing; gestão de anúncios; atendimento humano feito pela Converge; tarifas de Serviços de terceiros; integração com sistema sem interface de integração (API)."
+# Placeholders available: {lista}
+aceite = "I.4. Critério de aceite: em teste com 20 perguntas reais aprovadas pelo Contratante, o Agente responde dentro do Conteúdo ou encaminha à equipe; {lista}."
+dados_titulo = "I.5. Ficha de tratamento de dados"
+anexo_iii = "Anexo III: Condições comerciais"
+# Anexo I.1 labels and the values that do not come from the quote.
+f_funcoes = "Funções do Agente"
+f_canais = "Canais"
+f_integracoes = "Integrações"
+f_documentos = "Documentos que o Agente consulta"
+f_volume = "Volume incluído"
+f_usuarios = "Usuários do Painel"
+f_sensiveis = "Dados sensíveis (saúde, por exemplo)"
+f_ajustes = "Ajustes de Conteúdo incluídos por mês"
+f_prazo = "Prazo de Implantação"
+f_suporte = "Canal de suporte"
+nenhuma_integracao = "nenhuma"
+documentos_nenhum = "nenhum"
+documentos_pequeno = "acervo pequeno do Contratante"
+documentos_grande = "acervo grande do Contratante"
+sim = "sim"
+nao = "não"
+ajustes = "4 pedidos"
+prazo = "30 dias úteis"
+suporte = "WhatsApp e e-mail"
+# Placeholders available: {n}
+volume = "{n} Conversas por mês"
+ver_funcoes = "(ver I.2)"
+# Anexo I.5
+d_finalidades = "Finalidades"
+d_categorias = "Categorias de dados e titulares"
+d_responsavel = "Responsável humano e encaminhamento fora do horário"
+d_retencao = "Retenção das conversas durante o contrato"
+d_terceiros = "Terceiros efetivamente usados"
+d_transferencia = "Mecanismo de transferência internacional"
+categorias_clinica = "pacientes e interessados que falam com a clínica pelos Canais, e a equipe da clínica: nome, telefone, e-mail, mensagens, áudios transcritos, agendamentos e dados de cobrança; dados de saúde inferíveis de agendamentos e mensagens (Anexo II.2)"
+categorias_empresa = "clientes e interessados que falam com o Contratante pelos Canais, e a equipe do Contratante: nome, telefone, e-mail, empresa, mensagens, áudios transcritos, agendamentos e dados de cobrança"
+# Placeholders available: {contato}
+responsavel = "{contato}; fora do horário o Agente registra o pedido e a equipe responde no próximo expediente"
+responsavel_clinica = "; em caso de urgência, mensagem fixa orientando a procurar o serviço de urgência"
+retencao = "12 meses"
+terceiros_base = "Hostinger (servidor do Agente e do Painel; suboperador; Brasil, São Paulo); Amazon Web Services (cópias de segurança cifradas; suboperador; Brasil, São Paulo; 30 dias); OpenAI (geração de respostas e transcrição de áudio; suboperador; EUA)"
+terceiros_meta = "Meta (WhatsApp e Instagram; contratada pelo Contratante; EUA/Brasil)"
+terceiros_google = "Google (agenda, e-mail e arquivos; contratado pelo Contratante; EUA)"
+terceiros_microsoft = "Microsoft (agenda, e-mail e arquivos; contratada pelo Contratante; EUA)"
+terceiros_asaas = "Asaas (cobrança; Brasil)"
+# An integration the list above does not name. Placeholders available: {nome}
+terceiros_outro = "{nome} (integração; contratado pelo Contratante)"
+transferencia = "cláusulas-padrão da ANPD firmadas em [data a definir]"
+# Anexo III
+c_implantacao = "Implantação"
+c_mensalidade = "Mensalidade de Operação"
+c_volume = "Volume incluído"
+c_excedente = "Conversa excedente"
+c_usuario = "Usuário adicional do Painel"
+c_sla = "SLA (opcional)"
+c_fidelidade = "Fidelidade"
+c_tarifas = "Tarifas da Meta e de terceiros"
+c_validade = "Validade da proposta"
+# Placeholders available: {valor}, {primeira}, {segunda}
+implantacao_metade = "{valor}: 50% ({primeira}) na assinatura e 50% ({segunda}) no aceite da implantação"
+# Placeholders available: {valor}, {n}, {primeira}, {resto}, {parcela}
+implantacao_parcelas = "{valor}, em {n} parcelas mensais: {primeira} na assinatura e {resto} de {parcela}; no cartão de crédito, acrescidas da taxa do cartão"
+# Placeholders available: {valor}
+implantacao_vista = "{valor}, à vista na assinatura"
+# Placeholders available: {valor}, {dia}
+mensalidade = "{valor} por mês, vencimento todo dia {dia}, a partir do aceite"
+vencimento_dia = "10"
+# Placeholders available: {valor}, {limite}
+excedente = "{valor} por Conversa, até {limite} por mês sem nova aprovação"
+excedente_limite = "R$ 200,00"
+# Placeholders available: {valor}
+usuario = "{valor} por mês"
+# Placeholders available: {valor}
+sla_sim = "contratado: {valor} por mês, meta de 99,5% de disponibilidade mensal, crédito de 10% da mensalidade por mês abaixo da meta; medida como minutos em que o Agente responde nos Canais dividido pelos minutos do mês, pelo monitoramento da Converge"
+sla_nao = "não contratado (opção: {valor} por mês, meta de 99,5% de disponibilidade mensal, crédito de 10% da mensalidade por mês abaixo da meta; medida como minutos em que o Agente responde nos Canais dividido pelos minutos do mês, pelo monitoramento da Converge)"
+# Placeholders available: {pct}
+fidelidade = "sem fidelidade (opção: 12 meses, com {pct}% de desconto na mensalidade)"
+tarifas = "Pagas pelo Contratante direto ao fornecedor"
+# Placeholders available: {dias}
+validade = "{dias} dias"
+rodape = "Converge · getconverge.me · CNPJ 11.222.333/0001-81 · Belém/PA"
+# Placeholders available: {pagina}
+pagina = "Página {pagina}"
+# The file's name. Placeholders available: {empresa}
+arquivo = "Contrato Converge - {empresa}.pdf"
+# Panel answers.
+sem_dados = "O cliente ainda não mandou os dados do contrato."
+
+[proposal_info]
+# "Pedir mais informações", in the panel's request card: one message with two
+# buttons. Past the 24h window it goes as the template WHATSAPP_INFO_TEMPLATE,
+# whose body must say the same (docs/WHATSAPP.md). Placeholders available: {nome}
+text = "Olá, {nome}! Para montar a sua proposta, a nossa equipe precisa de mais algumas informações. Você prefere marcar uma conversa de 30 minutos ou falar com a nossa equipe por aqui?"
+# The two buttons, in this order (the template's buttons too). 20 characters each.
+button_team = "Conversar por aqui"
+button_meet = "Agendar conversa"
+sent = "Pedido enviado. Quando a pessoa tocar em um dos botões, a conversa segue por aqui."
+no_template = "A janela de 24 horas do WhatsApp fechou e o modelo de pedido de informações ainda não está configurado."
+channel = "Este contato não é do WhatsApp nem do Telegram."
+failed = "Não consegui confirmar o envio. Confira a conversa antes de tentar de novo."
+history = "(pedido de mais informações) {texto}"
+
+[contract]
+# After "Aceitar proposta": the WhatsApp Flow "dados_contrato" (content/forms)
+# asks what the contract needs. The button takes 30 characters.
+flow_intro = "Que bom que deu certo! Para preparar o seu contrato, preciso de alguns dados da empresa e de quem vai assinar. Leva 1 minuto."
+flow_cta = "Enviar dados do contrato"
+received = "Recebi os dados, obrigado! Vamos preparar o contrato, e o link para assinar chega no e-mail de quem assina."
+# Placeholders available: {campos}
+fix = "Quase lá: confira {campos} e envie de novo, por favor."
+not_open = "Recebi, mas esta proposta não está mais aberta. Se precisar, é só falar com a nossa equipe por aqui."
+# When WhatsApp refuses the Flow (an old app, say).
+fallback = "Para preparar o seu contrato, a nossa equipe vai pedir os dados por aqui mesmo, em instantes."
+# Placeholders available: {nome}
+team_no_flow = "📄 {nome} aceitou a proposta, e o formulário do contrato não foi. Peça os dados do contrato pela conversa."
+# Placeholders available: {nome}
+team_received = "📄 {nome} enviou os dados para o contrato. Estão no painel, na aba Pedidos de proposta."
+campo_razao_social = "a razão social"
+campo_documento = "o CNPJ ou CPF"
+campo_cep = "o CEP"
+campo_endereco = "o endereço"
+campo_bairro = "o bairro"
+campo_cidade = "a cidade"
+campo_uf = "o estado (UF)"
+campo_assinante_nome = "o nome de quem assina"
+campo_assinante_cpf = "o CPF de quem assina"
+campo_assinante_email = "o e-mail de quem assina"
+campo_assinante_cargo = "o cargo de quem assina"
+# The request's card in the panel.
+label_razao_social = "Razão social"
+label_documento = "CNPJ ou CPF"
+label_endereco = "Endereço"
+label_assinante = "Quem assina"
+
+[contract_sign]
+# The contract sent to be signed on Autentique, from the panel ("Enviar para
+# assinatura"). In the conversation, when WhatsApp's window is open.
+# Placeholders available: {nome}, {link}, {email}
+text = "{nome}, o seu contrato está pronto para assinar: {link}\n\nO mesmo link também foi para {email}. A assinatura é eletrônica e leva um minuto. Qualquer dúvida, é só responder por aqui."
+# In Autentique's e-mail. Placeholders available: none (the rest of this section).
+email_message = "Contrato de implantação e operação de agente de IA com a Converge."
+# Shown in the panel.
+sent = "Contrato enviado para assinatura. O link foi na conversa e no e-mail de quem assina."
+sent_email = "Contrato enviado para assinatura. O link foi para o e-mail de quem assina (a conversa não recebeu: confira a janela de 24h)."
+already = "Este contrato já foi enviado para assinatura."
+failed = "A Autentique recusou o envio. Confira os dados do contrato e tente de novo."
+uncertain = "A Autentique não confirmou o envio. Confira no painel da Autentique: se o contrato não estiver lá, use Liberar para reenviar no card."
+off = "A assinatura pela Autentique não está configurada (AUTENTIQUE_API_KEY e CONTRACT_SIGNER_*)."
+released = "Liberado. Já dá para enviar o contrato de novo."
+duplicate = "A Autentique criou este contrato depois que o envio foi liberado: agora há dois lá. Cancele um deles no painel da Autentique."
+# When every party signed (webhook document.finished). " · {empresa}" is left
+# out whole when the company is not known, so keep it written exactly so.
+# Placeholders available: {nome}, {empresa}
+team_signed = "✍️ Contrato assinado: {nome} · {empresa}\nAs duas partes assinaram. A cópia assinada está no card, na aba Pedidos de proposta."
+not_stale = "Não há envio parado para liberar (ou ainda está em andamento: espere dois minutos)."
+
+[contract_charge]
+# The first payment of the setup, charged when both parties signed (spec
+# venda-ate-pagamento, increment 5). It goes as billing.charge_sent(_fixed).
+# Placeholders available: none.
+description_vista = "Implantação do agente de IA"
+# Placeholders available: none.
+description_metade = "Implantação do agente de IA: 50% na assinatura"
+# Placeholders available: {n}
+description_parcela = "Implantação do agente de IA: parcela 1 de {n}"
+# To the team. Placeholders available: {nome}, {valor}, {descricao}
+team_sent = "💳 Cobrança da implantação enviada a {nome}: {valor} ({descricao})."
+team_not_delivered = "💳 Cobrança da implantação criada para {nome}: {valor} ({descricao}), mas a mensagem não chegou (janela do WhatsApp fechada?). Use Reenviar na conversa."
+# Why it did not go. Placeholders available: {nome}
+team_off = "⚠️ Contrato de {nome} assinado, mas a cobrança está desligada (sem ASAAS_API_KEY). Cobre pelo painel."
+team_test = "⚠️ Contrato de teste de {nome} assinado: com o Asaas em produção, a cobrança automática não sai."
+team_no_terms = "⚠️ Contrato de {nome} assinado, mas não sei as condições de pagamento que ele trazia (enviado antes desta versão, ou sem tabela de preços). Cobre a implantação pelo painel."
+team_tax_id = "⚠️ Contrato de {nome} assinado, mas o CNPJ/CPF dos dados do contrato não é válido. Cobre a implantação pelo painel."
+team_asaas = "⚠️ Contrato de {nome} assinado, mas o Asaas não criou a cobrança da implantação. Confira na conversa e cobre pelo painel."
+team_closed = "⚠️ Contrato de {nome} assinado: a cobrança da implantação já não está em aberto no Asaas (paga ou cancelada), então não mandei de novo. Confira na conversa."
+team_failed = "⚠️ Contrato de {nome} assinado, mas a cobrança da implantação falhou. Confira na conversa e cobre pelo painel."
+
+[proposal_doc]
+# The proposal PDF sent from the panel (aba Propostas, "Enviar proposta").
+# Within 24h it goes with this text; past it, as the template proposta_converge,
+# whose body must say the same. Placeholders available: {nome}, {empresa}
+text = "Olá, {nome}! Segue em anexo a proposta da Converge para {empresa}, preparada a partir do que você nos contou. Se estiver tudo certo, é só tocar em Aceitar proposta. Qualquer dúvida, responda por aqui ou toque em Tenho dúvidas."
+# {empresa} when the request named none. Placeholders available: none (the rest
+# of this section, unless said).
+no_company = "a sua empresa"
+button_accept = "Aceitar proposta"
+button_doubt = "Tenho dúvidas"
+button_decline = "Não tenho interesse"
+# "Tenho dúvidas", as the person's message: the assistant takes it from there.
+doubt = "Tenho dúvidas sobre a proposta."
+accept_reply = "Que ótimo! Já avisei a equipe, que vai entrar em contato com você para os próximos passos."
+decline_reply = "Tudo bem, obrigado por considerar a proposta. Se quiser contar o que pesou na decisão, é só escrever aqui: isso nos ajuda a melhorar. Fico à disposição."
+# To the team. Placeholders available: {nome}
+team_accept = "✅ {nome} aceitou a proposta pelo WhatsApp. Combine os próximos passos e mova o card."
+team_decline = "❌ {nome} disse que não tem interesse na proposta."
+# The conversation's history. Placeholders available: {arquivo}, {texto}
+history = "📎 Proposta enviada: {arquivo}\n\n{texto}"
+# Shown in the panel.
+sent = "Proposta enviada. O pedido foi marcado como enviado."
+failed = "O canal recusou o envio. Confira o arquivo e tente de novo."
+uncertain = "O envio não foi confirmado e o pedido ficou marcado como enviado. Confira a conversa antes de tentar de novo."
+no_template = "A janela de 24h do WhatsApp está fechada e falta o modelo aprovado (WHATSAPP_PROPOSAL_TEMPLATE)."
+channel = "Este contato não está num canal que recebe documentos."
+

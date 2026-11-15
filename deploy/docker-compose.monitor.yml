@@ -1,0 +1,35 @@
+# Opt-in overlay. Apply migration 0016 first; see docs/ADMINISTRACAO.md.
+# docker compose -f docker-compose.yml -f docker-compose.monitor.yml up -d monitor
+services:
+  monitor:
+    image: ghcr.io/paulolnobre/converge-agent:${IMAGE_TAG:?Use the tested release image}
+    restart: unless-stopped
+    command: [python, -m, cli.monitor]
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 256m
+    pids_limit: 32
+    tmpfs: ["/tmp:size=8m,noexec,nosuid"]
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-reception_agent}
+      DB_USER: ${DB_USER:-reception_agent}
+      DB_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD}
+      DB_POOL_MIN: 1
+      DB_POOL_MAX: 3
+      DATA_KEYS: ${DATA_KEYS:?Set DATA_KEYS}
+      DATA_INDEX_KEY: ${DATA_INDEX_KEY:?Set DATA_INDEX_KEY}
+      PUSH_VAPID_PUBLIC_KEY: ${PUSH_VAPID_PUBLIC_KEY:-}
+      PUSH_VAPID_PRIVATE_KEY: ${PUSH_VAPID_PRIVATE_KEY:-}
+      PUSH_VAPID_SUBJECT: ${PUSH_VAPID_SUBJECT:-}
+      PANEL_IDLE_MINUTES: ${PANEL_IDLE_MINUTES:-120}
+      PANEL_DEVICE_IDLE_DAYS: ${PANEL_DEVICE_IDLE_DAYS:-90}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:-}
+      TEAM_CHAT_ID: ${TEAM_CHAT_ID:-}
+      ADMIN_ALERT_CHAT_ID: ${ADMIN_ALERT_CHAT_ID:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [internal]

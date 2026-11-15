@@ -1,0 +1,351 @@
+{
+  "version": "7.3",
+  "screens": [
+    {
+      "id": "SOBRE",
+      "title": "Sobre você",
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "Seus dados"
+          },
+          {
+            "type": "TextInput",
+            "name": "nome",
+            "label": "Seu nome",
+            "required": true,
+            "init-value": "${data.nome}"
+          },
+          {
+            "type": "TextInput",
+            "name": "empresa",
+            "label": "Nome da clínica",
+            "required": true,
+            "init-value": "${data.empresa}"
+          },
+          {
+            "type": "TextInput",
+            "name": "cargo",
+            "label": "Seu cargo",
+            "required": true,
+            "init-value": "${data.cargo}"
+          },
+          {
+            "type": "TextInput",
+            "name": "email",
+            "label": "E-mail da proposta",
+            "required": true,
+            "input-type": "email",
+            "init-value": "${data.email}"
+          },
+          {
+            "type": "Footer",
+            "label": "Continuar",
+            "on-click-action": {
+              "name": "navigate",
+              "next": {
+                "type": "screen",
+                "name": "PROCESSO"
+              },
+              "payload": {}
+            }
+          }
+        ]
+      },
+      "data": {
+        "nome": {
+          "type": "string",
+          "__example__": "Ana Souza"
+        },
+        "empresa": {
+          "type": "string",
+          "__example__": "Clínica Sol"
+        },
+        "cargo": {
+          "type": "string",
+          "__example__": "Sócia"
+        },
+        "email": {
+          "type": "string",
+          "__example__": "ana@exemplo.com.br"
+        }
+      }
+    },
+    {
+      "id": "PROCESSO",
+      "title": "Processo atual",
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "Como funciona hoje"
+          },
+          {
+            "type": "TextArea",
+            "name": "sistemas",
+            "label": "Ferramentas que usam",
+            "required": true,
+            "helper-text": "Ex.: Microsoft Office, Google Workspace, RD Station, ERP. Sem nenhuma: nenhum"
+          },
+          {
+            "type": "TextInput",
+            "name": "como_hoje",
+            "label": "Como é feito hoje",
+            "required": false
+          },
+          {
+            "type": "TextInput",
+            "name": "equipe",
+            "label": "Equipe e convênios",
+            "required": false
+          },
+          {
+            "type": "CheckboxGroup",
+            "name": "canais",
+            "label": "Por onde os pacientes chegam?",
+            "required": true,
+            "data-source": [
+              {
+                "id": "whatsapp",
+                "title": "WhatsApp"
+              },
+              {
+                "id": "instagram",
+                "title": "Instagram"
+              },
+              {
+                "id": "site",
+                "title": "Site"
+              },
+              {
+                "id": "telefone",
+                "title": "Telefone"
+              },
+              {
+                "id": "email",
+                "title": "E-mail"
+              }
+            ]
+          },
+          {
+            "type": "RadioButtonsGroup",
+            "name": "volume",
+            "label": "Conversas por mês",
+            "required": true,
+            "data-source": [
+              {
+                "id": "ate_500",
+                "title": "Até 500"
+              },
+              {
+                "id": "ate_2000",
+                "title": "Até 2.000"
+              },
+              {
+                "id": "ate_5000",
+                "title": "Até 5.000"
+              },
+              {
+                "id": "mais_5000",
+                "title": "Mais de 5.000"
+              }
+            ]
+          },
+          {
+            "type": "RadioButtonsGroup",
+            "name": "processo",
+            "label": "Tem roteiro de atendimento?",
+            "required": true,
+            "data-source": [
+              {
+                "id": "sim",
+                "title": "Sim, já está escrito"
+              },
+              {
+                "id": "parcial",
+                "title": "Em parte"
+              },
+              {
+                "id": "nao",
+                "title": "Não, definimos juntos"
+              }
+            ]
+          },
+          {
+            "type": "Footer",
+            "label": "Continuar",
+            "on-click-action": {
+              "name": "navigate",
+              "next": {
+                "type": "screen",
+                "name": "OTIMIZACAO"
+              },
+              "payload": {}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "OTIMIZACAO",
+      "title": "Otimização",
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "CheckboxGroup",
+            "name": "areas",
+            "label": "Quais áreas?",
+            "required": true,
+            "data-source": [
+              {
+                "id": "agenda",
+                "title": "Atendimento e agenda"
+              },
+              {
+                "id": "triagem",
+                "title": "Pré-triagem"
+              },
+              {
+                "id": "prontuario",
+                "title": "Prontuários"
+              },
+              {
+                "id": "receitas",
+                "title": "Receitas e documentos"
+              },
+              {
+                "id": "pagamentos",
+                "title": "Cobrança e pagamentos"
+              },
+              {
+                "id": "financeiro",
+                "title": "Financeiro e relatórios"
+              }
+            ]
+          },
+          {
+            "type": "TextArea",
+            "name": "gargalos",
+            "label": "Maiores gargalos",
+            "required": false,
+            "max-length": 400
+          },
+          {
+            "type": "TextArea",
+            "name": "pedidos",
+            "label": "Pedido de automação",
+            "required": false,
+            "helper-text": "Algo que você já sabe que quer automatizar",
+            "max-length": 400
+          },
+          {
+            "type": "Footer",
+            "label": "Continuar",
+            "on-click-action": {
+              "name": "navigate",
+              "next": {
+                "type": "screen",
+                "name": "FECHAMENTO"
+              },
+              "payload": {}
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "FECHAMENTO",
+      "title": "Para fechar",
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "Últimos detalhes"
+          },
+          {
+            "type": "RadioButtonsGroup",
+            "name": "usuarios",
+            "label": "Pessoas que vão usar o painel",
+            "required": true,
+            "data-source": [
+              {
+                "id": "1_2",
+                "title": "1 a 2"
+              },
+              {
+                "id": "3_5",
+                "title": "3 a 5"
+              },
+              {
+                "id": "6_10",
+                "title": "6 a 10"
+              },
+              {
+                "id": "mais_10",
+                "title": "Mais de 10"
+              }
+            ]
+          },
+          {
+            "type": "RadioButtonsGroup",
+            "name": "pagamento",
+            "label": "Forma de pagamento",
+            "required": true,
+            "data-source": [
+              {
+                "id": "cartao",
+                "title": "Cartão de crédito"
+              },
+              {
+                "id": "boleto",
+                "title": "Boleto"
+              },
+              {
+                "id": "pix",
+                "title": "Pix"
+              }
+            ]
+          },
+          {
+            "type": "TextInput",
+            "name": "prazo",
+            "label": "Prazo desejado",
+            "required": false
+          },
+          {
+            "type": "Footer",
+            "label": "Enviar respostas",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {
+                "nome": "${screen.SOBRE.form.nome}",
+                "empresa": "${screen.SOBRE.form.empresa}",
+                "cargo": "${screen.SOBRE.form.cargo}",
+                "email": "${screen.SOBRE.form.email}",
+                "sistemas": "${screen.PROCESSO.form.sistemas}",
+                "como_hoje": "${screen.PROCESSO.form.como_hoje}",
+                "equipe": "${screen.PROCESSO.form.equipe}",
+                "canais": "${screen.PROCESSO.form.canais}",
+                "volume": "${screen.PROCESSO.form.volume}",
+                "processo": "${screen.PROCESSO.form.processo}",
+                "areas": "${screen.OTIMIZACAO.form.areas}",
+                "gargalos": "${screen.OTIMIZACAO.form.gargalos}",
+                "pedidos": "${screen.OTIMIZACAO.form.pedidos}",
+                "usuarios": "${form.usuarios}",
+                "pagamento": "${form.pagamento}",
+                "prazo": "${form.prazo}"
+              }
+            }
+          }
+        ]
+      },
+      "terminal": true,
+      "success": true
+    }
+  ]
+}

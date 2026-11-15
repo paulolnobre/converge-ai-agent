@@ -1,0 +1,66 @@
+# As funções do Agente no Anexo I do contrato, uma por área que o questionário
+# oferece (o rótulo é o mesmo do Flow e de content/messages.toml). Para cada uma:
+#   funcao     = o que o Agente faz (Anexo I.2)
+#   aceite     = o trecho do critério de aceite (Anexo I.4)
+#   finalidade = a finalidade de tratamento de dados (Anexo I.5)
+# Texto em revisão pelo advogado, como o resto do contrato. Validado no deploy:
+# toda área do questionário precisa estar aqui.
+
+# ── Empresas ────────────────────────────────────────────────────────────────
+
+["Atendimento e agenda"]
+funcao = "responder perguntas com base no Conteúdo do Contratante e encaminhar à equipe o que não souber; oferecer horários livres da agenda do Contratante, marcar, remarcar e cancelar; enviar lembrete com confirmação; avisar a equipe de cada mudança."
+aceite = "marca, remarca e cancela na agenda sem conflito"
+finalidade = "atendimento e agendamento"
+
+["Vendas"]
+funcao = "qualificar contatos com perguntas aprovadas pelo Contratante, registrar cada oportunidade no Painel e encaminhar à equipe comercial; não fecha preço nem condição comercial."
+aceite = "registra no Painel as oportunidades de 5 conversas de teste, com os dados pedidos no roteiro"
+finalidade = "atendimento comercial e registro de oportunidades"
+
+["Financeiro"]
+funcao = "enviar cobranças criadas pela equipe, avisar pagamentos e responder dúvidas de pagamento com base no Conteúdo; não concede desconto nem renegocia."
+aceite = "envia uma cobrança de teste e avisa o pagamento"
+finalidade = "cobrança e acompanhamento de pagamentos"
+
+["Documentos e jurídico"]
+funcao = "organizar, classificar e localizar documentos do Contratante e preparar rascunhos para revisão da equipe; o texto final é sempre aprovado por uma pessoa do Contratante."
+aceite = "localiza 10 documentos pedidos em teste e prepara um rascunho a partir de modelo aprovado"
+finalidade = "organização de documentos"
+
+["Suporte técnico"]
+funcao = "responder dúvidas de uso com base no Conteúdo, registrar chamados com os dados necessários e encaminhar à equipe o que não souber resolver."
+aceite = "registra chamados de teste com os dados pedidos e encaminha o que não está no Conteúdo"
+finalidade = "suporte aos clientes do Contratante"
+
+["RH"]
+funcao = "responder dúvidas recorrentes da equipe do Contratante com base no Conteúdo e coletar documentos e dados de admissão em roteiro aprovado; não toma decisão sobre pessoas."
+aceite = "responde 10 dúvidas de teste dentro do Conteúdo e coleta os documentos de uma admissão de teste"
+finalidade = "atendimento interno de recursos humanos"
+
+# ── Clínicas ────────────────────────────────────────────────────────────────
+
+["Pré-triagem"]
+funcao = "coletar dados cadastrais e o motivo administrativo do contato em roteiro aprovado pelo Contratante, sem classificar urgência ou risco clínico, sem diagnóstico e sem orientação clínica (cláusula 7.4)."
+aceite = "coleta os dados do roteiro em 5 conversas de teste, sem orientação clínica"
+finalidade = "pré-atendimento administrativo"
+
+["Prontuários"]
+funcao = "organizar e localizar documentos administrativos ligados ao prontuário, mantido no sistema do Contratante, para a equipe; não registra nem altera informação clínica (cláusula 7.4)."
+aceite = "localiza 10 documentos pedidos em teste sem alterar o prontuário"
+finalidade = "organização de documentos do paciente"
+
+["Receitas e documentos"]
+funcao = "enviar ao paciente documentos já emitidos e assinados pelo profissional do Contratante, e responder dúvidas administrativas sobre eles; não emite, altera nem interpreta receita ou laudo (cláusula 7.4)."
+aceite = "envia um documento de teste ao paciente certo, com confirmação de identidade"
+finalidade = "envio de documentos ao paciente"
+
+["Cobrança e pagamentos"]
+funcao = "enviar cobranças criadas pela equipe e avisar pagamentos; não concede desconto nem renegocia."
+aceite = "envia uma cobrança de teste e avisa o pagamento"
+finalidade = "cobrança"
+
+["Financeiro e relatórios"]
+funcao = "montar relatórios periódicos de atendimento, agenda e pagamentos a partir dos registros do Painel, para a equipe do Contratante."
+aceite = "gera o relatório de um período de teste com os números conferidos pela equipe"
+finalidade = "relatórios de gestão"

@@ -1,0 +1,34 @@
+# Postgres, Redis and the Inbox's kept media on the agent's encrypted volume (LUKS2, /srv/converge-agent,
+# unlocked at boot by deploy/luks/converge-agent-unlock with a key from AWS).
+#
+# Switched on only on the VPS, after the data was moved there, by this line in
+# /opt/converge-agent/.env:
+#   COMPOSE_FILE=docker-compose.yml:docker-compose.encrypted.yml
+#
+# create_host_path: false — with the volume locked these folders do not exist,
+# and the containers refuse to start instead of creating an empty database (or
+# writing customers' files to the unencrypted disk). The media folder is
+# created once by hand, owned by the image's `app` user (docs/CRIPTOGRAFIA.md);
+# deploy.sh stops a release when it is missing.
+services:
+  postgres:
+    volumes:
+      - type: bind
+        source: /srv/converge-agent/postgres
+        target: /var/lib/postgresql/data
+        bind:
+          create_host_path: false
+  redis:
+    volumes:
+      - type: bind
+        source: /srv/converge-agent/redis
+        target: /data
+        bind:
+          create_host_path: false
+  reception-bot:
+    volumes:
+      - type: bind
+        source: /srv/converge-agent/media
+        target: /data/media
+        bind:
+          create_host_path: false

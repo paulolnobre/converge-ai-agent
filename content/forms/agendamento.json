@@ -1,0 +1,105 @@
+{
+  "version": "7.3",
+  "screens": [
+    {
+      "id": "AGENDAR",
+      "title": "Agendar horário",
+      "terminal": true,
+      "success": true,
+      "data": {
+        "nome": {
+          "type": "string",
+          "__example__": "Ana Souza"
+        },
+        "email": {
+          "type": "string",
+          "__example__": "ana@exemplo.com.br"
+        },
+        "horarios": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "title": {
+                "type": "string"
+              }
+            }
+          },
+          "__example__": [
+            {
+              "id": "0",
+              "title": "Seg, 09/11 às 09:00"
+            },
+            {
+              "id": "1",
+              "title": "Seg, 09/11 às 09:30"
+            },
+            {
+              "id": "2",
+              "title": "Ter, 10/11 às 14:00"
+            }
+          ]
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "Escolha o melhor horário"
+          },
+          {
+            "type": "TextBody",
+            "text": "Estes horários estão livres agora. Confirme seus dados e escolha um."
+          },
+          {
+            "type": "TextInput",
+            "name": "nome",
+            "label": "Seu nome",
+            "required": true,
+            "init-value": "${data.nome}"
+          },
+          {
+            "type": "TextInput",
+            "name": "email",
+            "label": "E-mail",
+            "input-type": "email",
+            "required": true,
+            "helper-text": "Enviamos a confirmação para este e-mail",
+            "init-value": "${data.email}"
+          },
+          {
+            "type": "Dropdown",
+            "name": "horario",
+            "label": "Dia e horário",
+            "required": true,
+            "data-source": "${data.horarios}"
+          },
+          {
+            "type": "TextInput",
+            "name": "assunto",
+            "label": "Assunto",
+            "required": false,
+            "helper-text": "Em poucas palavras, o que você quer tratar (opcional)"
+          },
+          {
+            "type": "Footer",
+            "label": "Confirmar horário",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {
+                "nome": "${form.nome}",
+                "email": "${form.email}",
+                "horario": "${form.horario}",
+                "assunto": "${form.assunto}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

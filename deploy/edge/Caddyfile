@@ -1,0 +1,44 @@
+{
+	email {$ACME_EMAIL}
+}
+
+# One block per agent: its hostname, and its container on the `edge` network.
+# The hostname's DNS A record must point at this VPS before Caddy can get a
+# certificate for it.
+
+{$CONVERGE_AGENT_HOST} {
+	# Operational endpoints stay inside the server. In a handle of their own:
+	# handle blocks run before a bare respond, and only one of them runs.
+	@internal path /metrics /ready
+	handle @internal {
+		respond 404
+	}
+	# Security headers for the whole host. "?" sets one only when the app did
+	# not: the panel sends its own (CSP, HSTS, nosniff, no-referrer).
+	header {
+		?Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		?X-Content-Type-Options "nosniff"
+		?Referrer-Policy "no-referrer"
+	}
+	# Grafana (deploy/docker-compose.observability.yml): only for whoever the
+	# panel says is logged in, with two steps, and in the admin room. A login
+	# header sent by the client is dropped before asking.
+	# Typed without the final slash, it would fall to the bot's 404.
+	redir /painel/grafana /painel/grafana/ 308
+	handle /painel/grafana/* {
+		# route keeps this order: the client header is dropped BEFORE the
+		# panel answers who is logged in (Caddy would otherwise run
+		# request_header after forward_auth and drop the real one too).
+		route {
+			request_header -X-Converge-User
+			forward_auth converge-agent-bot:8000 {
+				uri /painel/api/observability/auth
+				copy_headers X-Converge-User
+			}
+			reverse_proxy converge-agent-grafana:3000
+		}
+	}
+	handle {
+		reverse_proxy converge-agent-bot:8000
+	}
+}

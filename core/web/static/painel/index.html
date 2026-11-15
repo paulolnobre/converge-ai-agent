@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#008069">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="/painel/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/painel/assets/apple-touch-icon.png">
+<script src="/painel/assets/pwa.js" defer></script>
+<title>Converge · Atendimento</title>
+<link rel="icon" type="image/svg+xml" href="/painel/favicon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="/painel/assets/painel.css">
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-mark"><img src="/painel/favicon.svg" alt="Converge" width="28" height="28"></div>
+      <div>
+        <div class="brand-name">Converge</div>
+        <div class="brand-sub">Funil &amp; contatos</div>
+      </div>
+    </div>
+    <nav class="nav" id="nav">
+      <div class="nav-item" data-view="inbox" tabindex="0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/></svg>
+        Inbox
+        <span class="nav-count" id="count-inbox" hidden>0</span>
+      </div>
+      <div class="nav-item active" data-view="dashboard" tabindex="0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+        Painel
+      </div>
+      <div class="nav-item" data-view="funil" tabindex="0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16l-6 8v6l-4 2v-8L4 4z"/></svg>
+        Funil
+        <span class="nav-count" id="count-open">0</span>
+      </div>
+      <div class="nav-item" data-view="propostas" tabindex="0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+        Pedidos de proposta
+        <span class="nav-count" id="count-propostas" hidden>0</span>
+      </div>
+      <div class="nav-item" data-view="agenda" tabindex="0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+        Agenda
+        <span class="nav-count" id="count-appts">0</span>
+      </div>
+      <div class="nav-item" data-view="leads" tabindex="0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Leads &amp; contatos
+        <span class="nav-count" id="count-all">0</span>
+      </div>
+      <div class="nav-item" data-view="automacoes" tabindex="0">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        Automações
+        <span class="nav-count" id="count-auto" hidden>0</span>
+      </div>
+      <div class="nav-item" id="admin-nav" data-view="admin" tabindex="0" role="button" hidden>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 11a8 8 0 0 1-8 8H3l2-5a8 8 0 1 1 16-3Z"/></svg>
+        Administração
+      </div>
+      <div class="nav-item" data-view="devices" tabindex="0" role="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M10 18h4"/></svg>
+        Aparelhos conectados
+      </div>
+    </nav>
+    <div class="sidebar-foot">
+      <button class="btn" id="install-app" type="button" hidden>Instalar app</button>
+      <button class="btn" id="push-toggle" type="button" hidden>Ativar notificações</button>
+      <a class="install-link" id="push-install" href="/painel/instalar" hidden>Instale o app para receber notificações</a>
+      <a class="install-link" href="/painel/instalar">Instalar no celular ou computador</a>
+      <button class="btn" id="refresh-btn" style="justify-content:center;">Atualizar agora</button>
+      <div class="status-line" id="status-line">Carregando…</div>
+      <div class="me" id="me" hidden>
+        <div class="me-name" id="me-name"></div>
+        <div class="me-warn" id="me-warn" hidden></div>
+        <button class="btn btn-ghost" id="logout-btn" type="button">Sair</button>
+      </div>
+    </div>
+  </aside>
+
+  <button class="sidebar-scrim" id="sidebar-scrim" type="button" aria-label="Fechar menu" hidden></button>
+  <div class="main">
+    <div class="topbar">
+      <button class="menu-btn" id="menu-btn" aria-label="Abrir menu" aria-controls="sidebar" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+      <div>
+        <h1 id="view-title">Painel</h1>
+        <div class="topbar-sub" id="view-sub">Como a operação comercial está hoje</div>
+      </div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="search-input" placeholder="Buscar por nome ou empresa" autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="views">
+      <div id="offline-status" class="agenda-stale" role="status" hidden>Sem conexão — tentando de novo. As respostas precisam de conexão para serem enviadas.</div>
+      <section class="view" id="view-admin" aria-label="Grupo administrativo">
+        <div class="admin-room card">
+          <header class="card-head"><div><h2>Administração</h2><p class="hint" id="admin-members"></p></div></header>
+          <p class="hint" id="admin-health" role="status"></p>
+          <button class="btn" id="admin-older" type="button" hidden>Mensagens anteriores</button>
+          <ol id="admin-messages" class="admin-messages" aria-label="Mensagens do grupo" aria-live="polite" aria-relevant="additions"></ol>
+          <p id="admin-note" role="status"></p>
+          <form id="admin-form" hidden>
+            <label class="sr-only" for="admin-text">Mensagem para a Administração</label>
+            <textarea id="admin-text" maxlength="4000" rows="2" placeholder="Mensagem para o grupo… /ajuda para ver os comandos"></textarea>
+            <button class="btn" id="admin-send" type="submit" aria-label="Enviar mensagem">↑</button>
+          </form>
+          <div id="admin-attachments" hidden></div>
+        </div>
+      </section>
+      <section class="view" id="view-devices">
+        <div class="card">
+          <div class="card-head"><h2>Aparelhos conectados</h2><button class="btn" id="devices-refresh" type="button">Atualizar</button></div>
+          <div class="card-body">
+            <p class="hint">Aparelhos mantidos conectados pela equipe. Você pode desconectar qualquer um; ele precisará entrar novamente.</p>
+            <p id="devices-message" role="status"></p>
+            <div class="list" id="devices-list"></div>
+          </div>
+        </div>
+      </section>
+      <section class="view active" id="view-dashboard">
+        <div class="tiles" id="tiles"></div>
+        <div class="grid-2">
+          <div class="card">
+            <div class="card-head"><h2>Funil por etapa</h2><span class="hint">todos os contatos</span></div>
+            <div class="card-body"><div class="mini-funnel" id="mini-funnel"></div></div>
+          </div>
+          <div class="card">
+            <div class="card-head"><h2>Próximos agendamentos</h2><span class="hint">conversas de 30 min</span></div>
+            <div class="card-body"><div class="list" id="upcoming-list"></div></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:14px;">
+          <div class="card-head"><h2>Conversas mais recentes</h2><span class="hint">última mensagem</span></div>
+          <div class="card-body"><div class="list" id="recent-list"></div></div>
+        </div>
+        <div class="card" style="margin-top:14px;">
+          <div class="card-head"><h2>De onde vêm os contatos</h2><span class="hint">novos nos últimos 30 dias</span></div>
+          <div class="card-body"><div class="mini-funnel origin-bars" id="origin-bars"></div></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-inbox">
+        <div class="inbox" id="inbox">
+          <div class="inbox-list-pane">
+            <div class="inbox-search">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+              <input id="inbox-search" type="search" placeholder="Buscar nas conversas" aria-label="Buscar nas conversas" autocomplete="off">
+            </div>
+            <div class="inbox-filters">
+              <div class="stage-filter" id="inbox-filter" role="group" aria-label="Filtrar conversas"></div>
+              <select id="inbox-channel" aria-label="Canal">
+                <option value="">Canais</option>
+                <option value="telegram">Telegram</option>
+                <option value="whatsapp">WhatsApp</option>
+                <option value="instagram">Instagram</option>
+                <option value="messenger">Facebook</option>
+              </select>
+            </div>
+            <div class="inbox-list" id="inbox-list"></div>
+          </div>
+          <div class="inbox-thread-pane">
+            <div class="inbox-empty" id="inbox-empty">Escolha uma conversa.</div>
+            <div class="inbox-thread" id="inbox-thread" hidden>
+              <div class="thread-head">
+                <button class="thread-back icon-button" id="thread-back" type="button" aria-label="Voltar às conversas"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg></button>
+                <span class="inbox-avatar thread-avatar" id="thread-avatar" aria-hidden="true"></span>
+                <div class="thread-who">
+                  <div class="thread-name" id="thread-name"></div>
+                  <div class="thread-sub" id="thread-sub"></div>
+                </div>
+                <div class="thread-actions" id="thread-actions"></div>
+                <details class="thread-details" id="thread-details">
+                  <summary class="icon-button" aria-label="Detalhes e ações da conversa" title="Detalhes e ações"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="5" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="19" r="2"/></svg></summary>
+                  <div class="thread-details-body">
+                    <h2>Detalhes da conversa</h2>
+                    <p id="thread-contact-details"></p>
+                    <div class="thread-tools" id="thread-tools"></div>
+                    <div class="thread-billing" id="thread-billing" hidden></div>
+                    <div class="thread-meta">
+                      <label class="auto-field">Origem
+                        <select id="thread-origin">
+                          <option value="">Não informado</option>
+                          <option value="anuncio_instagram">Anúncio no Instagram</option>
+                          <option value="anuncio_facebook">Anúncio no Facebook</option>
+                          <option value="site">Site</option>
+                          <option value="google">Google</option>
+                          <option value="indicacao">Indicação</option>
+                          <option value="email">E-mail</option>
+                          <option value="outro">Outro</option>
+                        </select>
+                      </label>
+                      <label class="auto-field grow">Detalhe
+                        <input id="thread-origin-detail" maxlength="160" placeholder="Ex.: indicado pelo João" autocomplete="off">
+                      </label>
+                      <button class="btn" id="thread-origin-save" type="button">Salvar origem</button>
+                      <span class="auto-msg" id="thread-origin-msg"></span>
+                    </div>
+                    <div class="thread-manage" id="thread-manage"></div>
+                  </div>
+                </details>
+              </div>
+              <div class="thread-messages" id="thread-messages"></div>
+              <div id="thread-attachments" hidden></div>
+              <div class="thread-reopen" id="thread-reopen" hidden></div>
+              <div class="thread-compose">
+                <div class="thread-lock" id="thread-lock" hidden></div>
+                <textarea id="thread-text" maxlength="4000" rows="1" placeholder="Mensagem" aria-label="Mensagem"></textarea>
+                <button class="icon-button" id="thread-send" type="button" aria-label="Enviar mensagem" title="Enviar mensagem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
+                <span class="auto-msg" id="thread-msg" role="status" aria-live="polite"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="view" id="view-funil">
+        <div class="stage-filter" id="stage-filter" role="group" aria-label="Filtrar por etapa"></div>
+        <div class="board" id="board"></div>
+      </section>
+
+      <section class="view" id="view-propostas">
+        <div class="stage-filter" id="prop-filter" role="group" aria-label="Filtrar pedidos por status"></div>
+        <div class="prop-layout">
+          <div class="prop-list" id="prop-list" aria-label="Pedidos de proposta"></div>
+          <div class="card prop-detail" id="prop-detail" aria-live="polite" hidden></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-agenda">
+        <div class="agenda-head">
+          <div class="agenda-chips" id="agenda-chips"></div>
+          <button class="btn" id="agenda-sync-btn" type="button">Atualizar agenda</button>
+        </div>
+        <div class="agenda-stale" id="agenda-stale" hidden></div>
+        <div class="agenda-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          <span id="agenda-note-text"></span>
+        </div>
+        <div id="agenda-list"></div>
+      </section>
+
+      <section class="view" id="view-automacoes">
+        <div class="agenda-note">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+          <span>Cada automação começa <b>desligada</b> e em <b>aprovar antes</b>: ela monta a lista e alguém da equipe aprova o envio aqui. As mensagens só saem em dia útil, no horário comercial. Cada pessoa recebe no máximo uma mensagem automática a cada 30 dias e pode responder <b>SAIR</b> para não receber mais.</span>
+        </div>
+        <div class="card auto-queue">
+          <div class="card-head"><h2>Aguardando aprovação</h2><span class="hint" id="auto-queue-hint"></span></div>
+          <div class="card-body" id="auto-queue"></div>
+        </div>
+        <div class="auto-grid" id="auto-list"></div>
+        <div class="card">
+          <div class="card-head"><h2>Por que pararam</h2><span class="hint">respostas dos últimos 90 dias</span></div>
+          <div class="card-body" id="auto-reasons"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h2>Modelos do WhatsApp</h2><span class="hint">usados depois de 24h sem o cliente escrever</span></div>
+          <div class="card-body" id="auto-templates"></div>
+        </div>
+      </section>
+
+      <section class="view" id="view-leads">
+        <div class="filters">
+          <select id="f-stage" aria-label="Etapa"><option value="">Todas as etapas</option></select>
+          <select id="f-owner" aria-label="Responsável"><option value="">Todos os responsáveis</option><option value="none">Sem responsável</option></select>
+          <select id="f-channel" aria-label="Canal">
+            <option value="">Todos os canais</option><option value="telegram">Telegram</option>
+            <option value="whatsapp">WhatsApp</option><option value="instagram">Instagram</option>
+            <option value="messenger">Facebook</option>
+          </select>
+          <select id="f-origin" aria-label="Origem">
+            <option value="">Todas as origens</option><option value="none">Não informado</option>
+            <option value="anuncio_instagram">Anúncio no Instagram</option><option value="anuncio_facebook">Anúncio no Facebook</option>
+            <option value="site">Site</option><option value="google">Google</option>
+            <option value="indicacao">Indicação</option><option value="email">E-mail</option><option value="outro">Outro</option>
+          </select>
+          <button class="btn btn-accent leads-new" id="lead-open" type="button">Novo lead</button>
+        </div>
+        <p class="auto-msg leads-notice" id="lead-notice" hidden>
+          <span id="lead-notice-text"></span>
+          <a id="lead-notice-open" href="#inbox">Abrir conversa</a>
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Contato</th><th>Canal</th><th>Origem</th><th>Interesse</th><th>Etapa</th>
+                <th>Responsável</th><th>Última mensagem</th><th>Próxima conversa</th>
+              </tr>
+            </thead>
+            <tbody id="table-body"></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="panel" id="panel" aria-label="Detalhes do contato">
+  <div class="panel-head">
+    <div class="panel-avatar" id="p-avatar">—</div>
+    <div>
+      <div class="panel-name" id="p-name">—</div>
+      <div class="panel-org" id="p-org">—</div>
+    </div>
+    <button class="panel-close" id="panel-close" aria-label="Fechar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="panel-body">
+    <div class="field">
+      <label class="field-label" for="p-stage">Etapa do processo</label>
+      <select class="stage-select" id="p-stage"></select>
+    </div>
+    <div class="kv">
+      <div class="field"><span class="field-label">Canal</span><span class="field-value" id="p-channel">—</span></div>
+      <div class="field"><span class="field-label">Próxima conversa</span><span class="field-value mono" id="p-appt">—</span></div>
+      <div class="field"><span class="field-label">Telefone</span><span class="field-value mono" id="p-phone">—</span></div>
+      <div class="field"><span class="field-label">E-mail</span><span class="field-value" id="p-email">—</span></div>
+    </div>
+    <div class="field prop-card" id="p-proposal" hidden>
+      <span class="field-label">Proposta solicitada</span>
+      <div id="p-proposal-body"></div>
+    </div>
+    <div class="field" id="p-meetings-field" hidden>
+      <span class="field-label">Reuniões</span>
+      <div class="meetings" id="p-meetings"></div>
+    </div>
+    <div class="field">
+      <label class="field-label" for="p-owner">Responsável</label>
+      <select class="field-input" id="p-owner"></select>
+    </div>
+    <div class="kv">
+      <div class="field">
+        <label class="field-label" for="p-origin">Origem</label>
+        <select class="field-input" id="p-origin">
+          <option value="">Não informado</option>
+          <option value="anuncio_instagram">Anúncio no Instagram</option>
+          <option value="anuncio_facebook">Anúncio no Facebook</option>
+          <option value="site">Site</option><option value="google">Google</option>
+          <option value="indicacao">Indicação</option><option value="email">E-mail</option><option value="outro">Outro</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label" for="p-origin-detail">Detalhe da origem</label>
+        <input class="field-input" id="p-origin-detail" maxlength="160" placeholder="Ex.: indicado pelo João">
+      </div>
+    </div>
+    <div class="field">
+      <label class="field-label" for="p-interest">Interesse</label>
+      <input class="field-input" id="p-interest" list="interest-options" maxlength="80" placeholder="Ex.: Atendimento com IA">
+      <datalist id="interest-options">
+        <option value="Atendimento com IA"></option>
+        <option value="Assistente Jurídico"></option>
+        <option value="Projeto sob medida"></option>
+      </datalist>
+    </div>
+    <div class="field">
+      <label class="field-label" for="p-notes">Notas</label>
+      <textarea class="field-textarea" id="p-notes" maxlength="4000" placeholder="O que a equipe precisa saber sobre este contato"></textarea>
+    </div>
+    <div style="display:flex;align-items:center;gap:10px;">
+      <button class="btn" id="p-save">Salvar alterações</button>
+      <span class="saved-flash" id="p-saved" hidden>Salvo</span>
+    </div>
+    <div class="field">
+      <span class="field-label">Conversa com o agente</span>
+      <div class="convo" id="p-convo"></div>
+    </div>
+  </div>
+  <div class="panel-foot">
+    <button class="btn" id="p-lost">Marcar perdido</button>
+    <button class="btn btn-accent" id="p-won">Marcar fechado</button>
+  </div>
+</aside>
+
+<dialog class="ocr-dialog" id="ocr-dialog" aria-labelledby="ocr-title">
+  <div class="ocr-head">
+    <h2 id="ocr-title">Texto do arquivo</h2>
+    <button class="icon-button" id="ocr-close" type="button" aria-label="Fechar leitura"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+  </div>
+  <p class="ocr-status" id="ocr-status" role="status">Lendo…</p>
+  <div class="ocr-content">
+    <img id="ocr-original" alt="Arquivo original para conferência" hidden>
+    <textarea id="ocr-text" readonly aria-label="Texto extraído" spellcheck="false"></textarea>
+  </div>
+  <div class="ocr-foot">
+    <span>Confira com o original antes de usar. Nenhum dado é salvo automaticamente.</span>
+    <button class="btn" id="ocr-copy" type="button" disabled>Copiar texto</button>
+  </div>
+</dialog>
+
+<dialog class="billing-dialog" id="lead-dialog" aria-labelledby="lead-title">
+  <form id="lead-form" novalidate>
+    <h2 id="lead-title">Novo lead</h2>
+    <label class="field"><span class="field-label">Nome</span>
+      <input class="field-input" id="lead-name" maxlength="120" required autocomplete="off">
+    </label>
+    <div class="billing-pair">
+      <label class="field"><span class="field-label">WhatsApp (com DDD)</span>
+        <input class="field-input" id="lead-phone" inputmode="tel" maxlength="30" required autocomplete="off" placeholder="(91) 99999-0000">
+      </label>
+      <label class="field"><span class="field-label">E-mail</span>
+        <input class="field-input" id="lead-email" type="email" maxlength="254" autocomplete="off">
+      </label>
+    </div>
+    <div class="billing-pair">
+      <label class="field"><span class="field-label">Origem</span>
+        <select class="field-input" id="lead-origin">
+          <option value="email">E-mail</option>
+          <option value="site">Site</option><option value="google">Google</option>
+          <option value="indicacao">Indicação</option>
+          <option value="anuncio_instagram">Anúncio no Instagram</option>
+          <option value="anuncio_facebook">Anúncio no Facebook</option>
+          <option value="outro">Outro</option>
+        </select>
+      </label>
+      <label class="field"><span class="field-label">Detalhe</span>
+        <input class="field-input" id="lead-detail" maxlength="160" autocomplete="off" placeholder="Ex.: pediu informações sobre o agente">
+      </label>
+    </div>
+    <label class="lead-send"><input type="checkbox" id="lead-send" checked> Enviar a primeira mensagem pelo WhatsApp (origem E-mail: a mensagem de e-mail; outras origens: a mensagem geral)</label>
+    <p class="auto-msg" id="lead-msg" role="status" aria-live="polite"></p>
+    <div class="billing-foot">
+      <button class="btn" id="lead-cancel" type="button">Fechar</button>
+      <button class="btn btn-accent" id="lead-submit" type="submit">Cadastrar</button>
+    </div>
+  </form>
+</dialog>
+<dialog class="billing-dialog" id="billing-dialog" aria-labelledby="billing-title">
+  <form id="billing-form" novalidate>
+    <h2 id="billing-title">Nova cobrança</h2>
+    <label class="field"><span class="field-label">Descrição</span>
+      <input class="field-input" id="billing-description" maxlength="200" required autocomplete="off" placeholder="Ex.: Implantação — agente de atendimento">
+    </label>
+    <div class="billing-pair">
+      <label class="field"><span class="field-label">Valor (R$)</span>
+        <input class="field-input" id="billing-value" inputmode="decimal" required autocomplete="off" placeholder="1.234,56">
+      </label>
+      <label class="field"><span class="field-label">Vencimento</span>
+        <input class="field-input" id="billing-due" type="date" required>
+      </label>
+    </div>
+    <label class="field"><span class="field-label">Forma de pagamento</span>
+      <select class="field-input" id="billing-method">
+        <option value="link">Link (cliente escolhe boleto, Pix ou cartão)</option>
+        <option value="boleto">Boleto</option>
+        <option value="pix">Pix</option>
+      </select>
+    </label>
+    <label class="field" id="billing-taxid-field"><span class="field-label">CPF ou CNPJ de quem paga</span>
+      <input class="field-input" id="billing-taxid" inputmode="numeric" maxlength="20" autocomplete="off" placeholder="000.000.000-00">
+    </label>
+    <p class="billing-known" id="billing-taxid-known" hidden></p>
+    <p class="auto-msg" id="billing-msg" role="status" aria-live="polite"></p>
+    <div class="billing-foot">
+      <button class="btn" id="billing-cancel" type="button">Fechar</button>
+      <button class="btn btn-accent" id="billing-submit" type="submit">Criar e enviar</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="/painel/assets/painel.js" defer></script>
+<script src="/painel/assets/automacoes.js" defer></script>
+<script src="/painel/assets/propostas.js" defer></script>
+<script src="/painel/assets/attachments.js" defer></script>
+<script src="/painel/assets/billing.js" defer></script>
+<script src="/painel/assets/inbox.js" defer></script>
+<script src="/painel/assets/admin.js" defer></script>
+</body>
+</html>

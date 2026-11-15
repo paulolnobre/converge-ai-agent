@@ -1,0 +1,216 @@
+{
+  "version": "7.3",
+  "screens": [
+    {
+      "id": "EMPRESA",
+      "title": "Dados do contrato",
+      "data": {
+        "razao_social": {
+          "type": "string",
+          "__example__": "Sol Engenharia Ltda"
+        },
+        "documento": {
+          "type": "string",
+          "__example__": "12.345.678/0001-90"
+        },
+        "cep": {
+          "type": "string",
+          "__example__": "66000-000"
+        },
+        "endereco": {
+          "type": "string",
+          "__example__": "Av. Exemplo, 100, sala 2"
+        },
+        "bairro": {
+          "type": "string",
+          "__example__": "Centro"
+        },
+        "cidade": {
+          "type": "string",
+          "__example__": "Belém"
+        },
+        "uf": {
+          "type": "string",
+          "__example__": "PA"
+        },
+        "assinante_nome": {
+          "type": "string",
+          "__example__": "Ana Souza"
+        },
+        "assinante_cpf": {
+          "type": "string",
+          "__example__": "123.456.789-09"
+        },
+        "assinante_email": {
+          "type": "string",
+          "__example__": "ana@exemplo.com.br"
+        },
+        "assinante_cargo": {
+          "type": "string",
+          "__example__": "Sócia"
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "Dados da empresa"
+          },
+          {
+            "type": "TextInput",
+            "name": "razao_social",
+            "label": "Razão social",
+            "required": true,
+            "init-value": "${data.razao_social}"
+          },
+          {
+            "type": "TextInput",
+            "name": "documento",
+            "label": "CNPJ ou CPF",
+            "required": true,
+            "init-value": "${data.documento}"
+          },
+          {
+            "type": "TextInput",
+            "name": "cep",
+            "label": "CEP",
+            "required": true,
+            "init-value": "${data.cep}"
+          },
+          {
+            "type": "TextInput",
+            "name": "endereco",
+            "label": "Endereço",
+            "required": true,
+            "helper-text": "Rua, número e complemento",
+            "init-value": "${data.endereco}"
+          },
+          {
+            "type": "TextInput",
+            "name": "bairro",
+            "label": "Bairro",
+            "required": true,
+            "init-value": "${data.bairro}"
+          },
+          {
+            "type": "TextInput",
+            "name": "cidade",
+            "label": "Cidade",
+            "required": true,
+            "init-value": "${data.cidade}"
+          },
+          {
+            "type": "TextInput",
+            "name": "uf",
+            "label": "Estado (UF)",
+            "required": true,
+            "max-chars": 2,
+            "helper-text": "Duas letras, por exemplo PA",
+            "init-value": "${data.uf}"
+          },
+          {
+            "type": "Footer",
+            "label": "Continuar",
+            "on-click-action": {
+              "name": "navigate",
+              "next": {
+                "type": "screen",
+                "name": "ASSINANTE"
+              },
+              "payload": {
+                "assinante_nome": "${data.assinante_nome}",
+                "assinante_cpf": "${data.assinante_cpf}",
+                "assinante_email": "${data.assinante_email}",
+                "assinante_cargo": "${data.assinante_cargo}"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "ASSINANTE",
+      "title": "Quem assina",
+      "terminal": true,
+      "success": true,
+      "data": {
+        "assinante_nome": {
+          "type": "string",
+          "__example__": "Ana Souza"
+        },
+        "assinante_cpf": {
+          "type": "string",
+          "__example__": "123.456.789-09"
+        },
+        "assinante_email": {
+          "type": "string",
+          "__example__": "ana@exemplo.com.br"
+        },
+        "assinante_cargo": {
+          "type": "string",
+          "__example__": "Sócia"
+        }
+      },
+      "layout": {
+        "type": "SingleColumnLayout",
+        "children": [
+          {
+            "type": "TextHeading",
+            "text": "Quem assina o contrato"
+          },
+          {
+            "type": "TextInput",
+            "name": "assinante_nome",
+            "label": "Nome completo",
+            "required": true,
+            "init-value": "${data.assinante_nome}"
+          },
+          {
+            "type": "TextInput",
+            "name": "assinante_cpf",
+            "label": "CPF",
+            "required": true,
+            "init-value": "${data.assinante_cpf}"
+          },
+          {
+            "type": "TextInput",
+            "name": "assinante_email",
+            "label": "E-mail",
+            "required": true,
+            "input-type": "email",
+            "helper-text": "O link para assinar chega neste e-mail",
+            "init-value": "${data.assinante_email}"
+          },
+          {
+            "type": "TextInput",
+            "name": "assinante_cargo",
+            "label": "Cargo",
+            "required": true,
+            "init-value": "${data.assinante_cargo}"
+          },
+          {
+            "type": "Footer",
+            "label": "Enviar dados",
+            "on-click-action": {
+              "name": "complete",
+              "payload": {
+                "razao_social": "${screen.EMPRESA.form.razao_social}",
+                "documento": "${screen.EMPRESA.form.documento}",
+                "cep": "${screen.EMPRESA.form.cep}",
+                "endereco": "${screen.EMPRESA.form.endereco}",
+                "bairro": "${screen.EMPRESA.form.bairro}",
+                "cidade": "${screen.EMPRESA.form.cidade}",
+                "uf": "${screen.EMPRESA.form.uf}",
+                "assinante_nome": "${form.assinante_nome}",
+                "assinante_cpf": "${form.assinante_cpf}",
+                "assinante_email": "${form.assinante_email}",
+                "assinante_cargo": "${form.assinante_cargo}"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

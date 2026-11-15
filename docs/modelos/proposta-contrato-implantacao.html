@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Proposta e contrato Converge</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:wght@600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+/* Layout: a desk with one paper sheet at a time (tabs), the filled-in fields marked on the sheet. */
+:root {
+  --desk: #E9E7DF;
+  --desk-ink: #23221E;
+  --desk-muted: #6B6A62;
+  --tab-bg: #FFFFFF;
+  --tab-line: #CFCCC1;
+  --paper: #FFFFFF;
+  --ink: #16150F;
+  --ink-2: #55534A;
+  --rule: #E3E0D6;
+  --yellow: #F5C518;
+  --yellow-soft: #FFF3B8;
+  --night: #0A0C0F;
+  --night-2: #181C22;
+  --night-ink: #F0F0E8;
+  --night-muted: #A8A89C;
+  --display: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --body: "Barlow", "Segoe UI", Arial, sans-serif;
+  --legal: "Source Serif 4", Georgia, "Times New Roman", serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --desk: #111317; --desk-ink: #ECEBE4; --desk-muted: #9C9B92;
+    --tab-bg: #1B1E24; --tab-line: #2E323A; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --desk: #111317; --desk-ink: #ECEBE4; --desk-muted: #9C9B92;
+  --tab-bg: #1B1E24; --tab-line: #2E323A; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--desk); color: var(--desk-ink); font-family: var(--body); font-size: 15px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 28px 56px;
+}
+.wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
+.intro h1 { font-family: var(--display); font-weight: 800; font-size: 30px; letter-spacing: .01em; margin: 0; text-wrap: balance; }
+.intro p { margin: 6px 0 0; color: var(--desk-muted); max-width: 64ch; }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.tabs a {
+  font-weight: 600; text-decoration: none; color: var(--desk-ink); background: var(--tab-bg);
+  border: 1px solid var(--tab-line); border-radius: 999px; padding: 7px 16px; font-size: 14px;
+}
+.tabs a[aria-current="page"] { background: var(--yellow); border-color: var(--yellow); color: #1a1200; }
+.tabs a:focus-visible { outline: 2px solid var(--yellow); outline-offset: 2px; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--desk-muted); align-items: center; }
+.legend mark { padding: 1px 6px; }
+
+.sheet { background: var(--paper); color: var(--ink); border-radius: 4px; box-shadow: 0 1px 2px rgba(0,0,0,.08), 0 12px 32px rgba(0,0,0,.10); overflow: hidden; }
+mark { background: var(--yellow-soft); color: inherit; border-bottom: 1.5px solid var(--yellow); padding: 0 2px; border-radius: 2px; }
+.stamp { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: #8a6d00; border: 1.5px solid #d9b021; border-radius: 3px; padding: 2px 8px; }
+
+/* ── Proposal ── */
+.cover { background: var(--night); color: var(--night-ink); padding: 32px clamp(20px, 5vw, 48px) 28px; display: flex; flex-direction: column; gap: 22px; }
+.brand { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.brand-mark { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 800; font-size: 24px; letter-spacing: .02em; }
+.brand-mark svg { width: 36px; height: 36px; }
+.cover .stamp { color: var(--yellow); border-color: var(--yellow); }
+.cover h2 { font-family: var(--display); font-weight: 800; font-size: clamp(34px, 7vw, 52px); line-height: .95; margin: 0; text-transform: uppercase; }
+.cover h2 span { color: var(--yellow); display: block; }
+.meta { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px 20px; border-top: 1px solid rgba(245,197,24,.25); padding-top: 16px; }
+.meta div { min-width: 0; }
+.meta dt { font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--night-muted); }
+.meta dd { margin: 2px 0 0; font-weight: 600; }
+.cover mark { background: rgba(245,197,24,.18); border-bottom-color: var(--yellow); }
+
+.pbody { padding: 30px clamp(20px, 5vw, 48px) 36px; display: flex; flex-direction: column; gap: 28px; }
+.sec h3 { font-family: var(--display); font-weight: 700; font-size: 22px; text-transform: uppercase; letter-spacing: .03em; margin: 0 0 10px; display: flex; align-items: baseline; gap: 10px; }
+.sec h3::before { content: ""; width: 14px; height: 14px; background: var(--yellow); border-radius: 3px; flex: none; transform: translateY(1px); }
+.sec p { margin: 0 0 8px; max-width: 68ch; }
+.sec ul { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px; }
+.scope { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px 24px; margin: 0; }
+.scope div { border-top: 1px solid var(--rule); padding-top: 8px; min-width: 0; }
+.scope dt { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.scope dd { margin: 2px 0 0; font-weight: 500; }
+.price { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; }
+.price-card { border: 1px solid var(--rule); border-radius: 8px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.price-card.main { background: var(--night); color: var(--night-ink); border-color: var(--night); }
+.price-label { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--ink-2); }
+.price-card.main .price-label { color: var(--night-muted); }
+.price-value { font-family: var(--display); font-weight: 800; font-size: 34px; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.price-card.main .price-value { color: var(--yellow); }
+.price-note { font-size: 13.5px; color: var(--ink-2); }
+.price-card.main .price-note { color: var(--night-muted); }
+.steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0; counter-reset: s; }
+.steps li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; gap: 10px; padding: 9px 0; border-top: 1px solid var(--rule); }
+.steps li::before { content: counter(s); font-family: var(--display); font-weight: 800; font-size: 20px; color: #b8930a; }
+.steps b { font-weight: 600; }
+.pfoot { background: var(--night-2); color: var(--night-muted); font-size: 13px; padding: 16px clamp(20px, 5vw, 48px); display: flex; justify-content: space-between; gap: 8px 16px; flex-wrap: wrap; }
+.pfoot strong { color: var(--night-ink); font-weight: 600; }
+.chat { background: #EFEAE2; padding: 18px clamp(20px, 5vw, 48px); display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--rule); }
+.chat-label { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: #6b675c; }
+.bubble { background: #FFFFFF; color: #111; border-radius: 8px; padding: 10px 12px; max-width: 420px; font-size: 14px; box-shadow: 0 1px 1px rgba(0,0,0,.08); }
+.bubble .file { display: flex; gap: 8px; align-items: center; background: #F3F3F3; border-radius: 6px; padding: 8px; margin-bottom: 8px; font-weight: 600; font-size: 13px; }
+.bubble .file span { background: #E5483B; color: #fff; font-size: 10px; font-weight: 700; padding: 2px 5px; border-radius: 3px; }
+.choices { display: flex; flex-direction: column; gap: 4px; max-width: 420px; }
+.choices span { background: #FFFFFF; color: #0b7a5c; text-align: center; border-radius: 8px; padding: 8px; font-weight: 600; font-size: 14px; box-shadow: 0 1px 1px rgba(0,0,0,.08); }
+
+/* ── Contract ── */
+.contract { font-family: var(--legal); font-size: 15px; line-height: 1.62; padding: 36px clamp(20px, 6vw, 64px) 44px; display: flex; flex-direction: column; gap: 18px; }
+.c-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; font-family: var(--body); font-size: 13px; color: var(--ink-2); }
+.c-top .brand-mark { color: var(--ink); font-size: 20px; }
+.c-top .brand-mark svg { width: 28px; height: 28px; }
+.contract h2 { font-family: var(--legal); font-weight: 600; font-size: clamp(20px, 3.4vw, 25px); text-align: center; margin: 4px 0; text-wrap: balance; line-height: 1.3; }
+.contract h3 { font-family: var(--body); font-weight: 700; font-size: 13px; letter-spacing: .1em; text-transform: uppercase; margin: 10px 0 0; color: var(--ink); }
+.contract p { margin: 0; max-width: 70ch; }
+.fixed { font-family: var(--body); font-size: 13.5px; color: var(--ink-2); background: #F6F5F0; border: 1px dashed var(--tab-line); border-radius: 6px; padding: 10px 14px; }
+.fixed ol { margin: 6px 0 0; padding-left: 22px; columns: 2 220px; column-gap: 28px; }
+.tbl-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; min-width: 460px; }
+th, td { text-align: left; vertical-align: top; padding: 7px 10px; border: 1px solid var(--rule); }
+th { font-family: var(--body); font-weight: 600; width: 38%; background: #FAF9F5; }
+td { font-variant-numeric: tabular-nums; }
+.sign { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 10px; }
+.sign div { border-top: 1px solid var(--ink); padding-top: 6px; font-family: var(--body); font-size: 13px; color: var(--ink-2); }
+.sign b { display: block; color: var(--ink); font-size: 14px; }
+.audit { font-family: var(--body); font-size: 12.5px; color: var(--ink-2); border-top: 1px solid var(--rule); padding-top: 10px; }
+
+.guide-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 14px; font-weight: 700; color: #1a1200; background: var(--yellow); text-decoration: none; padding: 10px 16px; border-radius: 6px; }
+.guide-link:focus-visible { outline: 2px solid var(--night); outline-offset: 2px; }
+
+/* ── Implementation guide ── */
+.g-head { background: var(--night); color: var(--night-ink); padding: 28px clamp(20px, 5vw, 48px); display: flex; flex-direction: column; gap: 14px; }
+.g-head h2 { font-family: var(--display); font-weight: 800; font-size: clamp(28px, 6vw, 42px); line-height: 1; margin: 0; text-transform: uppercase; }
+.g-head h2 span { color: var(--yellow); }
+.g-head p { margin: 0; color: var(--night-muted); max-width: 62ch; }
+.g-body { padding: 26px clamp(20px, 5vw, 48px) 36px; display: flex; flex-direction: column; gap: 26px; }
+.timeline { display: flex; flex-direction: column; gap: 0; }
+.phase { display: grid; grid-template-columns: 112px 1fr; gap: 6px 20px; padding: 16px 0; border-top: 1px solid var(--rule); }
+.phase-when { font-family: var(--display); font-weight: 700; font-size: 15px; letter-spacing: .04em; text-transform: uppercase; color: #8a6d00; }
+.phase h4 { font-family: var(--display); font-weight: 800; font-size: 21px; text-transform: uppercase; margin: 0 0 4px; letter-spacing: .02em; }
+.phase p { margin: 0 0 6px; max-width: 64ch; }
+.phase ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 3px; }
+.who { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; border-radius: 999px; padding: 2px 9px; margin-right: 6px; }
+.who.you { background: var(--yellow-soft); color: #6b5400; }
+.who.us { background: var(--night); color: var(--yellow); }
+.checklist { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.check-group { border: 1px solid var(--rule); border-radius: 8px; padding: 14px 16px; min-width: 0; }
+.check-group h5 { font-family: var(--display); font-weight: 700; font-size: 17px; text-transform: uppercase; margin: 0 0 8px; letter-spacing: .03em; }
+.check-group ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 7px; font-size: 14px; }
+.check-group li { display: grid; grid-template-columns: 18px 1fr; gap: 8px; }
+.check-group li::before { content: ""; width: 14px; height: 14px; border: 1.5px solid #b8930a; border-radius: 3px; margin-top: 3px; }
+.callout { background: #FBF7E4; border: 1px solid #EAD98A; border-radius: 8px; padding: 12px 16px; font-size: 14px; }
+.callout b { font-weight: 700; }
+@media (max-width: 560px) { .phase { grid-template-columns: 1fr; } }
+
+.c-list { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 4px; max-width: 70ch; }
+.contract h3.annex { font-size: 15px; margin-top: 22px; padding-top: 16px; border-top: 2px solid var(--ink); }
+.hint-legal { font-family: var(--body); font-size: 13px; color: var(--ink-2); font-style: italic; }
+table.grid3 th { width: auto; }
+@media (prefers-reduced-motion: no-preference) { .sheet { animation: rise .35s ease-out both; } @keyframes rise { from { transform: translateY(6px); } to { transform: none; } } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="intro">
+    <h1>Como a proposta e o contrato vão chegar ao cliente</h1>
+    <p>Exemplo com uma clínica fictícia e os valores que a tabela de preço da Converge calcula hoje para esse escopo. A proposta é gerada quando a equipe aprova o orçamento, com o link para o passo a passo da implantação; o contrato sai quando o cliente toca em "Aceitar proposta".</p>
+  </header>
+
+  <nav class="tabs" aria-label="Documentos">
+    <a href="#proposta" id="tab-proposta">Proposta</a>
+    <a href="#contrato" id="tab-contrato">Contrato</a>
+    <a href="#implantacao" id="tab-implantacao">Passo a passo da implantação</a>
+  </nav>
+  <div class="legend"><span><mark>Destacado</mark> = preenchido pelo sistema a partir do questionário e do orçamento aprovado</span><span class="stamp">Exemplo</span></div>
+
+  <!-- ═════════════ PROPOSTA ═════════════ -->
+  <section id="view-proposta" class="sheet" aria-label="Proposta comercial">
+    <div class="cover">
+      <div class="brand">
+        <div class="brand-mark"><svg viewBox="160.7 72.2 380 380" aria-hidden="true"><rect x="160.7" y="72.2" width="380" height="380" fill="#F5C518" rx="90"/><g transform="translate(350.7,262.2) scale(0.8) translate(-350.77,-264.52) translate(0,511) scale(0.1,-0.1)" fill="#1a1200"><path d="M2298 3870 c-224 -56 -395 -219 -469 -445 -46 -140 -28 -351 43 -490 50 -97 152 -207 251 -269 237 -150 572 -231 1692 -406 217 -34 519 -96 635 -130 141 -42 275 -109 335 -168 28 -27 62 -75 79 -112 28 -58 31 -75 31 -160 0 -111 -12 -152 -65 -219 -29 -37 -59 -59 -116 -87 -73 -36 -80 -38 -177 -38 -93 0 -112 4 -227 42 -147 50 -315 130 -422 202 -52 34 -83 48 -92 43 -7 -4 -58 -50 -112 -102 l-99 -93 36 -32 c62 -53 289 -184 403 -232 426 -179 702 -177 953 9 133 99 225 275 240 458 14 186 -68 393 -208 523 -212 196 -477 281 -1294 416 -960 158 -1127 195 -1352 300 -125 59 -178 109 -219 207 -23 56 -28 84 -28 153 -1 77 2 92 32 152 36 73 89 124 169 160 41 19 66 22 173 22 103 1 138 -4 200 -23 161 -50 383 -165 466 -242 11 -10 24 -19 30 -19 5 0 34 23 64 51 30 28 81 73 112 101 32 28 54 56 52 63 -9 22 -159 121 -319 210 -76 42 -258 113 -365 142 -132 36 -321 41 -432 13z"/><path d="M4357 3844 c-95 -17 -320 -92 -437 -146 -133 -61 -333 -185 -439 -272 -127 -105 -286 -266 -362 -368 -58 -78 -139 -226 -139 -255 0 -6 15 -15 33 -17 17 -3 73 -13 122 -21 50 -8 104 -19 122 -24 36 -11 48 -2 81 64 69 136 245 312 442 443 212 142 351 210 545 268 73 22 111 27 200 28 105 1 113 0 177 -32 75 -37 138 -97 171 -162 19 -39 22 -61 22 -160 0 -99 -3 -121 -23 -161 -65 -132 -207 -216 -472 -280 -66 -16 -233 -49 -247 -49 -7 0 -2 -62 7 -84 7 -18 19 -27 47 -31 78 -14 261 -56 351 -81 112 -32 127 -29 253 47 153 93 250 186 322 313 55 97 76 170 84 291 13 227 -92 437 -290 576 -162 114 -355 152 -570 113z"/><path d="M3715 3099 c-38 -32 -87 -77 -107 -98 l-37 -39 52 -79 c29 -43 66 -109 82 -146 20 -46 36 -69 50 -72 82 -16 290 -43 296 -39 12 7 1 75 -28 164 -34 107 -195 371 -226 369 -6 0 -43 -27 -82 -60z"/><path d="M2282 2415 c-175 -84 -331 -215 -403 -340 -52 -90 -80 -198 -82 -310 -1 -113 12 -179 56 -280 38 -85 71 -135 132 -197 162 -165 398 -230 667 -183 245 43 652 232 861 401 147 118 297 271 365 371 54 79 124 219 120 240 -3 15 -83 36 -259 67 l-36 6 -51 -82 c-177 -289 -622 -593 -1007 -688 -72 -18 -109 -22 -190 -18 -113 5 -172 28 -246 95 -136 123 -135 380 2 511 89 85 255 154 465 192 65 11 129 23 142 26 19 4 22 11 22 48 0 24 -6 48 -12 53 -7 5 -65 19 -128 32 -63 12 -161 38 -217 57 -55 19 -107 34 -115 34 -7 0 -46 -16 -86 -35z"/><path d="M2934 2307 c-9 -25 33 -161 75 -245 53 -104 164 -266 185 -270 15 -3 183 124 215 162 10 12 5 25 -24 68 -19 30 -57 94 -83 143 l-47 89 -70 13 c-70 13 -180 37 -222 49 -16 4 -25 1 -29 -9z"/></g></svg>Converge</div>
+        <span class="stamp">Exemplo</span>
+      </div>
+      <h2>Proposta comercial <span>Agente de atendimento com IA</span></h2>
+      <dl class="meta">
+        <div><dt>Para</dt><dd><mark>Clínica Bem Viver</mark></dd></div>
+        <div><dt>Aos cuidados de</dt><dd><mark>Helena Prado, sócia</mark></dd></div>
+        <div><dt>Emitida em</dt><dd><mark>05/11/2026</mark></dd></div>
+        <div><dt>Válida até</dt><dd><mark>12/11/2026</mark> (7 dias)</dd></div>
+      </dl>
+    </div>
+
+    <div class="pbody">
+      <div class="sec">
+        <h3>O que você nos contou</h3>
+        <p>Hoje a recepção responde o WhatsApp e o Instagram à mão, marca as consultas no <mark>Google Agenda</mark> e confere os pagamentos no <mark>sistema de gestão</mark> da clínica. As mensagens fora do horário ficam sem resposta até o dia seguinte.</p>
+        <p>Vocês querem automatizar <mark>atendimento e agenda</mark>, <mark>pré-triagem</mark> e <mark>cobrança e pagamentos</mark>.</p>
+      </div>
+
+      <div class="sec">
+        <h3>O que vamos entregar</h3>
+        <dl class="scope">
+          <div><dt>Canais</dt><dd><mark>WhatsApp e Instagram</mark></dd></div>
+          <div><dt>Volume incluído</dt><dd><mark>até 1.250 conversas por mês</mark></dd></div>
+          <div><dt>Integrações</dt><dd><mark>Google Agenda e o sistema de gestão da clínica</mark></dd></div>
+          <div><dt>Usuários do painel</dt><dd><mark>5 pessoas da equipe</mark></dd></div>
+          <div><dt>Funções</dt><dd><mark>Atendimento, agendamento, pré-atendimento administrativo e envio de cobranças</mark></dd></div>
+          <div><dt>Dados</dt><dd>Servidor dedicado, cifrado e no padrão da LGPD para dados de saúde</dd></div>
+        </dl>
+        <p style="margin-top:12px">Inclui o levantamento do processo com a equipe, a configuração, os testes e o treinamento no painel. A equipe assume qualquer conversa a qualquer momento.</p>
+      </div>
+
+      <div class="sec">
+        <h3>Investimento</h3>
+        <div class="price">
+          <div class="price-card main">
+            <span class="price-label">Implantação, pagamento único</span>
+            <span class="price-value"><mark style="background:none;border-bottom-color:var(--yellow)">R$ 11.500,00</mark></span>
+            <span class="price-note">Em até <mark style="background:none">6x sem juros: R$ 1.916,70 na assinatura e 5 de R$ 1.916,66</mark>. Boleto, Pix ou cartão.</span>
+          </div>
+          <div class="price-card">
+            <span class="price-label">Mensalidade de operação</span>
+            <span class="price-value"><mark>R$ 1.900,00</mark></span>
+            <span class="price-note">Começa só quando o agente estiver funcionando e aprovado por vocês. Hospedagem, suporte, ajustes e acompanhamento das respostas.</span>
+          </div>
+          <div class="price-card">
+            <span class="price-label">Opção com fidelidade de 12 meses</span>
+            <span class="price-value"><mark>R$ 1.710,00</mark></span>
+            <span class="price-note">Mensalidade com 10% de desconto.</span>
+          </div>
+        </div>
+        <p style="margin-top:12px;font-size:13.5px;color:var(--ink-2)">Conversa além das incluídas: R$ 0,50 cada. Usuário adicional do painel: R$ 50,00 por mês. As tarifas do WhatsApp são pagas por vocês direto à Meta e não entram nestes valores.</p>
+      </div>
+
+      <div class="sec">
+        <h3>Próximos passos</h3>
+        <ol class="steps">
+          <li><span><b>Aceitar a proposta</b> pelo botão no WhatsApp. Isso reserva estas condições.</span></li>
+          <li><span><b>Assinar o contrato</b>, que chega por link para assinatura eletrônica.</span></li>
+          <li><span><b>Pagar a primeira parcela</b> pelo link que enviamos logo após a assinatura.</span></li>
+          <li><span><b>Implantação</b> em até <mark>30 dias úteis</mark>, com testes junto com a equipe.</span></li>
+          <li><span><b>Aceite</b> do agente funcionando. A partir daí começa a mensalidade.</span></li>
+        </ol>
+        <a class="guide-link" href="#implantacao">Ver o passo a passo da implantação e o que preparar <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+
+    <div class="pfoot"><span><strong>Converge</strong> · getconverge.me · CNPJ 11.222.333/0001-81 · Belém/PA</span><span>Proposta preparada pela equipe Converge a partir das suas respostas</span></div>
+
+    <div class="chat" aria-label="Como chega no WhatsApp">
+      <span class="chat-label">Como chega no WhatsApp</span>
+      <div class="bubble"><div class="file"><span>PDF</span>Proposta Converge - Clínica Bem Viver.pdf</div>Olá, Helena! Segue em anexo a proposta da Converge para a Clínica Bem Viver, preparada a partir do que você nos contou. Se estiver tudo certo, é só tocar em Aceitar proposta. Qualquer dúvida, responda por aqui ou toque em Tenho dúvidas.</div>
+      <div class="choices"><span>Aceitar proposta</span><span>Tenho dúvidas</span><span>Não tenho interesse</span></div>
+    </div>
+  </section>
+
+  <!-- ═════════════ CONTRATO ═════════════ -->
+  <section id="view-contrato" class="sheet" aria-label="Contrato" hidden>
+    <div class="contract">
+      <div class="c-top">
+        <div class="brand-mark"><svg viewBox="160.7 72.2 380 380" aria-hidden="true"></svg>Converge</div>
+        <span><span class="stamp">Exemplo</span>&nbsp; Minuta de 04/11/2026, em revisão pelo advogado</span>
+      </div>
+
+      <h2>Contrato de prestação de serviços de implantação e operação de agente de inteligência artificial</h2>
+
+      <h3>1. Partes e definições</h3>
+      <p>CONTRATADA: CONVERGE SERVIÇOS EM TECNOLOGIAS E ENGENHARIA LTDA., inscrita no CNPJ sob o nº 11.222.333/0001-81, com sede na Av. Exemplo, 100, Centro, Belém/PA, CEP 66000-000, neste ato representada por Paulo Lobato Nobre, doravante "Converge".</p>
+      <p>CONTRATANTE: <mark>Clínica Bem Viver Ltda.</mark>, inscrita no CNPJ sob o nº <mark>00.000.000/0001-00</mark>, com sede em <mark>Av. Exemplo, 1000, sala 12, Belém/PA</mark>, neste ato representada por <mark>Helena Prado</mark>, e-mail <mark>helena@exemplo.com.br</mark>, doravante "Contratante".</p>
+      <p>1.1. Para este contrato:</p>
+      <ul class="c-list">
+        <li>Agente: o sistema de software com inteligência artificial configurado pela Converge para atender, organizar ou executar tarefas em nome do Contratante, conforme o Anexo I.</li>
+        <li>Canais: os meios em que o Agente atua, como WhatsApp, Instagram, Telegram, e-mail ou site, listados no Anexo I.</li>
+        <li>Painel: a área de acesso restrito em que a equipe do Contratante acompanha conversas, assume atendimentos e consulta registros.</li>
+        <li>Implantação: o trabalho único de configurar, integrar, testar e colocar o Agente em funcionamento.</li>
+        <li>Operação: o serviço mensal de hospedagem, manutenção, monitoramento, suporte e ajustes do Agente.</li>
+        <li>Conteúdo do Contratante: informações, regras, preços, horários, documentos e textos fornecidos pelo Contratante para o Agente usar.</li>
+        <li>Serviços de terceiros: plataformas fora do controle da Converge de que o Agente depende, como Meta (WhatsApp e Instagram), provedores de modelos de IA, Google, Microsoft, plataformas de pagamento e de assinatura.</li>
+        <li>Conversa: para cobrança da Converge, a interação com um mesmo contato, no mesmo Canal, durante 24 horas contadas da primeira mensagem processada, sem renovação por mensagens posteriores nessa janela. Não contam testes identificados nem duplicações por falha técnica. Essa unidade não se confunde com a forma de cobrança da Meta.</li>
+      </ul>
+
+      <h3>2. Objeto</h3>
+      <p>2.1. Este contrato tem por objeto a prestação, pela Converge ao Contratante, dos serviços de: 1. Implantação do Agente descrito no Anexo I; e 2. Operação mensal do Agente, enquanto o contrato vigorar.</p>
+      <p>2.2. O Anexo I define o que será entregue: funções do Agente, canais, integrações, volume previsto, usuários do Painel e o que não está incluído. O que não constar do Anexo I não faz parte do objeto.</p>
+      <p>2.3. Pedidos fora do Anexo I serão orçados à parte e só executados após aceite escrito, inclusive por e-mail ou WhatsApp, por meio de aditivo ou novo Anexo I.</p>
+      <p>2.4. Em caso de conflito, prevalecem as normas legais obrigatórias; o Anexo II nas matérias de proteção de dados; o Anexo I no objeto, entregas e critérios de aceite; e o Anexo III nas condições comerciais, volumes, excedentes, fidelidade e SLA. Nas demais matérias, prevalece este corpo. Alterações dependem de registro escrito de representantes autorizados, guardada a versão anterior.</p>
+
+      <h3>3. Implantação</h3>
+      <p>3.1. A Implantação segue estas etapas: (a) levantamento do processo e coleta do Conteúdo do Contratante; (b) configuração e integrações; (c) testes com a equipe do Contratante; (d) entrada em funcionamento; (e) treinamento da equipe no Painel.</p>
+      <p>3.2. O prazo de Implantação é o do Anexo I, contado do pagamento da primeira parcela da Implantação e da entrega, pelo Contratante, dos acessos e do Conteúdo pedidos. Atrasos do Contratante ou de Serviços de terceiros, como a aprovação de modelos de mensagem pela Meta, suspendem o prazo.</p>
+      <p>3.3. Aceite. Ao fim dos testes, a Converge comunicará que o Agente está pronto, com as evidências dos critérios de aceite do Anexo I. O Contratante terá 5 dias úteis da comunicação comprovadamente recebida para aprovar ou apontar, por escrito, o que não atende ao Anexo I. Sem resposta nesse prazo e sem falha impeditiva, a Implantação se considera aceita. Testes, uso parcial e medidas provisórias não valem como aceite. Falha que impeça função essencial suspende o aceite até correção e nova verificação; apontamentos menores são corrigidos em até 10 dias úteis. O aceite não afasta a correção de defeitos ocultos nem as garantias legais.</p>
+      <p>3.4. A Operação, e a cobrança da mensalidade, começam na data do aceite. Erro com risco à segurança, à cobrança ou à saúde terá contenção prioritária, e a função afetada pode ser suspensa até a correção.</p>
+
+      <h3>4. Operação, suporte e níveis de serviço</h3>
+      <p>4.1. A Operação inclui: hospedagem do Agente e do Painel; cópias de segurança; atualizações de segurança; correção de falhas; acompanhamento da qualidade das respostas; e ajustes de Conteúdo pedidos pelo Contratante, como mudança de preço, horário ou pergunta frequente, até o limite do Anexo I.</p>
+      <p>4.2. Suporte: pelos canais do Anexo I, em dias úteis, das 9h às 18h (horário de Brasília). Prazos de primeira resposta:</p>
+      <div class="tbl-wrap"><table class="grid3">
+        <tr><th>Gravidade</th><th>Exemplo</th><th>Primeira resposta</th></tr>
+        <tr><td>Crítica</td><td>Agente fora do ar em todos os canais</td><td>4 horas úteis</td></tr>
+        <tr><td>Alta</td><td>Um canal ou integração parado</td><td>1 dia útil</td></tr>
+        <tr><td>Normal</td><td>Dúvida, ajuste de Conteúdo, melhoria</td><td>2 dias úteis</td></tr>
+      </table></div>
+      <p>4.3. Disponibilidade: a Converge empregará esforços razoáveis para manter o Agente disponível 24 horas por dia. Se contratado o SLA do Anexo III, vale a meta de disponibilidade ali indicada, com a fórmula e a forma de medição ali previstas. O crédito por descumprimento é compensação automática e não afasta os direitos de rescisão, restituição e reparação cabíveis. Os prazos de 4.2 são de primeira resposta; a Converge informará depois a previsão de solução.</p>
+      <p>4.4. Não contam como indisponibilidade: manutenções avisadas com 24 horas de antecedência, limitadas a 4 horas por mês; falhas de Serviços de terceiros externas à atuação da Converge, sem contribuição de falha de configuração, escolha, manutenção ou contorno sob sua responsabilidade; bloqueio ou restrição do número ou da conta do Contratante pela Meta por ato do Contratante; e uso fora deste contrato. Impedimento de função essencial por mais de 30 dias permite ao Contratante encerrar o contrato sem multa, com devolução do que pagou adiantado por serviço não prestado.</p>
+
+      <h3>5. Obrigações das partes</h3>
+      <p>5.1. A Converge se obriga a: 1. executar a Implantação e a Operação com diligência e conforme o Anexo I; 2. configurar o Agente para seguir o Conteúdo e as proibições indicados pelo Contratante; 3. permitir que a equipe do Contratante assuma qualquer conversa pelo Painel; 4. manter registro das ações do Agente em agenda, e-mail e arquivos do Contratante; 5. proteger os dados conforme a cláusula 8 e o Anexo II; 6. avisar o Contratante, em prazo razoável, sobre mudanças de Serviços de terceiros que afetem o Agente.</p>
+      <p>5.2. O Contratante se obriga a: 1. fornecer, no prazo combinado, acessos, informações e o Conteúdo necessários, e mantê-los corretos e atualizados; 2. revisar e aprovar o Conteúdo antes da entrada em funcionamento e a cada alteração; 3. manter pessoa responsável por acompanhar o Painel e atender as conversas encaminhadas pelo Agente; 4. ter base legal da LGPD para tratar os dados das pessoas atendidas e, separadamente, a autorização (opt-in) que a Meta exige para mensagens ativas pelo WhatsApp, uma não substituindo a outra, e cumprir as políticas da Meta; 5. manter sua conta Meta, número de WhatsApp e forma de pagamento em dia junto aos Serviços de terceiros que contratar diretamente; 6. pagar os valores do Anexo III nas datas devidas; 7. não usar o Agente para spam, para fins ilícitos, nem para atividade assistencial ou decisões que exijam profissional habilitado (cláusula 7.4).</p>
+
+      <h3>6. Preço e pagamento</h3>
+      <p>6.1. O Contratante pagará os valores do Anexo III: (a) a Implantação, à vista ou parcelada; e (b) a mensalidade de Operação, a partir do aceite.</p>
+      <p>6.2. Os pagamentos serão feitos por boleto, Pix ou cartão, pelo link de cobrança enviado pela Converge por e-mail ou WhatsApp.</p>
+      <p>6.3. Volume: a mensalidade inclui o volume de Conversas do Anexo III. O excedente de cada mês será cobrado no mês seguinte, pelo valor por Conversa ali indicado, até o limite mensal autorizado no Anexo III; acima dele, só com nova aprovação. A Converge disponibilizará demonstrativo do volume e avisará quando o mês atingir 80% e 100% do incluído.</p>
+      <p>6.4. Reajuste: os valores serão reajustados a cada 12 meses pela variação positiva do IPCA/IBGE no período.</p>
+      <p>6.5. Atraso: sobre valor pago em atraso incidem multa de 2%, juros de 1% ao mês e correção pelo IPCA. Com atraso acima de 15 dias, e após aviso com 5 dias de antecedência, a Converge pode suspender o Agente até o pagamento, sem prejudicar os dados guardados.</p>
+      <p>6.6. Tarifas de terceiros: não estão incluídas no preço e são pagas pelo Contratante diretamente ao fornecedor: as tarifas da Meta por mensagem do WhatsApp; taxas de plataformas de pagamento; e outros Serviços de terceiros que o Contratante contratar. Se o Anexo III previr que a Converge pague algum deles e repasse o valor, o repasse será pelo custo comprovado.</p>
+      <p>6.7. Os tributos incidentes sobre os serviços são de responsabilidade de quem a lei indicar, e a Converge emitirá a nota fiscal correspondente.</p>
+      <p>6.8. Mudança de custo de terceiros: tarifas de terceiros discriminadas no Anexo III são repassadas pelo custo comprovado, sem margem, com aviso prévio sempre que possível de 30 dias. Aumento de custo embutido na mensalidade não a altera automaticamente: depende de negociação escrita, respeitado o reajuste anual. Sem acordo, qualquer parte pode encerrar a função afetada com aviso de 30 dias, sem multa e com devolução proporcional do que foi pago adiantado.</p>
+
+      <h3>7. Natureza da inteligência artificial e possibilidade de erro</h3>
+      <p>7.1. O Agente pode errar. O Contratante declara estar ciente de que o Agente usa modelos de inteligência artificial que geram respostas por probabilidade, e não por regras exatas como um software tradicional. Por isso, mesmo bem configurado, o Agente pode: 1. dar uma resposta incorreta, incompleta ou desatualizada; 2. apresentar como verdadeira uma informação que não existe no Conteúdo do Contratante (fenômeno conhecido como "alucinação"); 3. entender mal uma mensagem, sobretudo áudio, gíria, erro de digitação ou pedido ambíguo; 4. responder de forma diferente a perguntas iguais.</p>
+      <p>7.2. O que a Converge faz para reduzir erros. A Converge implementará e manterá, como obrigação deste contrato, os mecanismos abaixo, conforme as funções e testes do Anexo I. Eles reduzem os riscos, mas não eliminam erros:</p>
+      <ul class="c-list">
+        <li>restringir as respostas ao Conteúdo aprovado e encaminhar a uma pessoa a pergunta sem trecho correspondente, em vez de responder;</li>
+        <li>validar por regras de código, e não pela IA, datas, horários, telefones, valores e documentos;</li>
+        <li>aplicar a lista de proibições do Contratante (por exemplo: não dar diagnóstico, não fechar preço) às respostas;</li>
+        <li>permitir que qualquer pessoa da equipe assuma a conversa pelo Painel a qualquer momento;</li>
+        <li>registrar as conversas para revisão, pelo prazo de retenção do Anexo I.</li>
+      </ul>
+      <p>7.3. Aviso ao público. O Agente se identificará de forma clara como assistente virtual com inteligência artificial no início do atendimento, e o aviso ficará acessível nos Canais: as respostas são geradas por IA, podem conter erros e devem ser confirmadas com a equipe quando importantes. O Contratante não removerá nem esconderá o aviso e manterá uma forma clara de chegar à equipe humana, com os horários. Se o aviso for retirado, a Converge pedirá a sua volta e poderá suspender a automação afetada até a regularização.</p>
+      <p>7.4. Limite em serviços de saúde e supervisão humana. O Agente é ferramenta de apoio administrativo e não substitui profissional habilitado. Em serviços de saúde, limita-se às funções administrativas contratadas e não realiza, nem mesmo com supervisão: diagnóstico, prescrição, interpretação de exames, recomendação de tratamento, classificação clínica de risco ou atendimento de urgência. Coletar informação administrativa não é avaliação clínica. Decisões clínicas, jurídicas, financeiras ou contratuais e a confirmação de preço final cabem sempre ao Contratante. O Anexo I indicará o responsável humano e o encaminhamento, inclusive fora do horário. Ampliar para atividade assistencial exige contratação específica e avaliação regulatória prévia; as partes cooperarão com a governança e a avaliação de riscos exigíveis.</p>
+      <p>7.5. Correção. Erro do Agente comunicado pelo Contratante será analisado e corrigido no Conteúdo ou na configuração nos prazos de suporte da cláusula 4. A obrigação da Converge é de meio: empregar as boas práticas acima, e não garantir resposta sempre correta.</p>
+      <p>7.6. Reconhecer os riscos da IA não exime a Converge de cumprir as funções, proteções e obrigações contratadas. Quando o dano vier de Conteúdo incorreto ou desatualizado do Contratante, de uso indevido ou de falta da supervisão prevista em 7.4, a responsabilidade de cada parte será medida pela sua contribuição para o dano, sem excluir falha concorrente da Converge.</p>
+
+      <h3>8. Proteção de dados e segurança</h3>
+      <p>8.1. Para os dados pessoais das pessoas atendidas pelo Agente, o Contratante é o controlador e a Converge é a operadora, nos termos da Lei 13.709/2018 (LGPD). As regras de tratamento estão no Anexo II, que faz parte deste contrato.</p>
+      <p>8.2. A Converge trata esses dados apenas para executar este contrato e conforme as instruções do Contratante. O acesso a conversas para suporte e correção fica restrito a pessoas autorizadas. Para melhorar o serviço, a Converge só pode usar métricas operacionais agregadas e de fato anonimizadas, sem conteúdo de conversas ou documentos. São proibidos: treinar modelos de IA, fazer publicidade ou usar entre clientes os dados pessoais, o Conteúdo ou informações confidenciais do Contratante. A Converge verificará as condições dos seus fornecedores para impedir esses usos.</p>
+      <p>8.3. Medidas de segurança adotadas na data deste contrato, entre outras: conexões cifradas (HTTPS/TLS); banco de dados em volume cifrado (AES-256) com a chave fora do servidor; conversas e dados de contato também cifrados pela aplicação; acesso ao Painel só por convite, com senha e código de autenticação em dois fatores; registro de acessos; e cópia de segurança diária cifrada, guardada no Brasil (São Paulo) por 30 dias.</p>
+      <p>8.4. A Converge pode trocar essas medidas por outras de efeito igual ou melhor, sem reduzir o nível de proteção.</p>
+      <p>8.5. Dados deste contrato. Para cadastro, representação, assinatura, cobrança, obrigações legais e defesa de direitos, cada parte é controladora dos dados pessoais que tratar para esses fins, e pode compartilhá-los com os prestadores necessários (assinatura, pagamento, contabilidade, assessoria). Isso não autoriza uso próprio dos dados das pessoas atendidas pelo Agente.</p>
+
+      <h3>9. Confidencialidade e propriedade intelectual</h3>
+      <p>9.1. Confidencialidade. Cada parte manterá em sigilo as informações não públicas da outra a que tiver acesso, durante o contrato e por 5 anos após o seu fim. Segredos comerciais e industriais ficam protegidos enquanto mantiverem essa natureza. Não é confidencial o que já era público sem violação, foi recebido legitimamente de terceiro ou foi desenvolvido de forma independente. Divulgação exigida por lei ou ordem judicial ficará limitada ao necessário, com aviso prévio quando permitido. Dados pessoais seguem o Anexo II, sem limite de prazo.</p>
+      <p>9.2. O que é da Converge. Salvo cessão expressa na forma de 9.9, permanecem exclusivamente com a Converge os direitos sobre: o software do Agente e do Painel; o código-fonte; a arquitetura; os fluxos, prompts, instruções de sistema e configurações; os componentes reutilizáveis e integrações; a documentação; os roteiros de implantação; e as marcas, nome e logotipos da Converge, inclusive o que for criado ou melhorado durante este contrato. Ficam de fora os materiais do Contratante e os componentes de terceiros, que seguem suas próprias licenças. Pagar por personalização não significa cessão. Nada neste contrato transfere esses direitos ao Contratante nem lhe dá acesso ao código-fonte.</p>
+      <p>9.3. Licença ao Contratante. Enquanto o contrato vigorar e estiver em dia, o Contratante recebe licença de uso não exclusiva, intransferível e sem direito a sublicenciar, para usar o Agente e o Painel em sua própria atividade. A licença termina com o contrato.</p>
+      <p>9.4. O que é do Contratante. O Contratante mantém seus direitos sobre o Conteúdo do Contratante e suas marcas, e o acesso aos dados, ao histórico das conversas e aos registros da sua operação, como agendamentos e relatórios, respeitados os direitos dos titulares dos dados pessoais. O Contratante autoriza a Converge a usar esse material apenas para executar este contrato.</p>
+      <p>9.5. Respostas geradas. Os textos gerados pelo Agente nas conversas com o público do Contratante podem ser usados livremente pelo Contratante. A Converge não garante que sejam originais ou protegidos por direito autoral.</p>
+      <p>9.6. Vedado ao Contratante: copiar, revender ou comercializar sem autorização o Agente ou o Painel; descompilar ou fazer engenharia reversa, ressalvadas as permissões legais; extrair prompts, fluxos e configurações confidenciais para reproduzi-los em outro sistema; ou oferecer o Agente a terceiros como serviço próprio.</p>
+      <p>9.7. Garantia de origem. Cada parte garante ter direito de usar o que fornece à outra. O Contratante responde por Conteúdo que viole direito de terceiro, como textos, imagens ou documentos que não sejam seus.</p>
+      <p>9.8. Referência. A Converge só pode citar publicamente o nome, a marca, um depoimento ou o caso do Contratante com autorização prévia e escrita, e nunca expõe dados ou conversas.</p>
+      <p>9.9. Cessão excepcional. Cessão de direitos só existe se o Anexo I a previr expressamente, identificando os entregáveis, as formas de uso, o território e o prazo, com preço próprio no Anexo III. Ela depende do pagamento integral e não alcança os componentes preexistentes da Converge listados ali.</p>
+
+      <h3>10. Responsabilidade</h3>
+      <p>10.1. Cada parte responde pelos danos diretos que causar à outra por descumprimento deste contrato, comprovados.</p>
+      <p>10.2. Limite. Nas relações empresariais em que a lei admite limitação, a responsabilidade contratual total da Converge, somados todos os eventos, fica limitada ao maior entre: o valor pago pelo Contratante nos 12 meses anteriores ao fato, ou três mensalidades vigentes.</p>
+      <p>10.3. Exclusões. A Converge não responde por lucros cessantes, perda de receita ou de oportunidade, nem por danos indiretos. Falhas de Serviços de terceiros, Conteúdo incorreto do Contratante, decisões sem a supervisão de 7.4 e uso contrário a este contrato serão considerados conforme a sua contribuição para o dano, sem excluir falha concorrente da Converge.</p>
+      <p>10.4. O limite e as exclusões não se aplicam a dolo ou culpa grave, a danos à integridade física, a violações da legislação de proteção de dados atribuíveis à Converge, nem a responsabilidades que a lei não permite afastar. Ficam preservados os direitos de terceiros, como pacientes e titulares, e, quando aplicável, os do Código de Defesa do Consumidor.</p>
+
+      <h3>11. Vigência, rescisão e saída</h3>
+      <p>11.1. O contrato vigora a partir da assinatura, por prazo indeterminado, salvo se o Anexo III previr período de fidelidade.</p>
+      <p>11.2. Sem fidelidade: qualquer parte pode encerrar o contrato com aviso escrito de 30 dias, sem multa. A Implantação já executada não é devolvida.</p>
+      <p>11.3. Com fidelidade (desconto de 12 meses): se o Contratante encerrar antes do fim do período, sem culpa da Converge, devolverá o desconto recebido até ali, multiplicado pela proporção do período que faltava cumprir, sem outra multa. Nada é devido se a saída decorrer de descumprimento da Converge.</p>
+      <p>11.4. Por descumprimento: a parte prejudicada pode encerrar o contrato se a outra não corrigir a falha em 15 dias do aviso escrito, sem prejuízo da cláusula 10. Violação insanável, uso ilícito, risco concreto grave à segurança ou à saúde e quebra relevante de confidencialidade permitem suspensão proporcional e rescisão imediata, com comunicação fundamentada. Também cabe rescisão em falência da outra parte; o pedido de recuperação judicial, sozinho, não é descumprimento.</p>
+      <p>11.5. Desistência antes do aceite: fora dos casos legais de devolução integral, o Contratante paga apenas as etapas da Implantação efetivamente executadas, discriminadas e comprovadas, limitadas ao preço da Implantação, e recebe de volta o saldo pago adiantado. Quando se aplicar o art. 49 do Código de Defesa do Consumidor (contratação à distância), fica assegurado o arrependimento em 7 dias, sem retenção nem multa.</p>
+      <p>11.6. Saída e devolução de dados. Encerrado o contrato: 1. o Agente é desligado em todos os Canais, e o número de WhatsApp e as contas do Contratante continuam dele; 2. por 30 dias, sem custo e sem depender de quitação, a Converge disponibiliza por canal seguro a exportação do Conteúdo, contatos, histórico e registros do Contratante em formato estruturado (CSV ou JSON), com os arquivos e mídias ainda guardados; 3. depois de avisar o fim desse prazo, a Converge apaga os dados, salvo os que a lei obrigue a guardar, separados e restritos a essa finalidade; as cópias de segurança expiram em até 30 dias e, se alguma for restaurada, as exclusões são reaplicadas; 4. os registros de acesso ao Painel exigidos pelo Marco Civil da Internet são guardados pelo prazo legal; 5. o serviço não é repositório de prontuário, cuja guarda cabe ao Contratante em sistema próprio.</p>
+      <p>11.7. Sobrevivem ao fim do contrato as cláusulas de confidencialidade, propriedade intelectual, responsabilidade, proteção de dados e os valores devidos.</p>
+
+      <h3>12. Disposições gerais, assinatura e foro</h3>
+      <p>12.1. Comunicações: valem as feitas por e-mail aos endereços da cláusula 1, ou pelo WhatsApp de atendimento combinado. Pedidos de mudança de escopo, aceite e avisos de rescisão devem ser escritos.</p>
+      <p>12.2. As partes são independentes: este contrato não cria vínculo de emprego, sociedade ou representação.</p>
+      <p>12.3. Nenhuma parte pode ceder este contrato sem concordância da outra, salvo a Converge para empresa do mesmo grupo ou sucessora, com aviso.</p>
+      <p>12.4. Tolerância com descumprimento não é renúncia nem alteração do contrato. Cláusula inválida não invalida as demais.</p>
+      <p>12.5. Nenhuma parte responde por atraso causado por caso fortuito ou força maior (art. 393 do Código Civil).</p>
+      <p>12.6. Assinatura eletrônica e início. As partes admitem a assinatura eletrônica como prova de autoria e integridade, nos termos do art. 10, § 2º, da MP 2.200-2/2001. A plataforma deve vincular as assinaturas à versão integral do contrato e dos anexos, guardar trilha de auditoria e dar acesso à cópia assinada. Os representantes declaram ter poderes para contratar. O aceite da proposta pelo WhatsApp reserva as condições e autoriza o envio deste contrato, mas não dá início aos serviços. A vigência começa na última assinatura; o link de pagamento é enviado depois dela; e o prazo de Implantação corre quando concluídas as assinaturas, confirmado o primeiro pagamento e entregues os acessos e o Conteúdo.</p>
+      <p>12.7. Lei e foro. Este contrato é regido pelas leis brasileiras. Fica eleito o foro da comarca da sede da Converge indicada na cláusula 1, ressalvadas as competências legais obrigatórias e o direito do consumidor, quando aplicável, de demandar no foro do seu domicílio.</p>
+      <p>12.8. Anticorrupção. As partes cumprirão a legislação anticorrupção, inclusive a Lei 12.846/2013, e não oferecerão, prometerão ou receberão vantagem indevida ligada a este contrato. Violação comprovada permite à parte inocente encerrar o contrato de imediato, sem prejuízo da reparação.</p>
+      <p>12.9. Não aliciamento. Durante o contrato e por 6 meses após o fim, nenhuma parte aliciará de forma ativa e direcionada profissionais da outra que tenham trabalhado diretamente neste contrato. Anúncios gerais e candidaturas espontâneas não contam, e a regra não impede a livre contratação do trabalhador.</p>
+      <p>12.10. Normas futuras de IA. Se entrar em vigor norma sobre inteligência artificial aplicável ao Agente, as partes ajustarão o serviço e este contrato por escrito, com a avaliação de impacto que a norma exigir.</p>
+
+      <p><mark>Belém</mark>, <mark>06 de novembro de 2026</mark>.</p>
+      <div class="sign">
+        <div><b>Converge</b>Paulo Lobato Nobre, Converge Serviços em Tecnologias e Engenharia Ltda.</div>
+        <div><b>Contratante</b><mark>Helena Prado</mark>, Clínica Bem Viver Ltda.</div>
+      </div>
+
+      <h3 class="annex">Anexo I: Objeto e escopo</h3>
+      <p class="hint-legal">Preenchido a partir da proposta aceita. O corpo do contrato não muda.</p>
+      <p>I.1. Ficha do projeto</p>
+      <div class="tbl-wrap"><table>
+        <tr><th>Funções do Agente</th><td><mark>Atendimento; Agendamento; Pré-atendimento ou triagem administrativa; Cobrança</mark> (ver I.2)</td></tr>
+        <tr><th>Canais</th><td><mark>WhatsApp e Instagram</mark></td></tr>
+        <tr><th>Integrações</th><td><mark>Google Agenda; sistema de gestão da clínica; Asaas</mark></td></tr>
+        <tr><th>Documentos que o Agente consulta</th><td><mark>nenhum</mark></td></tr>
+        <tr><th>Volume incluído</th><td><mark>1.250</mark> Conversas por mês</td></tr>
+        <tr><th>Usuários do Painel</th><td><mark>5</mark></td></tr>
+        <tr><th>Dados sensíveis (saúde, por exemplo)</th><td><mark>sim</mark></td></tr>
+        <tr><th>Ajustes de Conteúdo incluídos por mês</th><td><mark>4</mark> pedidos</td></tr>
+        <tr><th>Prazo de Implantação</th><td><mark>30</mark> dias úteis</td></tr>
+        <tr><th>Canal de suporte</th><td><mark>WhatsApp e e-mail</mark></td></tr>
+      </table></div>
+      <p>I.2. Funções do Agente:</p>
+      <ul class="c-list">
+        <li><mark>Atendimento</mark>: responder perguntas com base no Conteúdo do Contratante (serviços, horários, endereço, convênios, preparo) e encaminhar à equipe o que não souber.</li>
+        <li><mark>Agendamento</mark>: oferecer horários livres da agenda <mark>Google Agenda da clínica</mark>, marcar, remarcar e cancelar; enviar lembrete com confirmação; avisar a equipe de cada mudança.</li>
+        <li><mark>Pré-atendimento ou triagem administrativa</mark>: coletar dados cadastrais e o motivo administrativo do contato em roteiro aprovado pelo Contratante, sem classificar urgência ou risco clínico, sem diagnóstico e sem orientação clínica (cláusula 7.4).</li>
+        <li><mark>Cobrança</mark>: enviar cobranças criadas pela equipe e avisar pagamentos, pela plataforma <mark>Asaas</mark>.</li>
+      </ul>
+      <p>I.3. Não incluído (salvo se marcado acima): desenvolvimento de sistema novo do Contratante; produção de conteúdo de marketing; gestão de anúncios; atendimento humano feito pela Converge; tarifas de Serviços de terceiros; integração com sistema sem interface de integração (API).</p>
+      <p>I.4. Critério de aceite: <mark>em teste com 20 perguntas reais aprovadas pelo Contratante, o Agente responde dentro do Conteúdo ou encaminha à equipe; marca, remarca e cancela na agenda sem conflito; envia uma cobrança de teste pelo Asaas e avisa o pagamento.</mark></p>
+      <p>I.5. Ficha de tratamento de dados</p>
+      <div class="tbl-wrap"><table>
+        <tr><th>Finalidades</th><td><mark>atendimento, agendamento, pré-atendimento administrativo e cobrança</mark></td></tr>
+        <tr><th>Categorias de dados e titulares</th><td><mark>pacientes e interessados que falam com a clínica pelos Canais, e a equipe da clínica: nome, telefone, e-mail, mensagens, áudios transcritos, agendamentos e dados de cobrança; dados de saúde inferíveis de agendamentos e mensagens (Anexo II.2)</mark></td></tr>
+        <tr><th>Responsável humano e encaminhamento fora do horário</th><td><mark>Helena Prado, (91) 90000-0000; fora do horário o Agente registra o pedido e a equipe responde no próximo expediente; em caso de urgência, mensagem fixa orientando a procurar o serviço de urgência</mark></td></tr>
+        <tr><th>Retenção das conversas durante o contrato</th><td><mark>12 meses</mark></td></tr>
+        <tr><th>Terceiros efetivamente usados</th><td><mark>Hostinger (servidor do Agente e do Painel; suboperador; Brasil, São Paulo); Amazon Web Services (cópias de segurança cifradas; suboperador; Brasil, São Paulo; 30 dias); OpenAI (geração de respostas e transcrição de áudio; suboperador; EUA); Meta (WhatsApp e Instagram; contratada pelo Contratante; EUA/Brasil); Google (agenda; contratado pelo Contratante; EUA); Asaas (cobrança; Brasil)</mark></td></tr>
+        <tr><th>Mecanismo de transferência internacional</th><td><mark>cláusulas-padrão da ANPD firmadas em [data]</mark></td></tr>
+      </table></div>
+
+      <h3 class="annex">Anexo II: Acordo de tratamento de dados pessoais</h3>
+      <p>II.1. Papéis. O Contratante é o controlador e define as finalidades; a Converge é a operadora e trata os dados só conforme as instruções documentadas do Contratante, que incluem este contrato e a configuração do Agente.</p>
+      <p>II.2. Dados e titulares. Pessoas que falam com o Contratante pelos Canais e membros da equipe do Contratante. Dados: nome, telefone, e-mail, empresa, mensagens, áudios transcritos, agendamentos e documentos enviados. A natureza dos dados depende do tratamento real: agendamentos, especialidades, mensagens e documentos podem revelar ou permitir inferir dados de saúde, que são tratados como sensíveis mesmo que o Anexo I não os marque. Informações clínicas não entram em cobranças ou lembretes quando desnecessárias.</p>
+      <p>II.3. Base legal: cabe ao Contratante documentar a base legal de cada tratamento, observando o art. 11 da LGPD para dado sensível e o melhor interesse de crianças e adolescentes. A Converge limitará a coleta e o compartilhamento ao necessário, avisará o Contratante de instrução que considerar contrária à lei e suspenderá a operação afetada até a regularização.</p>
+      <p>II.4. Suboperadores. O Contratante autoriza os suboperadores listados abaixo. A Converge avisará inclusão ou troca com 15 dias de antecedência, e o Contratante pode se opor justificadamente. Os suboperadores assumem obrigações compatíveis com este anexo, e a Converge responde pelo que lhes delegar. Se a oposição não tiver alternativa viável, o Contratante pode encerrar a função afetada sem multa, com devolução proporcional do que pagou adiantado. A tabela abaixo é exemplo; vale a lista do Anexo I.5.</p>
+      <div class="tbl-wrap"><table class="grid3">
+        <tr><th>Suboperador</th><th>Função</th><th>Onde</th></tr>
+        <tr><td><mark>Hostinger</mark></td><td>Servidor do Agente e do Painel</td><td>Brasil (São Paulo)</td></tr>
+        <tr><td>Amazon Web Services</td><td>Cópias de segurança cifradas e guarda de chave</td><td>Brasil (São Paulo)</td></tr>
+        <tr><td><mark>OpenAI</mark></td><td>Geração de respostas e transcrição de áudio</td><td><mark>EUA</mark></td></tr>
+        <tr><td>Meta</td><td>WhatsApp e Instagram (contratado pelo Contratante)</td><td><mark>EUA/Brasil</mark></td></tr>
+        <tr><td><mark>Google</mark></td><td>Agenda, e-mail e arquivos do Contratante</td><td><mark>EUA</mark></td></tr>
+      </table></div>
+      <p>II.5. Transferência internacional: antes de qualquer transferência de dados para fora do Brasil, a parte responsável implementará e documentará um mecanismo válido do art. 33 da LGPD e da Resolução CD/ANPD 19/2024. Quando usadas as cláusulas-padrão da ANPD, elas integrarão instrumento firmado entre exportador e importador, com os campos exigidos e sem alteração do texto obrigatório. Este contrato não é autorização genérica de transferência.</p>
+      <p>II.6. Segurança: medidas da cláusula 8.3 do contrato, acesso restrito a quem precisa e sigilo das pessoas da Converge.</p>
+      <p>II.7. Incidentes: a Converge avisará o Contratante de incidente de segurança que envolva seus dados sem demora e em no máximo 24 horas corridas da ciência, fora do horário de suporte inclusive, sem esperar o fim da investigação. O aviso inicial traz o que se sabe sobre natureza, dados e titulares afetados, riscos, medidas tomadas e contato responsável, e é completado conforme a apuração. Cabe ao Contratante, como controlador, avaliar e fazer as comunicações legais à ANPD e aos titulares (em regra, em 3 dias úteis) e manter o registro do incidente por 5 anos, com apoio da Converge. As partes preservarão evidências e cooperarão na contenção.</p>
+      <p>II.8. Direitos dos titulares: a Converge apoiará o Contratante a atender pedidos de acesso, correção, exclusão e portabilidade em até 5 dias úteis do pedido do Contratante.</p>
+      <p>II.9. Auditoria: a Converge fornecerá as informações necessárias para demonstrar o cumprimento deste anexo, uma vez por ano ou após incidente, com aviso de 15 dias.</p>
+      <p>II.10. Fim do tratamento: devolução e exclusão conforme a cláusula 11.6 do contrato.</p>
+
+      <h3 class="annex">Anexo III: Condições comerciais</h3>
+      <p class="hint-legal">Preenchido com os valores da proposta aceita, calculados pela tabela de preços da Converge.</p>
+      <div class="tbl-wrap"><table>
+        <tr><th>Implantação</th><td>R$ <mark>11.500,00</mark>, em <mark>6</mark> parcelas sem juros, a primeira na assinatura</td></tr>
+        <tr><th>Mensalidade de Operação</th><td>R$ <mark>1.900,00</mark> por mês, vencimento todo dia <mark>10</mark>, a partir do aceite</td></tr>
+        <tr><th>Volume incluído</th><td><mark>1.250</mark> Conversas por mês</td></tr>
+        <tr><th>Conversa excedente</th><td>R$ <mark>0,40</mark> por Conversa, até R$ <mark>200,00</mark> por mês sem nova aprovação</td></tr>
+        <tr><th>Usuário adicional do Painel</th><td>R$ <mark>50,00</mark> por mês</td></tr>
+        <tr><th>SLA (opcional)</th><td><mark>não contratado</mark> (opção: R$ 700 por mês, meta de 99,5% de disponibilidade mensal, crédito de 10% da mensalidade por mês abaixo da meta; medida como minutos em que o Agente responde nos Canais dividido pelos minutos do mês, pelo monitoramento da Converge)</td></tr>
+        <tr><th>Fidelidade</th><td><mark>sem fidelidade</mark> (opção: 12 meses, com 10% de desconto na mensalidade)</td></tr>
+        <tr><th>Tarifas da Meta e de terceiros</th><td>Pagas pelo Contratante direto ao fornecedor</td></tr>
+        <tr><th>Validade da proposta</th><td><mark>7</mark> dias</td></tr>
+      </table></div>
+
+      <p class="audit">Assinatura eletrônica pela plataforma escolhida no PR 4 (ZapSign, Clicksign ou Autentique), com trilha de auditoria e cópia assinada para as duas partes. Assim que a última assinatura entra, o cliente recebe o link da primeira parcela da implantação no meio que escolheu.</p>
+    </div>
+  </section>
+
+  <!-- ═════════════ PASSO A PASSO DA IMPLANTAÇÃO ═════════════ -->
+  <section id="view-implantacao" class="sheet" aria-label="Passo a passo da implantação" hidden>
+    <div class="g-head">
+      <div class="brand"><div class="brand-mark"><svg viewBox="160.7 72.2 380 380" aria-hidden="true"></svg>Converge</div><span class="stamp" style="color:var(--yellow);border-color:var(--yellow)">Exemplo</span></div>
+      <h2>Passo a passo da <span>implantação</span></h2>
+      <p>O que acontece depois da assinatura, quem faz cada parte e o que a <mark style="background:rgba(245,197,24,.18)">Clínica Bem Viver</mark> precisa preparar. Prazo combinado: <mark style="background:rgba(245,197,24,.18)">30 dias úteis</mark>, contados a partir da assinatura, do primeiro pagamento e da entrega dos acessos e das informações.</p>
+    </div>
+
+    <div class="g-body">
+      <div class="sec">
+        <h3>As etapas</h3>
+        <div class="timeline">
+          <div class="phase">
+            <span class="phase-when">Dia 1</span>
+            <div>
+              <h4>Início</h4>
+              <p><span class="who us">Converge</span>Confirmamos o pagamento da primeira parcela e marcamos a conversa de início, de cerca de 1 hora, com quem vai acompanhar o projeto na clínica.</p>
+              <p>Enviamos a lista do que preparar (abaixo) e os links oficiais para autorizar os acessos. Senha nunca passa pelo chat.</p>
+            </div>
+          </div>
+          <div class="phase">
+            <span class="phase-when">Semana 1</span>
+            <div>
+              <h4>Levantamento</h4>
+              <p><span class="who us">Converge</span><span class="who you">Clínica</span>Mapeamos juntos como o atendimento funciona hoje: o que os pacientes mais perguntam, como a agenda é marcada, quem atende o quê e o que o agente nunca deve dizer.</p>
+              <p><span class="who you">Clínica</span>Começa a verificação na Meta, se ainda não tiver o WhatsApp na API oficial. É a etapa mais demorada e depende só da Meta.</p>
+            </div>
+          </div>
+          <div class="phase">
+            <span class="phase-when">Semanas 2 e 3</span>
+            <div>
+              <h4>Configuração</h4>
+              <p><span class="who us">Converge</span>Montamos a base de respostas com as informações da clínica, conectamos o <mark>Google Agenda</mark> e o <mark>sistema de gestão</mark>, ligamos o <mark>WhatsApp e o Instagram</mark> e enviamos os modelos de mensagem para aprovação da Meta.</p>
+              <p><span class="who you">Clínica</span>Revisa e aprova as respostas antes de o agente falar com pacientes.</p>
+            </div>
+          </div>
+          <div class="phase">
+            <span class="phase-when">Semana 4</span>
+            <div>
+              <h4>Testes com a equipe</h4>
+              <p><span class="who us">Converge</span><span class="who you">Clínica</span>A equipe conversa com o agente como se fosse paciente. O critério de aceite é o do contrato:</p>
+              <ul>
+                <li>em <mark>20 perguntas reais</mark> aprovadas pela clínica, o agente responde dentro das informações dela ou passa para a equipe;</li>
+                <li>marca, remarca e cancela na agenda sem conflito.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="phase">
+            <span class="phase-when">Semanas 5 e 6</span>
+            <div>
+              <h4>No ar e treinamento</h4>
+              <p><span class="who us">Converge</span>O agente começa a atender os pacientes. Treinamos a equipe no painel e no app: assumir uma conversa e devolver ao agente, acompanhar o funil, enviar cobranças e ligar as automações.</p>
+            </div>
+          </div>
+          <div class="phase">
+            <span class="phase-when">Até 5 dias úteis</span>
+            <div>
+              <h4>Aceite</h4>
+              <p><span class="who you">Clínica</span>Confirma que o agente atende ao combinado, ou aponta por escrito o que falta. Ajustes menores são feitos em até 10 dias úteis. <b>A mensalidade começa na data do aceite.</b></p>
+            </div>
+          </div>
+          <div class="phase">
+            <span class="phase-when">Depois</span>
+            <div>
+              <h4>Acompanhamento</h4>
+              <p><span class="who us">Converge</span>Acompanhamos a qualidade das respostas, ajustamos o que for preciso e fazemos as mudanças que a clínica pedir, como preço, horário ou dúvida nova, até <mark>4 ajustes por mês</mark>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec">
+        <h3>O que a clínica prepara</h3>
+        <div class="checklist">
+          <div class="check-group">
+            <h5>WhatsApp oficial (Meta)</h5>
+            <ul>
+              <li>Portfólio empresarial na Meta, no nome da clínica, verificado com o CNPJ</li>
+              <li>Site com domínio próprio, política de privacidade e e-mail no mesmo domínio</li>
+              <li>Número de telefone dedicado, fora do WhatsApp comum e do Business</li>
+              <li>Forma de pagamento cadastrada na Meta, para as mensagens</li>
+            </ul>
+          </div>
+          <div class="check-group">
+            <h5>Instagram</h5>
+            <ul>
+              <li>Conta profissional ligada ao mesmo portfólio da Meta</li>
+              <li>Acesso de administrador para autorizar a conexão</li>
+            </ul>
+          </div>
+          <div class="check-group">
+            <h5>Agenda e sistemas</h5>
+            <ul>
+              <li>Google Workspace: um administrador autoriza o acesso à agenda uma vez</li>
+              <li>Sistema de gestão: contato do fornecedor ou documentação da integração (API)</li>
+            </ul>
+          </div>
+          <div class="check-group">
+            <h5>Informações da clínica</h5>
+            <ul>
+              <li>Serviços, horários, endereço, convênios e preparo para cada procedimento</li>
+              <li>Preços que o agente pode informar e os que ficam com a equipe</li>
+              <li>As dúvidas que mais chegam, com as respostas da clínica</li>
+              <li>O que o agente nunca deve dizer (por exemplo, diagnóstico)</li>
+            </ul>
+          </div>
+          <div class="check-group">
+            <h5>Equipe</h5>
+            <ul>
+              <li>Quem atende o quê e quem recebe as conversas passadas pelo agente</li>
+              <li>O responsável humano e o que fazer fora do horário</li>
+              <li>E-mails das <mark>5 pessoas</mark> que vão usar o painel</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout"><b>Prazo e Meta.</b> A verificação da empresa e a aprovação do nome e dos modelos de mensagem são feitas pela própria Meta e podem levar de alguns dias a algumas semanas. Enquanto a Meta analisa, o prazo de implantação fica pausado, como prevê o contrato. Se a clínica ainda não tiver alguma dessas contas, a Converge pode criar e configurar como serviço adicional, com custo à parte.</div>
+    </div>
+
+    <div class="pfoot"><span><strong>Converge</strong> · getconverge.me</span><span>Dúvidas sobre a implantação: responda por aqui no WhatsApp</span></div>
+  </section>
+</div>
+
+<script>
+(function () {
+  var views = ["proposta", "contrato", "implantacao"];
+  function show() {
+    var name = location.hash.slice(1);
+    if (views.indexOf(name) < 0) name = "proposta";
+    views.forEach(function (v) {
+      document.getElementById("view-" + v).hidden = v !== name;
+      var tab = document.getElementById("tab-" + v);
+      if (v === name) tab.setAttribute("aria-current", "page"); else tab.removeAttribute("aria-current");
+    });
+  }
+  var marks = document.querySelectorAll(".brand-mark svg");
+  for (var i = 1; i < marks.length; i++) marks[i].innerHTML = marks[0].innerHTML;
+  document.querySelector(".guide-link").addEventListener("click", function () { window.scrollTo(0, 0); });
+  window.addEventListener("hashchange", show);
+  show();
+})();
+</script>
+</body>
+</html>

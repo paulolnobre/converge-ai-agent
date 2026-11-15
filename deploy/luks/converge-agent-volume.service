@@ -1,0 +1,19 @@
+# Unlocks the agent's encrypted volume at boot (key from AWS SSM) and starts
+# its stack. Installed by deploy/luks/install.sh.
+#
+# Ordering only: no Requires= on docker. If this fails, Docker and every other
+# stack on the server start as usual; only the agent stays down — its compose
+# override refuses to run Postgres without the volume.
+[Unit]
+Description=Unlock the Converge agent's encrypted volume and start its stack
+Wants=network-online.target
+After=network-online.target docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/local/sbin/converge-agent-unlock
+TimeoutStartSec=900
+
+[Install]
+WantedBy=multi-user.target

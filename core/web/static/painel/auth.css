@@ -1,0 +1,83 @@
+/* Sign-in and invite pages. Same tokens as painel.css, light and dark. */
+:root{
+  --bg:#F0F2F5; --surface:#FFFFFF; --surface-2:#F5F6F6;
+  --border:#D9DDDF; --border-strong:#B7BEC3;
+  --text:#111B21; --text-2:#54656F; --accent:#008069; --accent-ink:#FFFFFF;
+  --danger:#B42318; --danger-soft:#FDE8E8;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B141A; --surface:#111B21; --surface-2:#202C33;
+    --border:#2A3942; --border-strong:#42525C;
+    --text:#E9EDEF; --text-2:#AEBAC1; --accent:#00A884; --accent-ink:#002E25;
+    --danger:#F27F87; --danger-soft:#3D2428;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B141A; --surface:#111B21; --surface-2:#202C33;
+  --border:#2A3942; --border-strong:#42525C;
+  --text:#E9EDEF; --text-2:#AEBAC1; --accent:#00A884; --accent-ink:#002E25;
+  --danger:#F27F87; --danger-soft:#3D2428;
+}
+*{ box-sizing:border-box; }
+html,body{ margin:0; }
+body{
+  min-height:100dvh; display:flex; align-items:center; justify-content:center;
+  padding:calc(24px + env(safe-area-inset-top)) 16px calc(24px + env(safe-area-inset-bottom)); background:var(--bg); color:var(--text);
+  font:15px/1.5 Manrope, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+[hidden]{ display:none !important; }
+.card{
+  width:100%; max-width:400px; background:var(--surface); border:1px solid var(--border);
+  border-radius:12px; padding:28px 24px;
+}
+.card.wide{ max-width:480px; }
+.brand{ display:flex; align-items:center; gap:10px; font-weight:800; font-size:17px; margin-bottom:20px; }
+h1{ font-size:22px; margin:0 0 6px; letter-spacing:-0.01em; }
+h2{ font-size:15px; margin:22px 0 6px; display:flex; align-items:center; gap:8px; }
+.num{
+  display:inline-flex; width:22px; height:22px; border-radius:50%; align-items:center; justify-content:center;
+  background:var(--accent); color:var(--accent-ink); font-size:12px; font-weight:800;
+}
+.muted{ color:var(--text-2); margin:0 0 12px; }
+.small{ font-size:13px; }
+label{ display:block; font-weight:600; font-size:14px; margin:14px 0 0; }
+label input{
+  display:block; width:100%; margin-top:6px; padding:11px 12px; font:inherit; color:var(--text);
+  background:var(--surface-2); border:1px solid var(--border-strong); border-radius:10px;
+}
+label input:focus{ outline:2px solid var(--accent); outline-offset:1px; border-color:transparent; }
+input[name="code"]{ font-size:20px; letter-spacing:0.25em; font-variant-numeric:tabular-nums; }
+button{
+  display:block; width:100%; margin-top:20px; padding:12px 14px; font:inherit; font-weight:700;
+  color:var(--accent-ink); background:var(--accent); border:0; border-radius:10px; cursor:pointer;
+}
+button:disabled{ opacity:0.5; cursor:not-allowed; }
+button.secondary{ background:transparent; color:var(--text); border:1px solid var(--border-strong); margin-top:0; }
+.row{ display:flex; gap:10px; margin-top:14px; }
+.error{
+  margin:16px 0 0; padding:10px 12px; border-radius:10px;
+  color:var(--danger); background:var(--danger-soft); font-weight:600; font-size:14px;
+}
+.qr{ display:flex; justify-content:center; padding:12px; background:#fff; border-radius:12px; border:1px solid var(--border); }
+.qr img{ width:216px; height:216px; image-rendering:pixelated; }
+details{ margin-top:10px; }
+summary{ cursor:pointer; color:var(--text-2); font-size:14px; }
+.secret, .codes{ font-family:"JetBrains Mono", ui-monospace, monospace; }
+.secret{ display:block; padding:10px; border-radius:8px; background:var(--surface-2); border:1px solid var(--border); word-break:break-all; }
+.codes{ columns:2; column-gap:18px; padding:12px 12px 12px 34px; margin:12px 0 0; background:var(--surface-2); border:1px solid var(--border); border-radius:10px; }
+.codes li{ padding:3px 0; }
+.check{ display:flex; align-items:center; gap:8px; font-weight:600; margin-top:18px; }
+.check input{ width:auto; margin:0; }
+
+.install-card{ max-width:560px; }
+.install-card h2{ font-size:17px; margin-top:26px; }
+.install-card ol{ padding-left:22px; line-height:1.7; }
+.go-link{ display:block; text-align:center; padding:13px; border-radius:10px; background:var(--accent); color:var(--accent-ink); font-weight:700; text-decoration:none; margin-top:22px; }
+.app-notice{ position:fixed; z-index:100; bottom:calc(16px + env(safe-area-inset-bottom)); left:16px; right:16px; max-width:500px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:14px; background:var(--surface); color:var(--text); border:1px solid var(--border); border-radius:12px; }
+.app-notice button{ width:auto; margin:0; padding:9px 12px; flex:none; }
+.app-notice a{ color:inherit; }
+@media (max-width:420px){ .codes{ columns:1; } .row{ flex-direction:column; } }
+
+/* A fixed screen: no pinch, double-tap or focus zoom. */
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; touch-action:pan-x pan-y; }

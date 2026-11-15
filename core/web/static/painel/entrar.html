@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#008069">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="/painel/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/painel/assets/apple-touch-icon.png">
+<script src="/painel/assets/pwa.js" defer></script>
+<title>Entrar · Converge</title>
+<link rel="icon" type="image/svg+xml" href="/painel/favicon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="/painel/assets/auth.css">
+<script src="/painel/assets/auth.js" defer></script>
+</head>
+<body data-page="login">
+<main class="card">
+  <div class="brand"><img src="/painel/favicon.svg" alt="" width="32" height="32"><span>Converge</span></div>
+
+  <form id="step-password" novalidate>
+    <h1>Entrar no painel</h1>
+    <label>E-mail<input type="email" name="email" autocomplete="username" required autofocus></label>
+    <label>Senha<input type="password" name="password" autocomplete="current-password" required></label>
+    <label class="check"><input type="checkbox" name="remember_device" id="remember-device"> Manter conectado neste aparelho</label>
+    <p class="muted small">Use em um aparelho pessoal. Você pode desconectá-lo pelo painel.</p>
+    <button type="submit">Continuar</button>
+  </form>
+
+  <form id="step-code" hidden novalidate>
+    <h1>Código de verificação</h1>
+    <p class="muted">Abra o seu app autenticador e digite o código de 6 dígitos da Converge.</p>
+    <label>Código<input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="20" required></label>
+    <button type="submit">Entrar</button>
+    <p class="muted small">Sem acesso ao celular? Digite um dos seus códigos de recuperação no lugar.</p>
+  </form>
+
+  <p class="error" id="error" role="alert" hidden></p>
+  <p class="muted small"><a href="/painel/instalar">Instalar app no celular ou computador</a></p>
+</main>
+</body>
+</html>

@@ -1,0 +1,107 @@
+#!/usr/bin/env bash
+# Unlock the agent's encrypted volume and start its stack. Run at boot by
+# converge-agent-volume.service, or by hand as root:
+#   sudo /usr/local/sbin/converge-agent-unlock
+#
+# The key lives in AWS SSM Parameter Store, never on this server: it is fetched
+# with the credentials in $LUKS_ENV (readable from this server's IP only) and
+# handed to cryptsetup on stdin. It is kept in a shell variable for the few
+# milliseconds in between — never in a file, an argument or a log line.
+set -euo pipefail
+
+LUKS_ENV="${LUKS_ENV:-/etc/converge-luks-aws.env}"
+LUKS_IMAGE="${LUKS_IMAGE:-/var/lib/converge-agent.img}"
+LUKS_NAME="${LUKS_NAME:-converge-agent}"
+LUKS_MAPPER_DIR="${LUKS_MAPPER_DIR:-/dev/mapper}"
+LUKS_MOUNT="${LUKS_MOUNT:-/srv/converge-agent}"
+STACK_DIR="${STACK_DIR:-/opt/converge-agent}"
+UNLOCK_BUDGET="${UNLOCK_BUDGET:-600}"   # seconds, wall-clock, before giving up
+UNLOCK_WAIT="${UNLOCK_WAIT:-5}"         # first wait; doubles up to 60
+
+say() { echo "converge-agent-unlock: $*" >&2; }   # journald keeps stderr
+
+# From the stack's folder: COMPOSE_FILE in its .env names the override by a
+# relative path, and systemd runs this script from /.
+compose() {
+  (cd "$STACK_DIR" && docker compose --project-directory "$STACK_DIR" "$@")
+}
+
+# The key, on stdout. The credentials reach curl on stdin (-K -), so they are
+# never in its argument list for other processes to read.
+fetch_key() {
+  printf 'user = "%s:%s"\n' "$AWS_ACCESS_KEY_ID" "$AWS_SECRET_ACCESS_KEY" \
+    | curl -f -sS --max-time "$(curl_time)" -K - \
+        --aws-sigv4 "aws:amz:${AWS_DEFAULT_REGION}:ssm" \
+        -H "X-Amz-Target: AmazonSSM.GetParameter" \
+        -H "Content-Type: application/x-amz-json-1.1" \
+        -d "{\"Name\":\"${LUKS_SSM_PARAMETER}\",\"WithDecryption\":true}" \
+        "https://ssm.${AWS_DEFAULT_REGION}.amazonaws.com/" \
+    | python3 -c 'import json, sys; sys.stdout.write(json.load(sys.stdin)["Parameter"]["Value"])'
+}
+
+# Seconds the next request may take: 20, or what is left of the deadline.
+curl_time() {
+  local left=$((deadline - SECONDS))
+  [ "$left" -lt 1 ] && left=1
+  echo $((left < 20 ? left : 20))
+}
+
+open_volume() {
+  local key
+  key="$(fetch_key)" || return 1
+  [ -n "$key" ] || return 1
+  printf '%s' "$key" | cryptsetup open --type luks2 --key-file=- "$LUKS_IMAGE" "$LUKS_NAME"
+}
+
+mapper="$LUKS_MAPPER_DIR/$LUKS_NAME"
+
+mounted="$(findmnt -n -o SOURCE --mountpoint "$LUKS_MOUNT" || true)"
+if [ "$mounted" = "$mapper" ]; then
+  say "volume já montado"
+  compose up -d
+  exit 0
+fi
+if [ -n "$mounted" ]; then
+  say "$mounted está montado em $LUKS_MOUNT, e não é o volume; nada foi feito"
+  exit 1
+fi
+
+# Shut, the mountpoint must be empty: a folder made there on the root disk
+# would hold an empty, unencrypted database, and mounting over it would hide
+# that from whoever looks later.
+mkdir -p "$LUKS_MOUNT"
+if [ -n "$(ls -A "$LUKS_MOUNT")" ]; then
+  say "há arquivos em $LUKS_MOUNT fora do volume; confira e esvazie a pasta antes de montar"
+  exit 1
+fi
+# Immutable while empty: nothing can create files in it until the volume is
+# mounted over it.
+chattr +i "$LUKS_MOUNT"
+if [ ! -e "$mapper" ]; then
+  set -a
+  # shellcheck disable=SC1090
+  . "$LUKS_ENV"
+  set +a
+  deadline=$((SECONDS + UNLOCK_BUDGET))
+  wait_s="$UNLOCK_WAIT"
+  attempt=1
+  until open_volume; do
+    say "tentativa $attempt falhou"
+    left=$((deadline - SECONDS))
+    if [ "$left" -le 0 ]; then
+      say "desisti depois de ${UNLOCK_BUDGET}s; rode à mão quando a AWS responder"
+      exit 1
+    fi
+    sleep $((wait_s < left ? wait_s : left))
+    wait_s=$((wait_s * 2 > 60 ? 60 : wait_s * 2))
+    attempt=$((attempt + 1))
+  done
+  unset AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY
+  say "volume aberto"
+fi
+
+mount -o noatime "$mapper" "$LUKS_MOUNT"
+# Recreated, so neither keeps a folder it was given before the mount.
+compose up -d --force-recreate postgres redis
+compose up -d
+say "stack de pé"

@@ -1,0 +1,49 @@
+# Orchestration
+langgraph==1.2.7
+langsmith==0.12.1
+
+# HTTP surface (Telegram webhook, health, metrics)
+fastapi==0.116.1
+uvicorn[standard]==0.35.0
+
+# Async HTTP client — every outbound call goes through this
+httpx==0.28.1
+
+# Durable update queue + cache (degrades to no-op when unreachable)
+redis[hiredis]==8.1.0
+
+# Metrics
+prometheus-client==0.26.0
+
+# Validation & settings
+pydantic==2.12.5
+pydantic-settings==2.10.1
+
+# Database (async PostgreSQL)
+psycopg[binary]==3.3.4
+psycopg-pool==3.3.1
+
+# Environment
+python-dotenv==1.2.2
+
+# Google credentials only (RS256 signing for the service account).
+# The REST calls themselves are made with httpx — see integrations/workspace.
+google-auth==2.40.0
+
+# Documents: meeting minutes, attachments, generated summaries
+python-docx==1.2.0
+openpyxl==3.1.5
+reportlab==4.2.5
+pypdf==5.1.0
+Pillow==13.0.0          # local OCR: decode images with bounded dimensions
+
+# Panel sign-in: per-person accounts with MFA
+argon2-cffi==25.1.0     # password hashing (Argon2id)
+pyotp==2.10.0           # TOTP codes from an authenticator app
+segno==1.6.6            # the enrollment QR code, drawn here — the secret never leaves
+cryptography==50.0.1    # the TOTP secrets are encrypted at rest (Fernet)
+# Web Push for the panel: only the encryption (http-ece) and the VAPID signature;
+# the POST itself goes through httpx (no redirects, short timeout).
+pywebpush==2.5.0
+py-vapid==1.9.6
+http-ece==1.2.1

@@ -1,0 +1,33 @@
+# The one public entrance to the VPS: Caddy on 80/443, HTTPS certificates
+# issued and renewed automatically. Every agent joins the `edge` network and
+# gets a block in the Caddyfile — this stack is shared, not per agent.
+# Lives on the VPS as /opt/edge.
+name: edge
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [edge, grafana]
+
+networks:
+  edge:
+    name: edge
+  # The converge agent's Grafana, reached only from here (docker network
+  # create converge-grafana, once, before this stack starts).
+  grafana:
+    name: converge-grafana
+    external: true
+
+volumes:
+  caddy_data:
+  caddy_config:

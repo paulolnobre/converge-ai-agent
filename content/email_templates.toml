@@ -1,0 +1,65 @@
+# Inbox triage categories and the replies drafted for each.
+#
+# Loaded by the mailbox triage prompt so the model classifies into the
+# organization's own categories rather than inventing its own. The bodies are
+# drafts: nothing here is sent without a person approving it, and AUTOSEND_REPLIES
+# stays off until someone decides otherwise, per category.
+#
+# Wired into triage now; the per-category drafting that uses `body` is roadmap
+# 3.2 and is not built yet.
+
+[[category]]
+name = "PROJETO_SOB_MEDIDA"
+description = "Pedidos de automação, integração, chatbot ou agente de IA sob medida, orçamentos e propostas de projeto."
+subject = "Sua automação sob medida — Converge"
+body = """
+Olá, {nome_cliente}.
+
+Obrigado pelo contato com a Converge.
+
+Para entender o seu cenário, começamos com uma conversa de 30 minutos, sem \
+compromisso: qual processo você quer automatizar, quais sistemas estão \
+envolvidos e qual resultado você espera. A partir dela, desenhamos o melhor \
+caminho, com investimento e prazo definidos para o seu caso.
+
+Pode nos responder com dois ou três horários que funcionam para você, ou falar \
+com a gente pelo WhatsApp +55 91 90000-0001.
+
+Abraço,
+Equipe Converge
+"""
+
+[[category]]
+name = "ASSISTENTE_JURIDICO"
+description = "Escritórios de advocacia interessados no Assistente Jurídico ou pedindo demonstração."
+subject = "Assistente Jurídico — Converge"
+body = """
+Olá, {nome_cliente}.
+
+Obrigado pelo interesse no Assistente Jurídico.
+
+A melhor forma de conhecê-lo é vê-lo respondendo sobre documentos parecidos com \
+os do seu escritório. Propomos uma conversa de 30 minutos para entender a rotina \
+da equipe e fazer a demonstração ao vivo.
+
+Pode nos responder com dois ou três horários que funcionam para você?
+
+Abraço,
+Equipe Converge
+"""
+
+[[category]]
+name = "SUPORTE_CLIENTE"
+description = "Clientes atuais relatando problema, pedindo ajuste, mudança de plano ou ajuda com uma solução já entregue."
+
+[[category]]
+name = "FINANCEIRO"
+description = "Notas fiscais, boletos, cobranças, pagamentos e cancelamento de contrato."
+
+[[category]]
+name = "PARCERIAS_E_FORNECEDORES"
+description = "Propostas comerciais de terceiros, parcerias, fornecedores, eventos e imprensa."
+
+[[category]]
+name = "OUTROS"
+description = "Qualquer mensagem que não se encaixe nas categorias acima, incluindo candidaturas e spam."

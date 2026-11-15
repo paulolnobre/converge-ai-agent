@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Nome da Pessoa",
+    "email": "pessoa@empresa.com.br",
+    "calendar_id": "COLE_AQUI_O_ID_DO_CALENDARIO_OU_null",
+    "chat_id": "COLE_AQUI_O_ID_DO_TELEGRAM",
+    "whatsapp": "+55 91 9XXXX-XXXX",
+    "role": "admin",
+    "specialties": [
+      "vendas"
+    ],
+    "escalates_to": null
+  },
+  {
+    "name": "Outra Pessoa",
+    "email": "outra@empresa.com.br",
+    "calendar_id": null,
+    "chat_id": "COLE_AQUI_O_ID_DO_TELEGRAM",
+    "whatsapp": "+55 91 9XXXX-XXXX",
+    "role": "staff",
+    "specialties": [
+      "atendimento_ao_cliente"
+    ],
+    "escalates_to": "pessoa@empresa.com.br"
+  }
+]

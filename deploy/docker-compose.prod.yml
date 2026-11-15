@@ -1,0 +1,133 @@
+# Production: the image CI built and tested, pulled from GHCR by tag — never
+# built on the server. Lives on the VPS as /opt/converge-agent/docker-compose.yml,
+# next to the .env that only the server has.
+#
+# No host port: the bot is reached only through the shared edge proxy
+# (deploy/edge), by container name on the `edge` network.
+name: converge-agent
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-reception_agent}
+      POSTGRES_USER: ${DB_USER:-reception_agent}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Set DB_PASSWORD in the .env file}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infra/init.sql:/docker-entrypoint-initdb.d/001-reception.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-reception_agent} -d ${DB_NAME:-reception_agent}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks: [internal]
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: [redis-server, --appendonly, "yes", --maxmemory, 256mb,
+              --maxmemory-policy, noeviction]
+    volumes:
+      - redis_data:/data
+    networks: [internal]
+
+  reception-bot:
+    image: ghcr.io/paulolnobre/converge-agent:${IMAGE_TAG:?IMAGE_TAG is set by deploy.sh}
+    container_name: converge-agent-bot
+    restart: unless-stopped
+    # Logs to the server's journald (7 days, kept across deploys; a container's
+    # own log file goes away when a deploy recreates it). Read with
+    # `journalctl -t converge-agent-bot`; `docker logs` still works. The logs
+    # carry ids, never what a customer wrote.
+    logging:
+      driver: journald
+      options:
+        tag: converge-agent-bot
+    env_file: .env
+    environment:
+      APP_ENV: production
+      DB_HOST: postgres
+      DB_PORT: 5432
+      REDIS_URL: redis://redis:6379/0
+      PANEL_OCR_SOCKET: /run/ocr/ocr.sock
+      # The flag of images from before the OCR container: a rollback to one of
+      # them must not read files inside the bot, whatever .env still says.
+      PANEL_OCR_ENABLED: "false"
+    volumes:
+      - media:/data/media
+      - ./google_credentials.json:/app/google_credentials.json:ro
+      - ./content:/app/content:ro
+      # Only the OCR container's socket; read-only, so the bot leaves nothing there.
+      - ocr_socket:/run/ocr:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      # The bot starts without it; the Inbox then says reading is unavailable.
+      ocr:
+        condition: service_started
+        required: false
+    healthcheck:
+      test: [CMD, python, -c,
+             "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/ready', timeout=5).read()"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    networks: [internal, edge]
+
+  # The Inbox's "Extrair texto" (core/services/ocr_server.py): the same image,
+  # but no network at all, no .env, no credentials, no customer files and no
+  # database. The bot reaches it through a socket file; it cannot open a
+  # connection to anything. A file crafted against tesseract or poppler finds
+  # nothing to take and nowhere to send it; the bot trusts only text, pages and
+  # a flag back.
+  ocr:
+    image: ghcr.io/paulolnobre/converge-agent:${IMAGE_TAG:?IMAGE_TAG is set by deploy.sh}
+    restart: unless-stopped
+    # An image from before the OCR container (a rollback) has no server: it
+    # waits, unhealthy, instead of restarting forever.
+    command: [sh, -c, "python -c 'import core.services.ocr_server' 2>/dev/null && exec python -m core.services.ocr_server; echo 'This image has no OCR server.'; exec sleep infinity"]
+    logging:
+      driver: journald
+      options:
+        tag: converge-agent-ocr
+    read_only: true
+    # Originals and rendered pages stay in RAM.
+    shm_size: 128m
+    tmpfs: ["/tmp:size=16m,noexec,nosuid"]
+    network_mode: none
+    volumes:
+      - ocr_socket:/run/ocr
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 64
+    mem_limit: 1g
+    cpus: 1
+    healthcheck:
+      test: [CMD, python, -c,
+             "import socket; s = socket.socket(socket.AF_UNIX); s.settimeout(2); s.connect('/run/ocr/ocr.sock'); s.close()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+networks:
+  internal:
+  edge:
+    external: true
+
+volumes:
+  postgres_data:
+  redis_data:
+  media:
+  # Holds only the OCR container's socket, in RAM: nothing a compromised reader
+  # writes there reaches the disk (outside the encrypted volume), and it is
+  # tiny. uid/gid 100:101 are the image's `app` user (Dockerfile).
+  ocr_socket:
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: "size=64k,nr_inodes=16,uid=100,gid=101,mode=0700,noexec,nosuid,nodev"

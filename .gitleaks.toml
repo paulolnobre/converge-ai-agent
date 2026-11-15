@@ -1,0 +1,43 @@
+# Secret scanning: gitleaks' own rules (API keys, tokens, private keys) plus
+# what is sensitive *here* and no generic scanner knows about — people's
+# Telegram ids, calendar ids, and files that must never be committed at all.
+# Runs before every commit (.githooks/pre-commit) and again in CI.
+
+title = "converge"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "sensitive-file"
+description = "A file that holds secrets by definition — never committed, whatever it contains"
+path = '''(^|/)(\.env(\.(local|dev|development|prod|production|staging))?|google_credentials\.json|token\.json|credentials\.json|[^/]*\.pem|[^/]*\.p12|id_(rsa|ecdsa|ed25519))$'''
+
+[[rules]]
+id = "telegram-bot-token-any-name"
+description = "A Telegram bot token under any variable name (the built-in rule needs the word telegram nearby)"
+regex = '''\b[0-9]{8,10}:AA[0-9A-Za-z_-]{33}\b'''
+keywords = [":AA"]
+
+[[rules]]
+id = "telegram-chat-id"
+description = "A real Telegram user or group id next to its key"
+regex = '''(?i)(chat_id|team_chat_id|hours_bypass_chat_ids|relay_chat_id)["']?\s*[:=]\s*["']?-?[1-9][0-9]{6,}'''
+keywords = ["chat_id"]
+
+[[rules]]
+id = "google-calendar-id"
+description = "A Google Calendar id — identifies a real person's calendar"
+regex = '''[a-z0-9]{20,}@group\.calendar\.google\.com'''
+keywords = ["calendar.google.com"]
+
+[[rules]]
+id = "database-url-with-password"
+description = "A connection string with the password in it"
+regex = '''(?i)(postgres(ql)?|redis|mysql|mongodb(\+srv)?)://[^:\s/"']+:[^@\s"'$]{4,}@'''
+keywords = ["://"]
+
+[allowlist]
+description = "Placeholders and test fixtures, not data"
+paths = ['''(^|/)\.env\.example$''', '''(^|/)[^/]*\.example(\.[a-z]+)?$''']
+regexes = ['''COLE_AQUI''', '''-100123456789''']

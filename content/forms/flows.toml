@@ -1,0 +1,15 @@
+# The WhatsApp Flows built in Meta's Flow Builder: the id each one got when it
+# was published. An empty id means "do not send this Flow": the questions are
+# asked one by one, as they are on Telegram. Paste the id between the quotes
+# once the Flow is published (the JSON next to this file is its copy).
+[proposta_atendimento]
+flow_id = "100000000000001"
+
+[proposta_clinica]
+flow_id = "100000000000002"
+
+[agendamento]
+flow_id = "100000000000003"
+
+[dados_contrato]
+flow_id = "100000000000004"
